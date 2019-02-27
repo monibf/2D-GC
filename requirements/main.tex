@@ -23,23 +23,26 @@ We aim to build a desktop app to visualise 2D-GC data, and try to work in compar
 \subsection*{Critical Functional Requirements}
 \begin{itemize}
 	\item Show 2D-GC output .txt files as 3-dimensional graphs
+	\item Show 2D-GC output .txt files as 2-dimensional graphs
     \item Integrate the matrix values between input x and y values, and label these peaks
-    \item Be able to save the image with any attached user inputs such as integration or labels
 \end{itemize}
 
 \subsection*{Important Functional Requirements}
 \begin{itemize}
+    \item Be able to save the image with any attached user inputs such as integration or labels
 	\item Input of extra integration parameters besides x and y (the client named only one example, we may need to ask what other parameters they need or want)
 	\item Zooming, rotation, changing color of the visualization
 	\item Peak selection (a basic way of implementation could be to have the user draw circles around a peak in a 2D visualization, and retrieve x and y from this)
     \item Be able to save peak data in a database, with any attached information, such as which sample it was from, integration value, labels etc.. The user should be able to retrieve previously saved information in a look-up table while looking at a new sample.
+	\item Automatic peak finding
+	\item Show 2D-GC output .txt files as 1-dimensional graphs (integrated data)
 \end{itemize}
 
 \subsection*{Useful Functional Requirements}
 \begin{itemize}
-	\item Automatic peak finding
 	\item Pipelining for comparisons between samples
 	\item Compound recognition/matching
+	\item Signal to noise ratio convolution
 \end{itemize}
 \subsection*{Won't Do}
 \begin{itemize}
