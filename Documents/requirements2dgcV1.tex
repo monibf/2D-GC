@@ -1,20 +1,55 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
-\usepackage{a4wide}
+\usepackage[a4paper,margin=3.5cm,footskip=.5cm]{geometry}
 
 \usepackage{graphicx}
 
-%build title page later
 \title{Requirements 2D-GC visualization}
-\author{} 
+
+\author{
+  Baksteen, Sarah\\
+  \texttt{S3145034}
+  \and
+  Brink, Wouter\\
+  \texttt{S3862348}
+  \and
+  Gros, Oane\\
+  \texttt{SXXXXXXX}
+  \and
+  de Jager, Maarten\\
+  \texttt{S2957906}
+  \and
+  de Jong, Michiel\\
+  \texttt{S2550768}
+  \and
+  Strik, Oliver\\
+  \texttt{S3100693}
+}
 \date{}
 
 \usepackage{graphicx}
 
 \begin{document}
-
+\clearpage
 \maketitle
+\thispagestyle{empty}
+\begin{center}
+    \vfill
+    \includegraphics[width=0.8\textwidth]{UG_logo.jpg}
+    \vfill
+    
+    \Large
+        Software Engineering \\
+        University of Groningen \\
+        \today \\
+        \empty
+        
+        \vspace{1cm}
+        Version 1.0
+        \vspace{1cm}
+\end{center}
 
+\newpage\setcounter{page}{1}
 \section{Introduction}
 
 2-dimensional Gas Chromatography (2D-GC) is a chemical technique to accurately identify and quantify small traces of compounds in samples. This analytical technique is used in Groningen to aid in the search for new biofuels. For this research, accurate and interactive software for 3D-visualization and analysis is necessary. 
@@ -64,7 +99,7 @@ We aim to build a desktop app to visualise 2D-GC data, and try to work in compar
  \end{tabular}
 \end{center}
 
-% Change log should be updated right before it's submitted
+% Change log should be updated on the latest before it's submitted
 \section{Change Log}
 \begin{center}
  \begin{tabular}{ | l | l | l | }
