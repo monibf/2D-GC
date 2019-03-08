@@ -9,9 +9,9 @@
       <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gc-2d/model/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2d-gc/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gc-2d/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/2d-gc/model/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gc-2d/model/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gc2d/model/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2d-gc/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gc2d/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2d-gc/model/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/gc2d/model/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/2d-gc/model/model.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,7 +21,22 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/gc2d/__init__.py">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/gc2d/model/model.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="628">
+              <caret line="64" column="47" selection-start-line="64" selection-start-column="47" selection-end-line="64" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -30,6 +45,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/2d-gc/model/model.py" />
+        <option value="$PROJECT_DIR$/gc2d/model/model.py" />
       </list>
     </option>
   </component>
@@ -56,12 +72,12 @@
             <path>
               <item name="2D-GC" type="b2602c69:ProjectViewProjectNode" />
               <item name="2D-GC" type="462c0819:PsiDirectoryNode" />
-              <item name="gc-2d" type="462c0819:PsiDirectoryNode" />
+              <item name="gc2d" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="2D-GC" type="b2602c69:ProjectViewProjectNode" />
               <item name="2D-GC" type="462c0819:PsiDirectoryNode" />
-              <item name="gc-2d" type="462c0819:PsiDirectoryNode" />
+              <item name="gc2d" type="462c0819:PsiDirectoryNode" />
               <item name="model" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
@@ -97,7 +113,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1552078672427</updated>
-      <workItem from="1552078681943" duration="2069000" />
+      <workItem from="1552078681943" duration="2744000" />
     </task>
     <task id="LOCAL-00001" summary="Initialised the model object">
       <created>1552079239342</created>
@@ -110,7 +126,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2069000" />
+    <option name="totallyTimeSpent" value="2744000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1936" y="46" width="2524" height="1374" extended-state="0" />
@@ -152,6 +168,16 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="19" column="35" lean-forward="true" selection-start-line="19" selection-start-column="35" selection-end-line="19" selection-end-column="35" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gc2d/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/gc2d/model/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="628">
+          <caret line="64" column="47" selection-start-line="64" selection-start-column="47" selection-end-line="64" selection-end-column="47" />
         </state>
       </provider>
     </entry>
