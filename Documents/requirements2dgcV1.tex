@@ -64,6 +64,8 @@
 
 We aim to build a desktop app to visualise 2D-GC data, and try to work in comparative analysis, where the same analysis can be run smoothly on multiple samples. 
 
+
+
 \section{MoSCoW}
 % might need to (partially) be converted to user stories
 \subsection*{Critical Functional Requirements}
@@ -92,8 +94,24 @@ We aim to build a desktop app to visualise 2D-GC data, and try to work in compar
 \end{itemize}
 \subsection*{Won't Do}
 \begin{itemize}
-	\item Web support
+	\item Linking to an outside Mass-Spectrometry (MS) library. This is something which would be useful, as the client may switch from an FID detector to an MS detector in the near future. However, this would add a layer of complexity, as MS data adds an extra dimension to the data. We think it best to focus on a stable program for FID visualization, as this can also be used for GCxGC-MS data. 
 \end{itemize}
+\subsection*{Non-functional requirements}
+\begin{itemize}
+	\item \textbf{Extensibility:} this is essential, as the client is preparing to switch to a different detection system, which alters the dimensionality of the data. We have to make sure that this extension would be easily incorporated in the program. 
+	\item \textbf{Technology:} the program needs to run on older versions of operating systems, as the measurement software is run on windows XP. 
+\end{itemize}
+
+
+\section{User Stories}
+\begin{itemize}
+	\item As a chemical analyst, I want to find the quantity of a specific compound in multiple samples, and compare these quantities. 
+	\item As a chemical analyst, I want to quickly view the outcome of a diagnostic test by visually assaying the 3D graph. 
+	\item As a chemical analyst publishing research, I want to have a way to show the data in a visually appealing manner, so that a saved image would be appropriate for publication. 
+	\item As a chemical analyst, I want to be able to be able to find the quantity of a larger chemical group in my sample by freeform selection of groups of peaks. 
+	\item As a developer, I want to be able to extend the program to work with GCxGC-MS, where an extra identification dimension is added on top of the 2D-GC data. 
+\end{itemize}
+
 
 % Meeting log should be updated after every meeting
 \section{Meeting Log}
