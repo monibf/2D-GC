@@ -1,5 +1,9 @@
 class ModelWrapper:
-    model = None
+    __model = None
+    __viewport = None
 
-    def __init__(self, model):
-        self.model = model
+    def set_model(self, model):
+        self.__model = model
+
+    def set_viewport(self, viewport):
+        self.__viewport = viewport
