@@ -62,9 +62,16 @@ class Model:
         """
         self.__data_y_offset = data_y_offset
 
-    def set_data_y_offset(self, data_z_offset):
+    def set_data_z_offset(self, data_z_offset):
         """
         :param data_z_offset: the z offset to set. Any data before this value will be ignored.
         :return: Nothing
         """
         self.__data_z_offset = data_z_offset
+
+    def set_period(self, period):
+        """
+        :param period: the new period of the data.
+        :return: Nothing
+        """
+        self.__period = period
