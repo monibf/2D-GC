@@ -30,30 +30,18 @@ class Model:
         """
         return self.__data_x_offset
 
-    def get_data_y_offset(self):
-        """
-        :return: the y offset of the data. Any data before this should be ignored.
-        """
-        return self.__data_y_offset
-
-    def get_data_z_offset(self):
-        """
-        :return: the z offset of the data. Any data before this value should be ignored.
-        """
-        return self.__data_z_offset
-
-    def get_period(self):
-        """
-        :return: the period of the data.
-        """
-        return self.__period
-
     def set_data_x_offset(self, data_x_offset):
         """
         :param data_x_offset: the x offset to set. Any data before this value will be ignored.
         :return: Nothing
         """
         self.__data_x_offset = data_x_offset
+
+    def get_data_y_offset(self):
+        """
+        :return: the y offset of the data. Any data before this should be ignored.
+        """
+        return self.__data_y_offset
 
     def set_data_y_offset(self, data_y_offset):
         """
@@ -62,12 +50,24 @@ class Model:
         """
         self.__data_y_offset = data_y_offset
 
+    def get_data_z_offset(self):
+        """
+        :return: the z offset of the data. Any data before this value should be ignored.
+        """
+        return self.__data_z_offset
+
     def set_data_z_offset(self, data_z_offset):
         """
         :param data_z_offset: the z offset to set. Any data before this value will be ignored.
         :return: Nothing
         """
         self.__data_z_offset = data_z_offset
+
+    def get_period(self):
+        """
+        :return: the period of the data.
+        """
+        return self.__period
 
     def set_period(self, period):
         """
