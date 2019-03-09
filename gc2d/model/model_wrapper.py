@@ -78,7 +78,7 @@ class ModelWrapper:
         :param location:
         :return:
         """
-        print("ModelWrapper.load_lodel() not yet implemented.")
+        print("ModelWrapper.load_model() not yet implemented.")
 
     def close_model(self):
         """Sets the model to None, effectively closing the chromatogram without closing the program."""
