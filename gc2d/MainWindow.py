@@ -26,6 +26,7 @@ class MainWindow:
         self.init_top_frame(frame_height=top_height, graph_width=graph_width, sidebar_width=sidebar_width)
         self.init_bottom_frame(frame_height=bottom_height, frame_width=graph_width + sidebar_width)
 
+        self.render2D()
         self.top.mainloop()
 
     def init_top_frame(self, frame_height, graph_width, sidebar_width):
@@ -51,7 +52,7 @@ class MainWindow:
         """" As of right now, this is a test function to see if we can render the matplotlib on a Tkinter Frame """
         arr = self.read_data("MF_AE3.txt")
         grid = np.transpose(arr)
-        plt.imshow(grid, clim=(1e4, 1e6), origin="lower")
+        fig = plt.imshow(grid, clim=(1e4, 1e6), origin="lower")
         plt.colorbar()
         plt.show()
 
