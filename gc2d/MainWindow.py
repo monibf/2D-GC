@@ -54,7 +54,10 @@ class MainWindow:
         grid = np.transpose(arr)
         fig = plt.imshow(grid, clim=(1e4, 1e6), origin="lower")
         plt.colorbar()
-        plt.show()
+
+        canvas = FigureCanvasTkAgg(fig.figure, master=self.top)
+        canvas.draw()
+        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
         # TODO: Insert code to render graph
         # Should be done by calling a controller
