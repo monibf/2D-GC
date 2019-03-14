@@ -4,8 +4,6 @@ top = Tkinter.Tk()
 
 
 def render2D():
-    # graphCanvas.configure(bg='grey')
-
     # TODO: Insert code to render graph
     # Should be done by calling a controller
     # ...
@@ -15,16 +13,18 @@ def render2D():
 
 def init_top_frame():
     """" Initialize the top frame. This includes the graph and graph control frame """
-    top_frame_height = 480
-    top_frame_width = 640 + 100
+    graph_width = 640
+    graph_height = 480
 
-    top_frame = Tkinter.Frame(top, height=top_frame_height, width=top_frame_width, bg='gray')
+    sidebar_width = 100
+
+    top_frame = Tkinter.Frame(top, height=graph_height, width=graph_width + sidebar_width, bg='gray')
     top_frame.pack(side='top')
 
-    left_frame = Tkinter.Frame(top_frame, height=top_frame_height, width=top_frame_width - 640, bg='darkgray')
+    left_frame = Tkinter.Frame(top_frame, height=graph_height, width=sidebar_width, bg='darkgray')
     left_frame.pack(side='left')
 
-    graph_frame = Tkinter.Frame(top_frame, height=top_frame_height, width=top_frame_width - 100 , bg='lightgray')
+    graph_frame = Tkinter.Frame(top_frame, height=graph_height, width=graph_width, bg='lightgray')
     graph_frame.pack(side='right')
 
 
