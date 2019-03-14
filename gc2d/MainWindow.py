@@ -40,14 +40,20 @@ class MainWindow:
 
         graph_frame = tk.Frame(top_frame, height=frame_height, width=graph_width, bg='lightgray')
 
+        """ Begin of experimental code """
+
+        # Read data. This should be moved to somewhere else in the future.
         arr = self.read_data("MF_AE3.txt")
         grid = np.transpose(arr)
         fig = plt.imshow(grid, clim=(1e4, 1e6), origin="lower")
         plt.colorbar()
-
+        
+        # Create the canvas and put it on the graph_frame
         canvas = FigureCanvasTkAgg(fig.figure, master=graph_frame)
         canvas.draw()
         canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
+        """ End of experimental code """
 
         graph_frame.pack(side='right')
 
