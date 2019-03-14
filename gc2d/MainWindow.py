@@ -39,6 +39,16 @@ class MainWindow:
         left_frame.pack(side='left')
 
         graph_frame = tk.Frame(top_frame, height=frame_height, width=graph_width, bg='lightgray')
+
+        arr = self.read_data("MF_AE3.txt")
+        grid = np.transpose(arr)
+        fig = plt.imshow(grid, clim=(1e4, 1e6), origin="lower")
+        plt.colorbar()
+
+        canvas = FigureCanvasTkAgg(fig.figure, master=graph_frame)
+        canvas.draw()
+        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+
         graph_frame.pack(side='right')
 
     def init_bottom_frame(self, frame_height, frame_width):
@@ -50,14 +60,6 @@ class MainWindow:
     def render2D(self):
         """" Function to render the graph and assign it to the frame """
         """" As of right now, this is a test function to see if we can render the matplotlib on a Tkinter Frame """
-        arr = self.read_data("MF_AE3.txt")
-        grid = np.transpose(arr)
-        fig = plt.imshow(grid, clim=(1e4, 1e6), origin="lower")
-        plt.colorbar()
-
-        canvas = FigureCanvasTkAgg(fig.figure, master=self.top)
-        canvas.draw()
-        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
         # TODO: Insert code to render graph
         # Should be done by calling a controller
