@@ -1,0 +1,129 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=3.5cm,footskip=.5cm]{geometry}
+
+\usepackage{graphicx}
+
+\title{Requirements 2D-GC visualization}
+
+\author{
+  Baksteen, Sarah\\
+  \texttt{S3145034}
+  \and
+  Brink, Wouter\\
+  \texttt{S3862348}
+  \and
+  Gros, Oane\\
+  \texttt{S2972778}
+  \and
+  Jager, Maarten de \\
+  \texttt{S2957906}
+  \and
+  Jong, Michiel de \\
+  \texttt{S2550768}
+  \and
+  Strik, Oliver\\
+  \texttt{S3100693}
+}
+\date{}
+
+\usepackage{graphicx}
+
+\begin{document}
+\clearpage
+\maketitle
+\thispagestyle{empty}
+\begin{center}
+    \vfill
+    \includegraphics[width=0.8\textwidth]{UG_logo.jpg}
+    \vfill
+    
+    \Large
+    \textbf{Client} \\
+    Rohrbach, Léon \\
+    Figueiredo, Monique \\
+    
+    \vspace{1cm}
+    \textbf{TA} \\
+    Argyrousis, George
+    
+    \vspace{2cm}
+        Software Engineering \\
+        University of Groningen \\
+        \today \\
+        \empty
+        
+        \vspace{1cm}
+        Version 1.0
+\end{center}
+
+\newpage\setcounter{page}{1}
+\section{Introduction}
+
+2-dimensional Gas Chromatography (2D-GC) is a chemical technique to accurately identify and quantify small traces of compounds in samples. This analytical technique is used in Groningen to aid in the search for new biofuels. For this research, accurate and interactive software for 3D-visualization and analysis is necessary. 
+
+We aim to build a desktop app to visualise 2D-GC data, and try to work in comparative analysis, where the same analysis can be run smoothly on multiple samples. 
+
+\section{MoSCoW}
+% might need to (partially) be converted to user stories
+\subsection*{Critical Functional Requirements}
+\begin{itemize}
+	\item Show 2D-GC output .txt files as 3-dimensional graphs
+	\item Show 2D-GC output .txt files as 2-dimensional graphs
+    \item Integrate the matrix values between input x and y values, and label these peaks
+\end{itemize}
+
+\subsection*{Important Functional Requirements}
+\begin{itemize}
+    \item Be able to save the image with any attached user inputs such as integration or labels
+	\item Input of extra integration parameters besides x and y (the client named only one example, we may need to ask what other parameters they need or want)
+	\item Zooming, rotation, changing color of the visualization
+	\item Peak selection (a basic way of implementation could be to have the user draw circles around a peak in a 2D visualization, and retrieve x and y from this)
+    \item Be able to save peak data in a database, with any attached information, such as which sample it was from, integration value, labels etc.. The user should be able to retrieve previously saved information in a look-up table while looking at a new sample.
+	\item Automatic peak finding
+	\item Show 2D-GC output .txt files as 1-dimensional graphs (integrated data)
+\end{itemize}
+
+\subsection*{Useful Functional Requirements}
+\begin{itemize}
+	\item Pipelining for comparisons between samples
+	\item Compound recognition/matching
+	\item Signal to noise ratio convolution
+\end{itemize}
+\subsection*{Won't Do}
+\begin{itemize}
+	\item Web support
+\end{itemize}
+
+% Meeting log should be updated after every meeting
+\section{Meeting Log}
+\begin{center}
+ \begin{tabular}{ | l | l | }
+  \hline
+  \bf{Date} & \bf{Meeting log} \\
+  \hline
+  25/02/2019 & Talked about and discussed the requirements document. \\
+  \hline
+ \end{tabular}
+\end{center}
+
+% Change log should be updated on the latest before it's submitted
+\section{Change Log}
+\begin{center}
+ \begin{tabular}{ | l | l | l | }
+  \hline
+  \bf{Date} & \bf{Author} & \bf{Change log} \\
+  \hline
+  15/02/2019 & Oane Gros & Initial version \\
+  \hline
+  25/02/2019 & All & Introduction and MoSCoW \\
+  \hline
+  04/03/2019 & Wouter Brink, Oliver Strik & Added meeting and change logs\\
+  \hline
+  04/03/2019 & Wouter Brink & Added title page \\
+  \hline
+ \end{tabular}
+\end{center}
+
+\end{document}
+%lucky comment
