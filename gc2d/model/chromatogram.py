@@ -1,7 +1,7 @@
 
 import numpy as np
 
-class Chromatograph:
+class Chromatogram:
     
     def __init__(self, grid):
         self._grid = grid

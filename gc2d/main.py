@@ -1,7 +1,7 @@
 
 from gc2d.MainWindow import MainWindow
 from gc2d.render.renderer2d import Renderer2d
-from gc2d.model.chromatograph import Chromatograph
+from gc2d.model.chromatogram import Chromatogram
 
 def main():
     
