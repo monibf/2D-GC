@@ -1,6 +1,5 @@
 import tkinter as tk
 import numpy as np
-import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 
@@ -25,8 +24,14 @@ class MainWindow:
 
         self.init_top_frame(frame_height=top_height, graph_width=graph_width, sidebar_width=sidebar_width)
         self.init_bottom_frame(frame_height=bottom_height, frame_width=graph_width + sidebar_width)
+        
+        grid = np.transpose(self.read_data("MF_AE3.txt"))
 
-        self.render2D()
+        self.render2D(grid)
+        self.render2D(grid)
+        self.render2D(grid)
+        self.render2D(grid)
+        self.render2D(grid)
         self.top.mainloop()
 
     def init_top_frame(self, frame_height, graph_width, sidebar_width):
@@ -43,16 +48,16 @@ class MainWindow:
         """ Begin of experimental code """
 
         # Read data. This should be moved to somewhere else in the future.
-        arr = self.read_data("MF_AE3.txt")
-        grid = np.transpose(arr)
-        fig = plt.imshow(grid, clim=(1e4, 1e6), origin="lower")
-        plt.colorbar()
+        
+        self.fig = fig = Figure()
+        
+        
         
         # Create the canvas and put it on the graph_frame
-        canvas = FigureCanvasTkAgg(fig.figure, master=graph_frame)
-        canvas.draw()
+        self.canvas = canvas = FigureCanvasTkAgg(fig, master=graph_frame)
         canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
-
+        
+        
         """ End of experimental code """
 
         graph_frame.pack(side='right')
@@ -63,13 +68,20 @@ class MainWindow:
         bottom_frame = tk.Frame(self.top, height=frame_height, width=frame_width, bg='gray26')
         bottom_frame.pack(side='bottom')
 
-    def render2D(self):
+    def render2D(self, data, clim=(1e4, 1e6)):
         """" Function to render the graph and assign it to the frame """
         """" As of right now, this is a test function to see if we can render the matplotlib on a Tkinter Frame """
 
         # TODO: Insert code to render graph
         # Should be done by calling a controller
         # ...
+        
+        self.fig.clear()
+        ax = self.fig.add_axes((.1, .1, .8, .8))
+        im = ax.imshow(data, clim=clim, origin="lower")
+        self.fig.colorbar(im)
+
+        self.canvas.draw()
 
         print("Rendered 2D graph")
 
