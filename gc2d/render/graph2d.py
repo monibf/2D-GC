@@ -1,7 +1,7 @@
 
 import tkinter as tk
 
-class Renderer2d:
+class Graph2D:
     
     def __init__(self, figure):
         self.figure = figure

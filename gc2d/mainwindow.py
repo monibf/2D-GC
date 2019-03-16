@@ -6,7 +6,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.widgets import RectangleSelector
 
-from gc2d.render.renderer2d import Renderer2d
+from gc2d.render.graph2d import Graph2D
 from gc2d.model.chromatogram import Chromatogram
 
 
@@ -16,7 +16,7 @@ class MainWindow:
     def __init__(self):
         self.init_mainframe()
         
-        self.renderer = Renderer2d(self.graph_figure)
+        self.renderer = Graph2D(self.graph_figure)
         
         self.data = None
         
@@ -33,11 +33,7 @@ class MainWindow:
         
         self.init_graph()
         
-        self.select_button = tk.Button(self.left_frame, text="Select Region", command=self.select_integration)
-        self.select_button.pack(side='top', fill="both")
-        
-        self.open_button = tk.Button(self.left_frame, text="Open Chromatogram data", command=self.load_chromatogram)
-        self.open_button.pack(side='top', fill="both")
+        self.init_buttons()
 
 
     def init_frames(self):
@@ -79,7 +75,18 @@ class MainWindow:
         
         self.toolbar = NavigationToolbar2Tk(self.canvas, self.toolbar_frame)
         self.toolbar.update()
+    
+    
+    def init_buttons(self):
         
+        self.select_button = tk.Button(self.left_frame, text="Select Region", command=self.select_integration)
+        self.select_button.pack(side='top', fill="both")
+        
+        self.open_button = tk.Button(self.left_frame, text="Open Chromatogram data", command=self.load_chromatogram)
+        self.open_button.pack(side='top', fill="both")
+        
+        self.win3d_button = tk.Button(self.left_frame, text="Render in 3d", command=self.make_3d_window)
+        self.win3d_button.pack(side='top', fill="both")
         
     # End of init functions    
         
@@ -101,6 +108,7 @@ class MainWindow:
         self.canvas.draw()
         print("integrating {} {}".format((xmin, ymin), (xmax, ymax)))
         if self.data is None:
+            print("No data available")
             return
         data_part = self.data.as_grid()[xmin:xmax, ymin:ymax]
         total = data_part.sum()
@@ -114,4 +122,16 @@ class MainWindow:
         self.renderer.update(self.data.as_grid())
         self.canvas.draw()
     
+    def make_3d_window(self):
+        if self.data is None:
+            print("No data available")
+            return
+        
+        # importing this will do some heavier mayavi loading
+        # don't do this at startup, but only when needed
+        from gc2d.render.window3d import render_window_3d
+        
+        render_window_3d(self.data.as_grid())
+        
+        
 
