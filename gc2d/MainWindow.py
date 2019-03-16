@@ -13,7 +13,7 @@ class MainWindow:
     def init_mainframe(self):
         """ Initialize the main frame. This includes every UI element """
         
-        toolbar_height = 50
+        toolbar_height = 40
 
         top_height = 480
         bottom_height = 80
@@ -34,6 +34,7 @@ class MainWindow:
         
         self.toolbar_frame = tk.Frame(self.top, height=toolbar_height)
         self.toolbar_frame.pack(side='top', fill='both')
+        self.toolbar_frame.pack_propagate(False)
 
     def init_top_frame(self, frame_height, graph_width, sidebar_width):
         """" Initialize the top frame. This includes the graph and graph control frame """
