@@ -9,10 +9,11 @@ from gc2d.model.chromatogram import Chromatogram
 def main():
     
     window = MainWindow()
-    render = Renderer2d(window.graph_frame)
+    render = Renderer2d(window.graph_figure)
     datafile = os.path.join(os.path.dirname(__file__), "MF_AE3.txt")
     chrom = Chromatogram.from_file(datafile)
-    render.render2d(chrom.as_grid())
+    render.update(chrom.as_grid())
+    #window.canvas.draw()
     
     window.top.mainloop()
     
