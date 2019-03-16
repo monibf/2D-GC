@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import filedialog
 from math import floor, ceil
 
 from matplotlib.figure import Figure
@@ -32,8 +33,11 @@ class MainWindow:
         
         self.init_graph()
         
-        self.select = tk.Button(self.left_frame, text="Select Region", fg="red", command=self.select_integration)
-        self.select.pack(side='top', fill='both')
+        self.select_button = tk.Button(self.left_frame, text="Select Region", command=self.select_integration)
+        self.select_button.pack(side='top', fill="both")
+        
+        self.open_button = tk.Button(self.left_frame, text="Open Chromatogram data", command=self.load_chromatogram)
+        self.open_button.pack(side='top', fill="both")
 
 
     def init_frames(self):
@@ -103,8 +107,11 @@ class MainWindow:
         print(total, data_part.mean())
     
     
-    def load_chromatogram(self, fname):
+    def load_chromatogram(self, fname=None):
+        if fname == None:
+            fname = filedialog.askopenfilename()
         self.data = Chromatogram.from_file(fname)
         self.renderer.update(self.data.as_grid())
         self.canvas.draw()
+    
 
