@@ -1,77 +1,53 @@
+import numpy as np
+import math
 class Model:
     __chromatogram_data = None
-    """The data of the chromatogram stored as a 2D numpy array"""
-    __data_x_offset = 0
+    """The data of the chromatogram stored as a 1D array """
+    data_x_offset = 0
     """The x_offset to start drawing at."""
-    __data_y_offset = 0
+    data_y_offset = 0
     """The y_offset to start drawing at."""
-    __data_z_offset = 0
+    data_z_offset = 0
     """The z_offset to start drawing at."""
-    __period = 0
+    period = 0
     """The period of the second GC. """
 
-    def __init__(self, chromatogram_data):
+    def __init__(self, chromatogram_data, period):
         """
         Initialises the model with the given data.
 
-        :param chromatogram_data: The 2d numpy array containing the chromatography data.
+        :param chromatogram_data: The 1D array containing the chromatography data.
         """
         self.__chromatogram_data = chromatogram_data
+        self.period = period
 
-    def get_chromatogram_data(self):
+    def get_2d_chromatogram_data(self):
         """
-        :return: the chromatography data.
+        Constructs a 2D numpy array from the __chromatogram_data, period and data offsets.
+        :return: The 2D numpy array corresponding to the current state of the model.
         """
-        return self.__chromatogram_data
+        x = math.ceil(len(self.__chromatogram_data)/self.period)
+        y = self.period
+        arr = np.zeros((x - self.get_data_x_offset(), y - self.get_data_y_offset()))
+
+        for i in range(self.get_data_x_offset(), x):
+            for j in range(self.get_data_y_offset(), y):
+                if i*y + j >= len(self.__chromatogram_data):
+                    return arr
+                arr[i-self.get_data_x_offset()][j-self.get_data_y_offset()] \
+                    = max(self.data_z_offset, self.__chromatogram_data[i*y + j])
+
+        return arr
 
     def get_data_x_offset(self):
         """
-        :return: the x offset of the data. Any data before this should be ignored.
+        :return: The bounded value of data_x_offset
         """
-        return self.__data_x_offset
-
-    def set_data_x_offset(self, data_x_offset):
-        """
-        :param data_x_offset: the x offset to set. Any data before this value will be ignored.
-        :return: Nothing
-        """
-        self.__data_x_offset = data_x_offset
+        return max(0, min(self.data_x_offset, math.ceil(len(self.__chromatogram_data) / self.period)))
 
     def get_data_y_offset(self):
         """
-        :return: the y offset of the data. Any data before this should be ignored.
-        """
-        return self.__data_y_offset
+        :return: The bounded value of data_y_offset
 
-    def set_data_y_offset(self, data_y_offset):
         """
-        :param data_y_offset: the y offset to set. Any data before this value will be ignored.
-        :return: Nothing
-        """
-        self.__data_y_offset = data_y_offset
-
-    def get_data_z_offset(self):
-        """
-        :return: the z offset of the data. Any data before this value should be ignored.
-        """
-        return self.__data_z_offset
-
-    def set_data_z_offset(self, data_z_offset):
-        """
-        :param data_z_offset: the z offset to set. Any data before this value will be ignored.
-        :return: Nothing
-        """
-        self.__data_z_offset = data_z_offset
-
-    def get_period(self):
-        """
-        :return: the period of the data.
-        """
-        return self.__period
-
-    def set_period(self, period):
-        """
-        :param period: the new period of the data.
-        :return: Nothing
-        """
-        self.__period = period
+        return max(0, min(self.data_y_offset, self.period))
