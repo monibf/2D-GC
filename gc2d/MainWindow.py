@@ -13,7 +13,7 @@ class MainWindow:
     def init_mainframe(self):
         """ Initialize the main frame. This includes every UI element """
         
-        toolbar_height = 40
+        toolbar_height = 50
 
         top_height = 480
         bottom_height = 80
