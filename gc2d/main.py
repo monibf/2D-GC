@@ -15,8 +15,6 @@ def main():
     render.update(chrom.as_grid())
     #window.canvas.draw()
     
-    while True:
-        window.top.update_idletasks()
-        window.top.update()
+    window.top.mainloop()
     
 
