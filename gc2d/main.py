@@ -1,7 +1,7 @@
 
 import os.path
 
-from gc2d.MainWindow import MainWindow
+from gc2d.mainwindow import MainWindow
 
 
 def main():
