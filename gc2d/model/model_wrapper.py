@@ -1,6 +1,8 @@
 class ModelWrapper:
-    model = None
-    """The model containing all information relating to the chromatogram"""
+
+    def __init__(self):
+        """The model containing all information relating to the chromatogram"""
+        model = None
 
     def get_integration(self):
         """
@@ -25,13 +27,17 @@ class ModelWrapper:
         """
         Loads the chromatogram data into a new model.
         Later in development this may be responsible for loading more than just the chromatogram data.
-        :param location:
-        :return:
+        :param location: TODO
+        :return: Nothing
         """
 
         # Insert some hook to the save/load module.
         print("ModelWrapper.load_model() not yet implemented.")
 
     def close_model(self):
-        """Sets the model to None, effectively closing the chromatogram without closing the program."""
+        """
+        Sets the model to None, effectively closing the chromatogram without closing the program.
+        :return: Nothing
+        """
+
         self.model = None

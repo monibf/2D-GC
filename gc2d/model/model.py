@@ -1,24 +1,24 @@
 import numpy as np
 import math
 class Model:
-    __chromatogram_data = None
-    """The data of the chromatogram stored as a 1D array """
-    data_x_offset = 0
-    """The x_offset to start drawing at."""
-    data_y_offset = 0
-    """The y_offset to start drawing at."""
-    data_z_offset = 0
-    """The z_offset to start drawing at."""
-    period = 0
-    """The period of the second GC. """
 
     def __init__(self, chromatogram_data, period):
         """
         Initialises the model with the given data.
 
         :param chromatogram_data: The 1D array containing the chromatography data.
+        :param period: The period of the data.
         """
+
+        """The data of the chromatogram stored as a 1D array """
         self.__chromatogram_data = chromatogram_data
+        """The x_offset to start drawing at."""
+        self.data_x_offset = 0
+        """The y_offset to start drawing at."""
+        self.data_y_offset = 0
+        """The z_offset to start drawing at."""
+        self.data_z_offset = 0
+        """The period of the second GC. """
         self.period = period
 
     def get_2d_chromatogram_data(self):
