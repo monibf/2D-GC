@@ -16,7 +16,7 @@ class Chromatogram:
         data = []
         with open(filename) as sourcefile:
             for line in sourcefile:
-                row = [float(val) for val in line.split(", ") if val.strip()]
+                row = [float(val.strip()) for val in line.split(",") if val.strip()]
                 data.append(row)
         arr = np.array(data, dtype=np.float64)
         return cls(arr.transpose())
