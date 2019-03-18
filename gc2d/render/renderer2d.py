@@ -1,0 +1,29 @@
+
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
+import tkinter as tk
+
+class Renderer2d:
+    
+    def __init__(self, frame):
+        
+        self.figure = Figure()
+        
+        # Create the canvas and put it on the graph_frame
+        self.canvas = canvas = FigureCanvasTkAgg(self.figure, master=frame)
+        canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+    
+    
+    def render2d(self, data, clim=(1e4, 1e6)):
+        """" Function to render a 2d numpy array to the frame belonging to this renderer """
+
+        # TODO: Insert code to render graph
+        # Should be done by calling a controller
+        # ...
+        
+        self.figure.clear()
+        axes = self.figure.add_axes((.1, .1, .8, .8))
+        image = axes.imshow(data, clim=clim, origin="lower")
+        self.figure.colorbar(image)
+
+        self.canvas.draw()
