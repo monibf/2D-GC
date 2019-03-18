@@ -15,7 +15,7 @@ def anim():
 def render3d(array):
     mlab.clf()
 
-    array = np.ma.fix_invalid(array, fill_value=0)
+    #array = np.ma.fix_invalid(array, fill_value=0)
     vis = mlab.surf(array, warp_scale='auto')
     vis_mut = vis.mlab_source
 
