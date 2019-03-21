@@ -1,6 +1,9 @@
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QWidget
 from controller.exit_button import ExitButton
 from controller.open_button import OpenButton
+import pyqtgraph as pg
+
+from view.colormaps.jet import Jet
 
 
 class Window(QMainWindow):
@@ -21,11 +24,11 @@ class Window(QMainWindow):
         # init the window settings.
         self.resize(250, 150)
         self.setWindowTitle('GCxGC')
+        self.show()  # Show the window.
 
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
-
-        self.show()  # Show the window.
+        self.create_image()
 
     def create_menus(self):
         """
@@ -50,3 +53,28 @@ class Window(QMainWindow):
 
         helpMenu = main_menu.addMenu('Help')
         # TODO
+
+    def create_image(self):
+        cw = QWidget()
+        cwl = QHBoxLayout()
+        cw.setLayout(cwl)
+        self.setCentralWidget(cw)
+
+        pw = pg.PlotWidget()
+        cwl.addWidget(pw)
+
+        img = pg.ImageItem()
+        pw.addItem(img)
+        pw.setAspectLocked(True)
+        # glw = pg.GraphicsLayoutWidget()
+        # cwl.addWidget(glw)
+        #
+        # view = glw.addViewBox()
+        # glw.addItem(view)
+        #
+        # view.setAspectLocked(True)
+        #
+        # img = pg.ImageItem()
+        # view.addItem(img)
+        #
+        img.setImage(self.model_wrapper.model.get_2d_chromatogram_data(), lut=Jet())
