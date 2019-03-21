@@ -1,9 +1,8 @@
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QHBoxLayout, QWidget
+from PyQt5.QtWidgets import QMainWindow, QHBoxLayout, QWidget
 from controller.exit_button import ExitButton
 from controller.open_button import OpenButton
 import pyqtgraph as pg
-
-from view.colormaps.jet import Jet
+from view.colormaps.red_green_blue import RedGreenBlue
 
 
 class Window(QMainWindow):
@@ -54,8 +53,10 @@ class Window(QMainWindow):
         helpMenu = main_menu.addMenu('Help')
         # TODO
 
+    # noinspection PyArgumentList
     def create_image(self):
-        cw = QWidget()
+
+        cw = QWidget(self)
         cwl = QHBoxLayout()
         cw.setLayout(cwl)
         self.setCentralWidget(cw)
@@ -66,15 +67,5 @@ class Window(QMainWindow):
         img = pg.ImageItem()
         pw.addItem(img)
         pw.setAspectLocked(True)
-        # glw = pg.GraphicsLayoutWidget()
-        # cwl.addWidget(glw)
-        #
-        # view = glw.addViewBox()
-        # glw.addItem(view)
-        #
-        # view.setAspectLocked(True)
-        #
-        # img = pg.ImageItem()
-        # view.addItem(img)
-        #
-        img.setImage(self.model_wrapper.model.get_2d_chromatogram_data(), lut=Jet())
+
+        img.setImage(self.model_wrapper.model.get_2d_chromatogram_data().clip(-30000, 581910), lut=RedGreenBlue())
