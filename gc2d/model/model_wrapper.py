@@ -6,6 +6,10 @@ from model.model import Model
 class ModelWrapper:
 
     def __init__(self):
+        """
+        The model wrapper is responsible for facilitating complex interaction with the model.
+        """
+
         self.model = None
         """The model containing all information relating to the chromatogram"""
 
@@ -22,7 +26,7 @@ class ModelWrapper:
         """
         Later in development we may wish to save the settings of the program to file.
         :param location: The location to save to.
-        :return: Nothing
+        :return: None
         """
 
         # Insert some hook to the save/load module.
@@ -32,10 +36,9 @@ class ModelWrapper:
         """
         Loads the chromatogram data into a new model.
         Later in development this may be responsible for loading more than just the chromatogram data.
-        :param location: TODO
-        :return: Nothing
+        :param file_name: The name of the chromatogram file to open.
+        :return: None
         """
-        self.model.period
         # Insert some hook to the save/load module.
         data = []
         with open(file_name) as sourcefile:
@@ -51,7 +54,7 @@ class ModelWrapper:
     def close_model(self):
         """
         Sets the model to None, effectively closing the chromatogram without closing the program.
-        :return: Nothing
+        :return: None
         """
 
         self.model = None

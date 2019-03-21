@@ -6,7 +6,7 @@ class Model:
 
     def __init__(self, chromatogram_data, period):
         """
-        Initialises the model with the given data.
+        The Model is responsible for storing the state of the program.
 
         :param chromatogram_data: The 1D array containing the chromatography data.
         :param period: The period of the data.
