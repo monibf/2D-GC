@@ -1,8 +1,7 @@
-import numpy as np
-from pyqtgraph import ColorMap
+from view.palette.palette import Palette
 
 
-class Jet(ColorMap):
+class Jet(Palette):
 
     colors = [
         (  0,   0, 127),
@@ -21,13 +20,4 @@ class Jet(ColorMap):
         Jet is a rather bad color scheme, but it looks pretty so here it is. It's not perfect, determining the color
         array properly would be better, but it is basically jet.
         """
-        super().__init__(pos=np.linspace(0.0, 1.0, len(self.colors)), color=self.colors)
-        self.lut = self.getLookupTable(alpha=False)
-
-    def __call__(self, *args, **kwargs):
-        """
-        :param args: Ignored
-        :param kwargs: Ignored
-        :return: the lookup table that corresponds to this colormap.
-        """
-        return self.lut
+        super().__init__(self.colors)

@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QMainWindow, QHBoxLayout, QWidget
 from controller.exit_button import ExitButton
 from controller.open_button import OpenButton
 import pyqtgraph as pg
-from view.colormaps.red_green_blue import RedGreenBlue
+from view.palette.red_green_blue import RedGreenBlue
 
 
 class Window(QMainWindow):
@@ -55,6 +55,7 @@ class Window(QMainWindow):
 
     # noinspection PyArgumentList
     def create_image(self):
+        model = self.model_wrapper.model
 
         cw = QWidget(self)
         cwl = QHBoxLayout()
@@ -64,8 +65,10 @@ class Window(QMainWindow):
         pw = pg.PlotWidget()
         cwl.addWidget(pw)
 
-        img = pg.ImageItem()
-        pw.addItem(img)
         pw.setAspectLocked(True)
 
-        img.setImage(self.model_wrapper.model.get_2d_chromatogram_data().clip(-30000, 581910), lut=RedGreenBlue())
+        img = pg.ImageItem()
+        pw.addItem(img)
+
+        img.setImage(model.get_2d_chromatogram_data().clip(model.lower_bound, model.upper_bound),
+                     lut=RedGreenBlue())

@@ -14,45 +14,26 @@ class Model:
 
         self.__chromatogram_data = chromatogram_data
         """The data of the chromatogram stored as a 1D array """
-        self.data_x_offset = 0
-        """The x_offset to start drawing at."""
-        self.data_y_offset = 0
-        """The y_offset to start drawing at."""
-        self.data_z_offset = 0
-        """The z_offset to start drawing at."""
+
+        self.lowest = float('inf')
+        """The lowest value in the chromatogram """
+        self.highest = float('-inf')
+        """The highest value in the chromatogram """
+        for row in chromatogram_data:
+            for element in row:
+                if self.highest < element:
+                    self.highest = element
+                if self.lowest > element:
+                    self.lowest = element
+
+        self.lower_bound = self.lowest
+        """ The lower bound of the intensity scale """
+        self.upper_bound = self.highest
+        """ The upper bound of the intensity scale """
+
         self.period = period
         """The period of the second GC. """
 
     def get_2d_chromatogram_data(self):
         return self.__chromatogram_data
 
-    def reconstruct_2d_chromatogram_data(self):
-        """
-        Constructs a 2D numpy array from the __chromatogram_data, period and data offsets.
-        :return: The 2D numpy array corresponding to the current state of the model.
-        """
-        x = math.ceil(len(self.__chromatogram_data)/self.period)
-        y = self.period
-        arr = np.zeros((x - self.get_data_x_offset(), y - self.get_data_y_offset()))
-
-        for i in range(self.get_data_x_offset(), x):
-            for j in range(self.get_data_y_offset(), y):
-                if i*y + j >= len(self.__chromatogram_data):
-                    return arr
-                arr[i-self.get_data_x_offset()][j-self.get_data_y_offset()] \
-                    = max(self.data_z_offset, self.__chromatogram_data[i*y + j])
-
-        return arr
-
-    def get_data_x_offset(self):
-        """
-        :return: The bounded value of data_x_offset
-        """
-        return max(0, min(self.data_x_offset, math.ceil(len(self.__chromatogram_data) / self.period)))
-
-    def get_data_y_offset(self):
-        """
-        :return: The bounded value of data_y_offset
-
-        """
-        return max(0, min(self.data_y_offset, self.period))
