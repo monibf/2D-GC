@@ -1,5 +1,7 @@
 import numpy as np
 import math
+
+
 class Model:
 
     def __init__(self, chromatogram_data, period):
@@ -10,18 +12,21 @@ class Model:
         :param period: The period of the data.
         """
 
-        """The data of the chromatogram stored as a 1D array """
         self.__chromatogram_data = chromatogram_data
-        """The x_offset to start drawing at."""
+        """The data of the chromatogram stored as a 1D array """
         self.data_x_offset = 0
-        """The y_offset to start drawing at."""
+        """The x_offset to start drawing at."""
         self.data_y_offset = 0
-        """The z_offset to start drawing at."""
+        """The y_offset to start drawing at."""
         self.data_z_offset = 0
-        """The period of the second GC. """
+        """The z_offset to start drawing at."""
         self.period = period
+        """The period of the second GC. """
 
     def get_2d_chromatogram_data(self):
+        return self.__chromatogram_data
+
+    def reconstruct_2d_chromatogram_data(self):
         """
         Constructs a 2D numpy array from the __chromatogram_data, period and data offsets.
         :return: The 2D numpy array corresponding to the current state of the model.
