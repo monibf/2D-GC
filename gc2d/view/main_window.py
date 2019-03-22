@@ -1,4 +1,6 @@
 from PyQt5.QtWidgets import QMainWindow, QHBoxLayout, QWidget
+from pyqtgraph.dockarea import DockArea, Dock
+
 from controller.exit_button import ExitButton
 from controller.open_button import OpenButton
 from view.plot_2d_widget import Plot2DWidget
@@ -58,10 +60,12 @@ class Window(QMainWindow):
         Creates the window containing the graph views.
         :return: None. Later it should return a QWidget containing the views.
         """
-        cw = QWidget(self)
-        cwl = QHBoxLayout()
-        cw.setLayout(cwl)
+        dock_area = DockArea()
+        self.setCentralWidget(dock_area)  # This is temporary
 
-        p2d = Plot2DWidget(self.model_wrapper, cw)
-        cwl.addWidget(p2d)
-        self.setCentralWidget(cw)  # This is temporary
+        dock_2d = Dock('2D')
+        dock_area.addDock(dock_2d)
+
+        plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
+        dock_2d.addWidget(plot_2d)
+
