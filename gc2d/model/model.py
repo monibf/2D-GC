@@ -1,7 +1,3 @@
-import numpy as np
-import math
-
-
 class Model:
 
     def __init__(self, chromatogram_data, period):
@@ -36,4 +32,3 @@ class Model:
 
     def get_2d_chromatogram_data(self):
         return self.__chromatogram_data
-

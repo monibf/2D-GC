@@ -1,15 +1,16 @@
 import numpy as np
 
 from model.model import Model
+from observable import Observable
 
 
-class ModelWrapper:
+class ModelWrapper(Observable):
 
     def __init__(self):
         """
         The model wrapper is responsible for facilitating complex interaction with the model.
         """
-
+        super().__init__()
         self.model = None
         """The model containing all information relating to the chromatogram"""
 
@@ -39,7 +40,7 @@ class ModelWrapper:
         :param file_name: The name of the chromatogram file to open.
         :return: None
         """
-        # Insert some hook to the save/load module.
+        self.close_model()
         data = []
         with open(file_name) as sourcefile:
             for line in sourcefile:
@@ -49,7 +50,7 @@ class ModelWrapper:
 
         self.model = Model(arr, len(data[0]))
 
-        print('chromatogram data loaded successfully: {} by {}'.format(len(data), len(data[0])))
+        self.notify()  # Notify all observers.
 
     def close_model(self):
         """

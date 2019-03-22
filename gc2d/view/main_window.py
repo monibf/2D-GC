@@ -1,8 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QHBoxLayout, QWidget
 from controller.exit_button import ExitButton
 from controller.open_button import OpenButton
-import pyqtgraph as pg
-from view.palette.red_green_blue import RedGreenBlue
+from view.plot_2d_widget import Plot2DWidget
 
 
 class Window(QMainWindow):
@@ -27,7 +26,7 @@ class Window(QMainWindow):
 
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
-        self.create_image()
+        self.create_graph_views()
 
     def create_menus(self):
         """
@@ -54,21 +53,15 @@ class Window(QMainWindow):
         # TODO
 
     # noinspection PyArgumentList
-    def create_image(self):
-        model = self.model_wrapper.model
-
+    def create_graph_views(self):
+        """
+        Creates the window containing the graph views.
+        :return: None. Later it should return a QWidget containing the views.
+        """
         cw = QWidget(self)
         cwl = QHBoxLayout()
         cw.setLayout(cwl)
-        self.setCentralWidget(cw)
 
-        pw = pg.PlotWidget()
-        cwl.addWidget(pw)
-
-        pw.setAspectLocked(True)
-
-        img = pg.ImageItem()
-        pw.addItem(img)
-
-        img.setImage(model.get_2d_chromatogram_data().clip(model.lower_bound, model.upper_bound),
-                     lut=RedGreenBlue())
+        p2d = Plot2DWidget(self.model_wrapper, cw)
+        cwl.addWidget(p2d)
+        self.setCentralWidget(cw)  # This is temporary
