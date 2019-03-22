@@ -4,6 +4,7 @@ from pyqtgraph.dockarea import DockArea, Dock
 from controller.exit_button import ExitButton
 from controller.open_button import OpenButton
 from view.plot_2d_widget import Plot2DWidget
+from view.plot_3d_widget import Plot3DWidget
 
 
 class Window(QMainWindow):
@@ -66,6 +67,12 @@ class Window(QMainWindow):
         dock_2d = Dock('2D')
         dock_area.addDock(dock_2d)
 
+        dock_3d = Dock('3D')
+        dock_area.addDock(dock_3d, 'below', dock_2d)
+
         plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
         dock_2d.addWidget(plot_2d)
+
+        plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
+        dock_3d.addWidget(plot_3d)
 
