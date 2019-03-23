@@ -43,16 +43,16 @@ class Window(QMainWindow):
         file_menu.addAction(OpenButton(self, self.model_wrapper))
         file_menu.addAction(ExitButton(self))
 
-        editMenu = main_menu.addMenu('Edit')
+        edit_menu = main_menu.addMenu('Edit')
         # TODO
 
-        viewMenu = main_menu.addMenu('View')
+        view_menu = main_menu.addMenu('View')
         # TODO
 
-        toolsMenu = main_menu.addMenu('Tools')
+        tools_menu = main_menu.addMenu('Tools')
         # TODO
 
-        helpMenu = main_menu.addMenu('Help')
+        help_menu = main_menu.addMenu('Help')
         # TODO
 
     # noinspection PyArgumentList

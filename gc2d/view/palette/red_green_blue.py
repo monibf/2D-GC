@@ -4,11 +4,11 @@ from view.palette.palette import Palette
 class RedGreenBlue(Palette):
 
     colors = [
-        (  0,   0, 255),
-        (  0, 255, 255),
-        (  0, 255,   0),
-        (255, 255,   0),
-        (255,   0,   0)
+        (000, 000, 255),
+        (000, 255, 255),
+        (000, 255, 000),
+        (255, 255, 000),
+        (255, 000, 000)
     ]
 
     def __init__(self):

@@ -10,6 +10,7 @@ You can also explicitly execute __main__.py using `python3 __main__.py` or `./__
 """
 
 import sys
+from gc2d.main import main
 
 if sys.version_info[0] < 3:
     print("Error: this program is written in python 3. You are trying to run it in python 2")
@@ -17,9 +18,7 @@ if sys.version_info[0] < 3:
 
 if __package__ != "gc2d":
     import os.path
+
     sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
-
-
-from gc2d.main import main
 
 main()
