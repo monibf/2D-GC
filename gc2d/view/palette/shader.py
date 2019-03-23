@@ -4,6 +4,12 @@ from pyqtgraph.opengl.shaders import ShaderProgram, VertexShader, FragmentShader
 class PaletteShader(ShaderProgram):
 
     def __init__(self, lower_bound, upper_bound, palette):
+        """
+        This is a custom height shader that will shade the graph based on the supplied palette and bounds.
+        :param lower_bound: The lowest point of the shading. Points below this will be the lowest color.
+        :param upper_bound: The highest point of the shading. Points above this will be the highest color.
+        :param palette: The palette to use.
+        """
         palette = palette.getColors('float')
 
         data = [lower_bound, upper_bound, len(palette)]

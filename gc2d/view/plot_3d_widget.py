@@ -22,8 +22,10 @@ class Plot3DWidget(GLViewWidget):
         self.surface = gl.GLSurfacePlotItem(z=model.get_2d_chromatogram_data(), computeNormals=False,
                                             shader=PaletteShader(model.lower_bound, model.upper_bound, RedGreenBlue()))
         self.addItem(self.surface)
+
         self.surface.translate(-len(model_wrapper.model.get_2d_chromatogram_data()) / 2,
                                -len(model_wrapper.model.get_2d_chromatogram_data()[0]) / 2, 0)
+        # This will need to be done dynamically later. TODO
         self.surface.scale(1, 1, 0.00001)
 
         self.notify()
@@ -35,3 +37,5 @@ class Plot3DWidget(GLViewWidget):
         :return: None
         """
         model = self.model_wrapper.model
+        self.surface.setData(z=model.get_2d_chromatogram_data())
+        self.surface.setShader(PaletteShader(model.lower_bound, model.upper_bound, RedGreenBlue()))
