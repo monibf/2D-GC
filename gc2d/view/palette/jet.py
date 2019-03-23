@@ -1,4 +1,4 @@
-from view.palette.palette import Palette
+from gc2d.view.palette.palette import Palette
 
 
 class Jet(Palette):

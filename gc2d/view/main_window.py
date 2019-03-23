@@ -1,10 +1,10 @@
 from PyQt5.QtWidgets import QMainWindow
-from pyqtgraph.dockarea import DockArea, Dock
+from pyqtgraph.dockarea import Dock, DockArea
 
-from controller.exit_button import ExitButton
-from controller.open_button import OpenButton
-from view.plot_2d_widget import Plot2DWidget
-from view.plot_3d_widget import Plot3DWidget
+from gc2d.controller.exit_button import ExitButton
+from gc2d.controller.open_button import OpenButton
+from gc2d.view.plot_2d_widget import Plot2DWidget
+from gc2d.view.plot_3d_widget import Plot3DWidget
 
 
 class Window(QMainWindow):

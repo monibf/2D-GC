@@ -1,6 +1,6 @@
-from pyqtgraph import PlotWidget, ImageItem
+from pyqtgraph import ImageItem, PlotWidget
 
-from view.palette.red_green_blue import RedGreenBlue
+from gc2d.view.palette.red_green_blue import RedGreenBlue
 
 
 class Plot2DWidget(PlotWidget):

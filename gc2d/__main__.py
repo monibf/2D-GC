@@ -10,6 +10,7 @@ You can also explicitly execute __main__.py using `python3 __main__.py` or `./__
 """
 
 import sys
+
 from gc2d.main import main
 
 if sys.version_info[0] < 3:

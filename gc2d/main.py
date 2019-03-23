@@ -1,8 +1,9 @@
 import os
 
-from model.model_wrapper import ModelWrapper
-from view.main_window import Window
 from PyQt5.QtWidgets import QApplication
+
+from gc2d.model.model_wrapper import ModelWrapper
+from gc2d.view.main_window import Window
 
 
 def main():

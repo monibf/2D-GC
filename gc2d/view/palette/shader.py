@@ -1,4 +1,4 @@
-from pyqtgraph.opengl.shaders import ShaderProgram, VertexShader, FragmentShader
+from pyqtgraph.opengl.shaders import FragmentShader, ShaderProgram, VertexShader
 
 
 class PaletteShader(ShaderProgram):

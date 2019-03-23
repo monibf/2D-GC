@@ -1,7 +1,7 @@
 import numpy as np
 
-from model.model import Model
-from observable import Observable
+from gc2d.model.model import Model
+from gc2d.observable import Observable
 
 
 class ModelWrapper(Observable):

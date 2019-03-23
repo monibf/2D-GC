@@ -1,8 +1,8 @@
 import pyqtgraph.opengl as gl
 from pyqtgraph.opengl import GLViewWidget
 
-from view.palette.shader import PaletteShader
-from view.palette.red_green_blue import RedGreenBlue
+from gc2d.view.palette.red_green_blue import RedGreenBlue
+from gc2d.view.palette.shader import PaletteShader
 
 
 class Plot3DWidget(GLViewWidget):

@@ -1,5 +1,5 @@
-from pyqtgraph import ColorMap
 import numpy as np
+from pyqtgraph import ColorMap
 
 
 class Palette(ColorMap):
