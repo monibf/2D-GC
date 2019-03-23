@@ -1,7 +1,6 @@
 from pyqtgraph import ImageItem, PlotWidget
 
-from gc2d.view.palette.red_green_blue import RedGreenBlue
-from view.palette.viridis import Viridis
+from gc2d.view.palette.viridis import Viridis
 
 
 class Plot2DWidget(PlotWidget):
