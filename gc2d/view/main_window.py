@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QHBoxLayout, QWidget
+from PyQt5.QtWidgets import QMainWindow
 from pyqtgraph.dockarea import DockArea, Dock
 
 from controller.exit_button import ExitButton
