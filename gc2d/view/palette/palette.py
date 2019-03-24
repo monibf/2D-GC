@@ -17,3 +17,30 @@ class Palette(ColorMap):
         :return: the lookup table that corresponds to this palette.
         """
         return self.getLookupTable(alpha=False)
+
+
+jet = Palette([
+        (000, 000, 127),
+        (000, 000, 255),
+        (000, 127, 255),
+        (000, 255, 255),
+        (127, 255, 127),
+        (255, 255, 000),
+        (255, 127, 000),
+        (255, 000, 000),
+        (127, 000, 000)
+    ])
+
+red_green_blue = Palette([
+    (000, 000, 255),
+    (000, 255, 255),
+    (000, 255, 000),
+    (255, 255, 000),
+    (255, 000, 000)
+])
+
+viridis = Palette([
+        (68, 1, 84),
+        (33, 144, 140),
+        (255, 231, 37)
+])

@@ -1,3 +1,6 @@
+from view.palette import palette
+
+
 class Model:
 
     def __init__(self, chromatogram_data, period):
@@ -10,7 +13,7 @@ class Model:
 
         self.__chromatogram_data = chromatogram_data
         """The data of the chromatogram stored as a 1D array """
-
+        self.palette = palette.viridis
         self.lowest = float('inf')
         """The lowest value in the chromatogram """
         self.highest = float('-inf')

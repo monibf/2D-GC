@@ -1,7 +1,5 @@
 from pyqtgraph import ImageItem, PlotWidget
 
-from gc2d.view.palette.viridis import Viridis
-
 
 class Plot2DWidget(PlotWidget):
 
@@ -32,4 +30,4 @@ class Plot2DWidget(PlotWidget):
             self.img.clear()
         else:
             self.img.setImage(model.get_2d_chromatogram_data().clip(model.lower_bound, model.upper_bound),
-                              lut=Viridis())
+                              lut=model.palette)

@@ -2,7 +2,6 @@ import pyqtgraph.opengl as gl
 from pyqtgraph.opengl import GLViewWidget
 
 from gc2d.view.palette.shader import PaletteShader
-from gc2d.view.palette.viridis import Viridis
 
 
 class Plot3DWidget(GLViewWidget):
@@ -37,4 +36,4 @@ class Plot3DWidget(GLViewWidget):
         """
         model = self.model_wrapper.model
         self.surface.setData(z=model.get_2d_chromatogram_data())
-        self.surface.setShader(PaletteShader(model.lower_bound, model.upper_bound, Viridis()))
+        self.surface.setShader(PaletteShader(model.lower_bound, model.upper_bound, model.palette))
