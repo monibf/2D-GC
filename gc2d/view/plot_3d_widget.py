@@ -13,12 +13,10 @@ class Plot3DWidget(GLViewWidget):
         :param parent: the parent of this Widget.
         """
         super().__init__(parent)
-        self.model_wrapper = model_wrapper
-        model = model_wrapper.model
 
         self.setCameraPosition(distance=400)
 
-        self.surface = gl.GLSurfacePlotItem(z=model.get_2d_chromatogram_data(), computeNormals=False)
+        self.surface = gl.GLSurfacePlotItem(computeNormals=False)
         self.addItem(self.surface)
 
         self.surface.translate(-len(model_wrapper.model.get_2d_chromatogram_data()) / 2,
@@ -26,14 +24,23 @@ class Plot3DWidget(GLViewWidget):
         # This will need to be done dynamically later. TODO
         self.surface.scale(1, 1, 0.00001)
 
-        self.notify()
-        self.model_wrapper.add_observer(self, self.notify)
+        self.notify('model', model_wrapper.model)
 
-    def notify(self):
+        model_wrapper.add_observer(self, self.notify)
+
+    def notify(self, name, value):
         """
         Updates the image rendered to match the model.
         :return: None
         """
-        model = self.model_wrapper.model
-        self.surface.setData(z=model.get_2d_chromatogram_data())
-        self.surface.setShader(PaletteShader(model.lower_bound, model.upper_bound, model.palette))
+        if name == 'model':
+            if value is None:
+                self.setVisible(False)
+            else:
+                if not self.isVisible():
+                    self.setVisible(True)
+
+                self.surface.setData(z=value.get_2d_chromatogram_data())
+                self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))
+        if name == 'model.palette':
+            self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))

@@ -24,10 +24,10 @@ class Observable:
         if observer in self.__observers:
             self.__observers.pop(observer)
 
-    def notify(self):
+    def notify(self, name, value):
         """
         Notify all the observers.
         :return: None
         """
         for x in self.__observers:
-            self.__observers[x]()
+            self.__observers[x](name, value)

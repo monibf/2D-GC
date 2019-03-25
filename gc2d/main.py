@@ -1,4 +1,5 @@
 import os
+import sys
 
 from PyQt5.QtWidgets import QApplication
 
@@ -17,4 +18,4 @@ def main():
     model_wrapper.model.upper_bound = 581910
     win = Window(model_wrapper)  # create the window.
 
-    app.exec_()  # Start the application
+    sys.exit(app.exec_())

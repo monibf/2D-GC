@@ -1,48 +1,81 @@
-from PyQt5.QtGui import QWindow
-from PyQt5.QtWidgets import QAction, QMainWindow, QVBoxLayout, QWidget, QPushButton
+from PyQt5.QtWidgets import QAction, QMainWindow, QVBoxLayout, QWidget, QPushButton, QListWidget, QLabel, QHBoxLayout, \
+    QLayout, QListWidgetItem
+
+from gc2d.view.palette import palette
 
 
-class QButton(object):
-    pass
-
-
-class IntegrateButton(QAction):
+class ChoosePaletteButton(QAction):
 
     def __init__(self, parent, model_wrapper):
         """
-        An IntegrateButton is a QAction that will open the integration dialog when opened.
+        A ChoosePaletteButton is a QAction that will open the choose palette dialog when opened.
         :param parent: the parent widget
         """
-        super().__init__('Integrate', parent)
+        super().__init__('Choose Palette', parent)
         self.model_wrapper = model_wrapper
-        self.setShortcut('Ctrl+I')
-        self.setStatusTip('Opens the Integration Dialog')
+        self.dialog = None
+        self.list = None
+        self.setShortcut('Ctrl+Shift+C')
+        self.setStatusTip('Opens the Choose Palette Dialog')
         self.triggered.connect(self.show_dialog)
 
     def show_dialog(self):
         """
-        Show the integration dialog.
+        Show the Choose Palette dialog.
         :return: None
         """
-        dialog = QMainWindow(parent=None)
-        dialog.setWindowTitle("Integrate")
-        self.parent().dialogs.append(dialog)
 
+        self.dialog = QMainWindow(parent=None)
+        self.dialog.setWindowTitle("Integrate")
+        self.parent().dialogs.append(self.dialog)
         vbox = QWidget()
-        dialog.setCentralWidget(vbox)
+        self.dialog.setCentralWidget(vbox)
 
         vlayout = QVBoxLayout()
         vbox.setLayout(vlayout)
 
-        select_region = QPushButton("Select region")
-        select_region.clicked.connect(self.select_region)
-        vlayout.addWidget(select_region)
+        self.list = QListWidget()
+        self.list.setSelectionMode(1)
+        vlayout.addWidget(self.list)
+        cancel_select = QWidget()
+        vlayout.addWidget(cancel_select)
 
-        intergrate = QPushButton("Intergrate")
-        vlayout.addWidget(intergrate)
+        cancel_select_layout = QHBoxLayout()
+        cancel_select.setLayout(cancel_select_layout)
 
-        dialog.show()
+        cancel_button = QPushButton('Cancel')
+        cancel_button.clicked.connect(self.close)
+        cancel_select_layout.addWidget(cancel_button)
+
+        select_button = QPushButton('Confirm')
+        select_button.clicked.connect(self.select)
+        cancel_select_layout.addWidget(select_button)
+
+        for palt in palette.palettes:
+            item = QListWidgetItem()
+            widg = QWidget()
+            text = QLabel(palt.name)
+            grad = QLabel('placeholder')
+            layo = QHBoxLayout()
+            layo.addWidget(text)
+            layo.addWidget(grad)
+            layo.addStretch()
+
+            layo.setSizeConstraint(QLayout.SetFixedSize)
+            widg.setLayout(layo)
+            item.setSizeHint(widg.sizeHint())
+
+            self.list.addItem(item)
+            self.list.setItemWidget(item, widg)
+        self.dialog.show()
         print('dialog opened?')
 
-    def select_region(self):
-        self.model_wrapper.set_selecting(True)
+    def select(self):
+        index = self.list.currentRow()
+        self.model_wrapper.set_palette(palette.palettes[index])
+        self.dialog.close()
+
+    def close(self):
+        self.parent().dialogs.remove(self.dialog)
+        self.dialog.close()
+

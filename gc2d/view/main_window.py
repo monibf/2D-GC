@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow
 from pyqtgraph.dockarea import Dock, DockArea
 
+from gc2d.controller.choose_palette_button import ChoosePaletteButton
 from gc2d.controller.exit_button import ExitButton
 from gc2d.controller.open_button import OpenButton
 from gc2d.view.plot_2d_widget import Plot2DWidget
@@ -20,16 +21,18 @@ class Window(QMainWindow):
         super().__init__()
 
         self.model_wrapper = model_wrapper
+        self.dialogs = []
         """The model wrapper."""
 
         # init the window settings.
         self.resize(250, 150)
         self.setWindowTitle('GCxGC')
-        self.show()  # Show the window.
 
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
         self.create_graph_views()
+
+        self.show()  # Show the window.
 
     def create_menus(self):
         """
@@ -47,7 +50,7 @@ class Window(QMainWindow):
         # TODO
 
         view_menu = main_menu.addMenu('View')
-        # TODO
+        view_menu.addAction(ChoosePaletteButton(self, self.model_wrapper))
 
         tools_menu = main_menu.addMenu('Tools')
         # TODO

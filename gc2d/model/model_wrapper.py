@@ -14,6 +14,15 @@ class ModelWrapper(Observable):
         self.model = None
         """The model containing all information relating to the chromatogram"""
 
+    def set_palette(self, palette):
+        """
+
+        :param palette:
+        :return:
+        """
+        self.model.palette = palette
+        self.notify('model.palette', self.model)
+
     def get_integration(self):
         """
         Integrate using the current settings in the model.
@@ -50,7 +59,7 @@ class ModelWrapper(Observable):
 
         self.model = Model(arr, len(data[0]))
 
-        self.notify()  # Notify all observers.
+        self.notify('model', self.model)  # Notify all observers.
 
     def close_model(self):
         """
@@ -59,3 +68,5 @@ class ModelWrapper(Observable):
         """
 
         self.model = None
+
+        self.notify('model', self.model)  # Notify all observers
