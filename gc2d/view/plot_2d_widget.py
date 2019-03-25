@@ -15,11 +15,11 @@ class Plot2DWidget(PlotWidget):
         self.addItem(self.img)
 
         self.setAspectLocked(True)
-        self.update('model', model_wrapper.model)
+        self.notify('model', model_wrapper.model)
 
-        model_wrapper.add_observer(self, self.update)
+        model_wrapper.add_observer(self, self.notify)
 
-    def update(self, name, value):
+    def notify(self, name, value):
         """
         Updates the image rendered to match the model.
         :return: None

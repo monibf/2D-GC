@@ -27,7 +27,7 @@ class PaletteShader(ShaderProgram):
                             }
                         """),
             FragmentShader("""
-                            #version 140
+                            #version 120
                             uniform float data[96];
                             
                             varying vec4 pos;
