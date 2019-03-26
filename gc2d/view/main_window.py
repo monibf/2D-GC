@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QLabel
 from pyqtgraph.dockarea import Dock, DockArea
 
 from gc2d.controller.choose_palette_button import ChoosePaletteButton
@@ -30,7 +30,11 @@ class Window(QMainWindow):
 
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
-        self.create_graph_views()
+        self.create_graph_views()  # Create 2D and 3D dock tabs.
+
+        # TODO status bar.
+        status_bar = self.statusBar()
+        status_bar.addWidget(QLabel("Some status"))
 
         self.show()  # Show the window.
 
