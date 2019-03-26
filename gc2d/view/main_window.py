@@ -1,11 +1,14 @@
 from PyQt5.QtWidgets import QMainWindow
+from pyqtgraph import QtCore
 from pyqtgraph.dockarea import Dock, DockArea
 
 from gc2d.controller.choose_palette_button import ChoosePaletteButton
 from gc2d.controller.exit_button import ExitButton
 from gc2d.controller.open_button import OpenButton
+from gc2d.controller.draw_button import DrawButton
 from gc2d.view.plot_2d_widget import Plot2DWidget
 from gc2d.view.plot_3d_widget import Plot3DWidget
+from gc2d.controller.selector import Selector
 
 
 class Window(QMainWindow):
@@ -47,6 +50,7 @@ class Window(QMainWindow):
         file_menu.addAction(ExitButton(self))
 
         edit_menu = main_menu.addMenu('Edit')
+        edit_menu.addAction(DrawButton(self, self.model_wrapper))
         # TODO
 
         view_menu = main_menu.addMenu('View')
@@ -73,8 +77,14 @@ class Window(QMainWindow):
         dock_2d = Dock('2D')
         dock_area.addDock(dock_2d, 'above', dock_3d)
 
-        plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
-        dock_3d.addWidget(plot_3d)
+        self.plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
+        dock_3d.addWidget(self.plot_3d)
 
-        plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
-        dock_2d.addWidget(plot_2d)
+        self.plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
+        dock_2d.addWidget(self.plot_2d)
+       
+
+    
+    def keyPressEvent(self, event): 
+        if event.key() == QtCore.Qt.Key_Escape:
+            self.close()
