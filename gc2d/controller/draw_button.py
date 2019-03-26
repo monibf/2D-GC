@@ -1,11 +1,6 @@
 from PyQt5.QtWidgets import QAction
-from PyQt5.QtGui import QKeyEvent
 from pyqtgraph import PolyLineROI 
 import numpy as np
-
-
-from gc2d.view import main_window
-from gc2d.controller.selector import Selector
 
 
 class DrawButton(QAction):
