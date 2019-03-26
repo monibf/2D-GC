@@ -9,8 +9,6 @@ from gc2d.controller.open_button import OpenButton
 from gc2d.controller.draw_button import DrawButton
 from gc2d.view.plot_2d_widget import Plot2DWidget
 from gc2d.view.plot_3d_widget import Plot3DWidget
-from gc2d.controller.selector import Selector
-
 
 class Window(QMainWindow):
 
