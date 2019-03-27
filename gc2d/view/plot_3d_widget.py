@@ -14,7 +14,7 @@ class Plot3DWidget(GLViewWidget):
         :param parent: the parent of this Widget.
         """
         super().__init__(parent)
-        self.listener = Plot3DListener(self, model_wrapper)
+        # self.listener = Plot3DListener(self, model_wrapper)  # Not yet ready.
 
         self.setCameraPosition(distance=400)
         self.surface = gl.GLSurfacePlotItem(computeNormals=False)

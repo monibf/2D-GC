@@ -13,7 +13,7 @@ class Plot2DWidget(PlotWidget):
         :param parent: the parent of this Widget.
         """
         super().__init__(parent)
-        self.listener = Plot2DListener(self, model_wrapper)
+        # self.listener = Plot2DListener(self, model_wrapper)  # Not yet Ready
         self.img = ImageItem()
         self.addItem(self.img)
 
