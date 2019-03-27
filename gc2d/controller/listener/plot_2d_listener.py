@@ -1,4 +1,4 @@
-from controller.listener.plot_listener import PlotListener
+from gc2d.controller.listener.plot_listener import PlotListener
 
 
 class Plot2DListener(PlotListener):

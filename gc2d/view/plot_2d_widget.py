@@ -1,7 +1,4 @@
-from PyQt5.uic.properties import QtGui
 from pyqtgraph import ImageItem, PlotWidget
-
-from controller.listener.plot_2d_listener import Plot2DListener
 
 
 class Plot2DWidget(PlotWidget):

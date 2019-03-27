@@ -1,7 +1,6 @@
 import pyqtgraph.opengl as gl
 from pyqtgraph.opengl import GLViewWidget
 
-from controller.listener.plot_3d_listener import Plot3DListener
 from gc2d.view.palette.shader import PaletteShader
 
 
