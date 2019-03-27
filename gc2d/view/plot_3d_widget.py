@@ -1,6 +1,7 @@
 import pyqtgraph.opengl as gl
 from pyqtgraph.opengl import GLViewWidget
 
+from controller.listener.plot_3d_listener import Plot3DListener
 from gc2d.view.palette.shader import PaletteShader
 
 
@@ -13,9 +14,9 @@ class Plot3DWidget(GLViewWidget):
         :param parent: the parent of this Widget.
         """
         super().__init__(parent)
+        self.listener = Plot3DListener(self, model_wrapper)
 
         self.setCameraPosition(distance=400)
-
         self.surface = gl.GLSurfacePlotItem(computeNormals=False)
         self.addItem(self.surface)
 
