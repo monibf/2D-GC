@@ -3,12 +3,13 @@ from PyQt5.QtWidgets import QMainWindow, QLabel
 from pyqtgraph import QtCore
 from pyqtgraph.dockarea import Dock, DockArea
 
-from controller.button.choose_palette_button import ChoosePaletteButton
-from controller.button.exit_button import ExitButton
-from controller.button.open_button import OpenButton
-from controller.button.draw_button import DrawButton
+from gc2d.controller.button.choose_palette_button import ChoosePaletteButton
+from gc2d.controller.button.exit_button import ExitButton
+from gc2d.controller.button.open_button import OpenButton
+from gc2d.controller.button.draw_button import DrawButton
 from gc2d.view.plot_2d_widget import Plot2DWidget
 from gc2d.view.plot_3d_widget import Plot3DWidget
+from gc2d.view.integration_list import IntegrationList
 
 
 class Window(QMainWindow):
@@ -86,6 +87,11 @@ class Window(QMainWindow):
 
         self.plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
         dock_2d.addWidget(self.plot_2d)
+
+        # #TODO: move to own function
+        # dock_list = Dock('Selected regions')
+        # integrations = IntegrationList(self.model_wrapper, dock_list)
+        # self.addDockWidget(integrations)
     
     def keyPressEvent(self, event): 
         if event.key() == QtCore.Qt.Key_Escape:

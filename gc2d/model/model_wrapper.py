@@ -2,6 +2,7 @@ import numpy as np
 
 from gc2d.model.model import Model
 from gc2d.observable import Observable
+from gc2d.model.integration import Integration
 
 
 class ModelWrapper(Observable):
@@ -13,6 +14,7 @@ class ModelWrapper(Observable):
         super().__init__()
         self.model = None
         """The model containing all information relating to the chromatogram"""
+        self.integrations = []
 
     def set_palette(self, palette):
         """
@@ -22,15 +24,6 @@ class ModelWrapper(Observable):
         """
         self.model.palette = palette
         self.notify('model.palette', self.model)
-
-    def get_integration(self):
-        """
-        Integrate using the current settings in the model.
-        :return: The integration value.
-        """
-
-        # Insert some hook to the integration module.
-        print("ModelWrapper.save_model() not yet implemented.")
 
     def save_model(self, location):
         """
@@ -70,3 +63,14 @@ class ModelWrapper(Observable):
         self.model = None
 
         self.notify('model', self.model)  # Notify all observers
+    
+    def add_integration(self, mask):
+        index = len(self.integrations)
+        self.integrations.append(Integration(self, mask, index))
+        self.notify('integrationUpdate', index)
+        return index
+    
+    def update_integration(self, mask, index):
+        print(index)
+        self.integrations[index].update(mask)
+        self.notify('integrationUpdate', index)
