@@ -1,7 +1,7 @@
 from PyQt5.uic.properties import QtGui
 from pyqtgraph import ImageItem, PlotWidget
 
-from controller.listener.plot_2d_mouse_listener import Plot2DMouseListener
+from controller.listener.plot_2d_listener import Plot2DListener
 
 
 class Plot2DWidget(PlotWidget):
@@ -13,7 +13,7 @@ class Plot2DWidget(PlotWidget):
         :param parent: the parent of this Widget.
         """
         super().__init__(parent)
-        self.listener = Plot2DMouseListener(self, model_wrapper)
+        self.listener = Plot2DListener(self, model_wrapper)
         self.img = ImageItem()
         self.addItem(self.img)
 
