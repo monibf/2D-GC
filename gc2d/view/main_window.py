@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QLabel
+from PyQt5.QtWidgets import QMainWindow, QLabel, QWidget
 
 from pyqtgraph import QtCore
 from pyqtgraph.dockarea import Dock, DockArea
@@ -29,7 +29,7 @@ class Window(QMainWindow):
         """The model wrapper."""
 
         # init the window settings.
-        self.resize(250, 150)
+        self.resize(500, 500)
         self.setWindowTitle('GCxGC')
 
         # create UI elements.
@@ -88,10 +88,11 @@ class Window(QMainWindow):
         self.plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
         dock_2d.addWidget(self.plot_2d)
 
-        # #TODO: move to own function
-        # dock_list = Dock('Selected regions')
-        # integrations = IntegrationList(self.model_wrapper, dock_list)
-        # self.addDockWidget(integrations)
+        #TODO: move away from this function
+        dock_list = Dock('integration')
+        dock_area.addDock(dock_list)
+        dock_list.addWidget(IntegrationList(self.model_wrapper, dock_list))
+
     
     def keyPressEvent(self, event): 
         if event.key() == QtCore.Qt.Key_Escape:

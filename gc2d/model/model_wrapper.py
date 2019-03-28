@@ -65,12 +65,23 @@ class ModelWrapper(Observable):
         self.notify('model', self.model)  # Notify all observers
     
     def add_integration(self, mask):
+        """
+        Appends a new integration data object to the self.integrations, with generated label
+        Notifies the view that integration values have changed
+        :param mask: a selection mask of the chromatogram
+        :return index: the index of this integration, to be used as identifier
+        """
         index = len(self.integrations)
-        self.integrations.append(Integration(self, mask, index))
-        self.notify('integrationUpdate', index)
+        self.integrations.append(Integration(mask, index))
+        self.notify('integrationUpdate', self.integrations)
         return index
     
-    def update_integration(self, mask, index):
-        print(index)
-        self.integrations[index].update(mask)
-        self.notify('integrationUpdate', index)
+    def update_integration(self, index, mask=None, label=None):
+        """
+        Update an integration mask, and notifies the view that integration values have been changed
+        :param mask: the updated mask
+        :param index: the position of the altered integration in self.integrations
+        :return: None
+        """
+        self.integrations[index].update(mask, label)
+        self.notify('integrationUpdate', self.integrations)
