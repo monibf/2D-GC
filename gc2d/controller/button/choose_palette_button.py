@@ -4,20 +4,20 @@ from PyQt5.QtWidgets import QAction, QMainWindow, QVBoxLayout, QWidget, QPushBut
 from gc2d.view.palette import palette
 
 
-class ChoosePaletteButton(QAction):
+class ChoosePaletteButton:
 
     def __init__(self, parent, model_wrapper):
         """
-        A ChoosePaletteButton is a QAction that will open the choose palette dialog when opened.
+        A ChoosePaletteButton has a QAction that will open the choose palette dialog when opened.
         :param parent: the parent widget
         """
-        super().__init__('Choose Palette', parent)
+        self.button = QAction('Choose Palette', parent)
         self.model_wrapper = model_wrapper
         self.dialog = None
         self.list = None
-        self.setShortcut('Ctrl+Shift+C')
-        self.setStatusTip('Opens the Choose Palette Dialog')
-        self.triggered.connect(self.show_dialog)
+        self.button.setShortcut('Ctrl+Shift+C')
+        self.button.setStatusTip('Opens the Choose Palette Dialog')
+        self.button.triggered.connect(self.show_dialog)
 
     def show_dialog(self):
         """
@@ -27,7 +27,7 @@ class ChoosePaletteButton(QAction):
 
         self.dialog = QMainWindow(parent=None)
         self.dialog.setWindowTitle("Integrate")
-        self.parent().dialogs.append(self.dialog)
+        self.button.parent().dialogs.append(self.dialog)
         vbox = QWidget()
         self.dialog.setCentralWidget(vbox)
 
@@ -76,6 +76,6 @@ class ChoosePaletteButton(QAction):
         self.dialog.close()
 
     def close(self):
-        self.parent().dialogs.remove(self.dialog)
+        self.button.parent().dialogs.remove(self.dialog)
         self.dialog.close()
 

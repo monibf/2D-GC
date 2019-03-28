@@ -49,16 +49,22 @@ class Window(QMainWindow):
 
         main_menu = self.menuBar()
 
+        # button objects need to be members because otherwise they get garbage collected
+        
         file_menu = main_menu.addMenu('File')
-        file_menu.addAction(OpenButton(self, self.model_wrapper))
-        file_menu.addAction(ExitButton(self))
+        self.open_button = OpenButton(self, self.model_wrapper)
+        file_menu.addAction(self.open_button.button)
+        self.exit_button = ExitButton(self)
+        file_menu.addAction(self.exit_button.button)
 
         edit_menu = main_menu.addMenu('Edit')
-        edit_menu.addAction(DrawButton(self, self.model_wrapper))
+        self.draw_button = DrawButton(self, self.model_wrapper)
+        edit_menu.addAction(self.draw_button.button)
         # TODO
 
         view_menu = main_menu.addMenu('View')
-        view_menu.addAction(ChoosePaletteButton(self, self.model_wrapper))
+        self.palette_chooser_button = ChoosePaletteButton(self, self.model_wrapper) 
+        view_menu.addAction(self.palette_chooser_button.button)
 
         tools_menu = main_menu.addMenu('Tools')
         # TODO
