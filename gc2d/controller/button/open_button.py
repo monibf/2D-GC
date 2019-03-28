@@ -23,7 +23,7 @@ class OpenButton(QAction):
         :return: None
         """
         # noinspection PyArgumentList
-        file_name = QFileDialog.getOpenFileName(self.window, 'Open chromatography data', '/home')
+        file_name = QFileDialog.getOpenFileName(self.window, 'Open chromatography data')
 
         if file_name[0]:
             self.model_wrapper.load_model(file_name[0])
