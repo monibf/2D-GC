@@ -1,7 +1,7 @@
 from pyqtgraph import ImageItem, PlotWidget
 
 
-class Plot2DWidget(PlotWidget):
+class Plot2DWidget:
 
     def __init__(self, model_wrapper, parent=None):
         """
@@ -9,12 +9,12 @@ class Plot2DWidget(PlotWidget):
         :param model_wrapper: the wrapper of the model.
         :param parent: the parent of this Widget.
         """
-        super().__init__(parent)
+        self.widget = PlotWidget(parent)
 
         self.img = ImageItem()
-        self.addItem(self.img)
+        self.widget.addItem(self.img)
 
-        self.setAspectLocked(True)
+        self.widget.setAspectLocked(True)
         self.notify('model', model_wrapper.model)
 
         model_wrapper.add_observer(self, self.notify)

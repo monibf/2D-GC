@@ -4,7 +4,7 @@ from pyqtgraph.opengl import GLViewWidget
 from gc2d.view.palette.shader import PaletteShader
 
 
-class Plot3DWidget(GLViewWidget):
+class Plot3DWidget:
 
     def __init__(self, model_wrapper, parent=None):
         """
@@ -12,12 +12,12 @@ class Plot3DWidget(GLViewWidget):
         :param model_wrapper: the wrapper of the model.
         :param parent: the parent of this Widget.
         """
-        super().__init__(parent)
+        self.widget = GLViewWidget(parent)
 
-        self.setCameraPosition(distance=400)
+        self.widget.setCameraPosition(distance=400)
 
         self.surface = gl.GLSurfacePlotItem(computeNormals=False)
-        self.addItem(self.surface)
+        self.widget.addItem(self.surface)
 
         self.surface.translate(-len(model_wrapper.model.get_2d_chromatogram_data()) / 2,
                                -len(model_wrapper.model.get_2d_chromatogram_data()[0]) / 2, 0)
@@ -35,10 +35,10 @@ class Plot3DWidget(GLViewWidget):
         """
         if name == 'model':
             if value is None:
-                self.setVisible(False)
+                self.widget.setVisible(False)
             else:
-                if not self.isVisible():
-                    self.setVisible(True)
+                if not self.widget.isVisible():
+                    self.widget.setVisible(True)
 
                 self.surface.setData(z=value.get_2d_chromatogram_data())
                 self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))

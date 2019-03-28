@@ -88,10 +88,10 @@ class Window:
         dock_area.addDock(dock_2d, 'above', dock_3d)
 
         self.plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
-        dock_3d.addWidget(self.plot_3d)
+        dock_3d.addWidget(self.plot_3d.widget)
 
         self.plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
-        dock_2d.addWidget(self.plot_2d)
+        dock_2d.addWidget(self.plot_2d.widget)
     
     def keyPressEvent(self, event): 
         if event.key() == QtCore.Qt.Key_Escape:
