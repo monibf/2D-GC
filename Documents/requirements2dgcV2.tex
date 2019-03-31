@@ -1,0 +1,149 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[a4paper,margin=3.5cm,footskip=.5cm]{geometry}
+
+\usepackage{graphicx}
+
+\title{Requirements 2D-GC visualization}
+
+\author{
+  Baksteen, Sarah\\
+  \texttt{S3145034}
+  \and
+  Brink, Wouter\\
+  \texttt{S3862348}
+  \and
+  Gros, Oane\\
+  \texttt{S2972778}
+  \and
+  Jager, Maarten de \\
+  \texttt{S2957906}
+  \and
+  Jong, Michiel de \\
+  \texttt{S2550768}
+  \and
+  Strik, Oliver\\
+  \texttt{S3100693}
+}
+\date{}
+
+\usepackage{graphicx}
+
+\begin{document}
+\clearpage
+\maketitle
+\thispagestyle{empty}
+\begin{center}
+    \vfill
+    \includegraphics[width=0.8\textwidth]{UG_logo.jpg}
+    \vfill
+    
+    \Large
+    \textbf{Client} \\
+    Rohrbach, Léon \\
+    Figueiredo, Monique \\
+    
+    \vspace{1cm}
+    \textbf{TA} \\
+    Argyrousis, George
+    
+    \vspace{2cm}
+        Software Engineering \\
+        University of Groningen \\
+        March 10, 2019  \\
+        \empty
+        
+        \vspace{1cm}
+        Version 2.0
+\end{center}
+
+\newpage\setcounter{page}{1}
+\section{Introduction}
+
+2-dimensional Gas Chromatography (2D-GC) is a chemical technique to accurately identify and quantify small traces of compounds in samples. This analytical technique is used in Groningen to aid in the search for new biofuels. For this research, accurate and interactive software for 3D-visualization and analysis is necessary. 
+
+We aim to build a desktop app to visualise 2D-GC data, and try to work in comparative analysis, where the same analysis can be run smoothly on multiple samples. 
+
+
+
+\section{MoSCoW}
+% might need to (partially) be converted to user stories
+\subsection*{Critical Functional Requirements}
+\begin{itemize}
+	\item Show 2D-GC output .txt files as interactive 3-dimensional graphs, where the user can use intuitive controls to visually inspect the graph. These controls will include dragging to rotate the graph and scrolling to zoom in or out or scale the graph.
+	\item Show 2D-GC output .txt files as 2-dimensional graphs, with similar controls: scrolling to zoom in, and dragging to move across the zoomed in graph. 
+    \item Integration of the area under the curve between input x and y values should be possible, where the user has a module to draw a square over the 2D graph space, and will receive what the area under the curve is in that space. 
+\end{itemize}
+
+\subsection*{Important Functional Requirements}
+\begin{itemize}
+    \item Be able to save the image with any attached user inputs such as integration or labels as an image file, or as a specific format from which the graph and any user inputs would be able to be reloaded. 
+	\item Be able to select a freeform space to integrate over, with supplied extra integration parameters, such as how high to clip data.
+	\item Changing the colors of the visualizations between multiple presets, and optionally change the midpoint of the color range, so more color resolution is brought to different levels of the data. 
+    \item Be able to save peak data in a database, with any attached information, such as which sample it was from, integration value, labels etc.. The user should be able to retrieve previously saved information in a look-up table while looking at a new sample.
+	\item Automatic peak finding
+\end{itemize}
+
+\subsection*{Useful Functional Requirements}
+\begin{itemize}
+	\item Pipelining for comparisons between samples, where a single selection region or other user inputs could be preset into the program and done on multiple data files simultaneously.
+	\item Compound recognition/matching with the internal database, where older labelled data (which was identified with mass spectrometry) would automatically be recognized if it's already in the internal database, and new data shows a peak at the same position.
+	\item Interpolation over peaks to make them look smoother and prettier.  
+\end{itemize}
+\subsection*{Won't Do}
+\begin{itemize}
+	\item Linking to an outside Mass-Spectrometry (MS) library. This is something which would be useful, as the client may switch from an FID detector to an MS detector in the near future. However, this would add a layer of complexity, as MS data adds an extra dimension to the data. We think it best to focus on a stable program for FID visualization, as this can also be used for GCxGC-MS data. 
+\end{itemize}
+\subsection*{Non-functional requirements}
+\begin{itemize}
+	\item \textbf{Extensibility:} this is essential, as the client is preparing to switch to a different detection system, which alters the dimensionality of the data. We have to make sure that this extension would be easily incorporated in the program. 
+	\item \textbf{Technology:} the program needs to be able to run on older versions of operating systems, as the measurement software itself is run on windows XP. 
+\end{itemize}
+
+
+\section{User Stories}
+\begin{itemize}
+	\item As a chemical analyst, I want to find the quantity of a specific compound in multiple samples, and compare these quantities. 
+	\item As a chemical analyst, I want to quickly view the outcome of a diagnostic test by visually assaying the 3D graph. 
+	\item As a chemical analyst publishing research, I want to have a way to show the data in a visually appealing manner, so that a saved image would be appropriate for publication. 
+	\item As a chemical analyst, I want to be able to be able to find the quantity of a larger chemical group in my sample by freeform selection of groups of peaks. 
+	\item As a developer, I want to be able to extend the program to work with GCxGC-MS, where an extra identification dimension is added on top of the 2D-GC data. 
+\end{itemize}
+
+
+% Meeting log should be updated after every meeting
+\section{Meeting Log}
+\begin{center}
+ \begin{tabular}{ | l | l | }
+  \hline
+  \bf{Date} & \bf{Meeting log} \\
+  \hline
+  25/02/2019 & Talked about and discussed the requirements document. \\
+  \hline
+ \end{tabular}
+\end{center}
+
+% Change log should be updated on the latest before it's submitted
+\section{Change Log}
+\begin{center}
+ \begin{tabular}{ | l | l | l | }
+  \hline
+  \bf{Date} & \bf{Author} & \bf{Change log} \\
+  \hline
+  15/02/2019 & Oane Gros & Initial version \\
+  \hline
+  25/02/2019 & All & Introduction and MoSCoW \\
+  \hline
+  04/03/2019 & Wouter Brink, Oliver Strik & Added meeting and change logs\\
+  \hline
+  04/03/2019 & Wouter Brink & Added title page \\
+  \hline
+  08/03/2019 & Oane Gros & Added basic user stories and non-functional requirements \\
+  \hline
+  10/03/2019 & Oane Gros & Extended requirements to include more detailed description, and some alterations based on the first physical meeting with the client \\
+  \hline
+ \end{tabular}
+\end{center}
+
+\end{document}
+%lucky comment
