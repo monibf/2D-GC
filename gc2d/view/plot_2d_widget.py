@@ -1,5 +1,7 @@
 from pyqtgraph import ImageItem, PlotWidget
 
+from gc2d.controller.listener.plot_2d_listener import Plot2DListener
+
 
 class Plot2DWidget:
 
@@ -10,13 +12,12 @@ class Plot2DWidget:
         :param parent: the parent of this Widget.
         """
         self.widget = PlotWidget(parent)
-
+        self.widget.listener = Plot2DListener(self.widget, model_wrapper)  # Not yet Ready
         self.img = ImageItem()
         self.widget.addItem(self.img)
 
         self.widget.setAspectLocked(True)
         self.notify('model', model_wrapper.model)
-
         model_wrapper.add_observer(self, self.notify)
 
     def notify(self, name, value):
