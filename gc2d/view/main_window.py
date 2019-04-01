@@ -12,7 +12,7 @@ from gc2d.view.plot_3d_widget import Plot3DWidget
 from gc2d.view.integration_list import IntegrationList
 
 
-class Window(QMainWindow):
+class Window:
 
     # noinspection PyArgumentList
     def __init__(self, model_wrapper):
@@ -22,7 +22,7 @@ class Window(QMainWindow):
 
         :param model_wrapper: The model wrapper.
         """
-        super().__init__()
+        self.win = QMainWindow()
 
         self.model_wrapper = model_wrapper
         self.dialogs = []
@@ -37,10 +37,10 @@ class Window(QMainWindow):
         self.create_graph_views()  # Create 2D and 3D dock tabs.
 
         # TODO status bar.
-        status_bar = self.statusBar()
+        status_bar = self.win.statusBar()
         status_bar.addWidget(QLabel("Some status"))
 
-        self.show()  # Show the window.
+        self.win.show()  # Show the window.
 
     def create_menus(self):
         """
@@ -48,18 +48,24 @@ class Window(QMainWindow):
         :return: None
         """
 
-        main_menu = self.menuBar()
+        main_menu = self.win.menuBar()
 
+        # button objects need to be members because otherwise they get garbage collected
+        
         file_menu = main_menu.addMenu('File')
-        file_menu.addAction(OpenButton(self, self.model_wrapper))
-        file_menu.addAction(ExitButton(self))
+        self.open_button = OpenButton(self.win, self.model_wrapper)
+        file_menu.addAction(self.open_button.button)
+        self.exit_button = ExitButton(self.win)
+        file_menu.addAction(self.exit_button.button)
 
         edit_menu = main_menu.addMenu('Edit')
-        edit_menu.addAction(DrawButton(self, self.model_wrapper))
+        self.draw_button = DrawButton(self.win, self.model_wrapper)
+        edit_menu.addAction(self.draw_button.button)
         # TODO
 
         view_menu = main_menu.addMenu('View')
-        view_menu.addAction(ChoosePaletteButton(self, self.model_wrapper))
+        self.palette_chooser_button = ChoosePaletteButton(self.win, self.model_wrapper) 
+        view_menu.addAction(self.palette_chooser_button.button)
 
         tools_menu = main_menu.addMenu('Tools')
         # TODO
@@ -74,7 +80,7 @@ class Window(QMainWindow):
         :return: None. Later it should return a QWidget containing the views.
         """
         dock_area = DockArea()
-        self.setCentralWidget(dock_area)  # This is temporary
+        self.win.setCentralWidget(dock_area)  # This is temporary
 
         dock_3d = Dock('3D')
         dock_area.addDock(dock_3d)
@@ -83,7 +89,7 @@ class Window(QMainWindow):
         dock_area.addDock(dock_2d, 'above', dock_3d)
 
         self.plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
-        dock_3d.addWidget(self.plot_3d)
+        dock_3d.addWidget(self.plot_3d.widget)
 
         self.plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
         dock_2d.addWidget(self.plot_2d)
@@ -96,4 +102,4 @@ class Window(QMainWindow):
     
     def keyPressEvent(self, event): 
         if event.key() == QtCore.Qt.Key_Escape:
-            self.close()
+            self.win.close()
