@@ -9,7 +9,7 @@ class Selector(QObject):
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
         """
-        super().__init__(parent)
+        super().__init__(parent.window)
         self.window = parent
         self.model_wrapper = model_wrapper
         self.draw()
@@ -21,7 +21,7 @@ class Selector(QObject):
         :return: None
         """
         self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pen=(6,9), closed=True) 
-        self.window.plot_2d.addItem(self.roi)
+        self.window.plot_2d.widget.addItem(self.roi)
         self.roi.sigRegionChangeFinished.connect(self.update_mask)
         self.id = self.model_wrapper.add_integration(self.get_region(), self)
 

@@ -26,8 +26,7 @@ class ChoosePaletteButton:
         """
 
         self.dialog = QMainWindow(parent=None)
-        self.dialog.setWindowTitle("Integrate")
-        self.button.parent().dialogs.append(self.dialog)
+        self.dialog.setWindowTitle("Choose Palette")
         vbox = QWidget()
         self.dialog.setCentralWidget(vbox)
 
