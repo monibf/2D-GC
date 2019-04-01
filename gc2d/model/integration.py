@@ -4,7 +4,7 @@ import numpy as np
 
 class Integration:
 
-    def __init__(self, mask, index):
+    def __init__(self, mask, index, selector):
         """
         Container for a selection mask of a chromatogram
         Calculates mean area under the curve 
@@ -12,8 +12,9 @@ class Integration:
         :param index: an index to generate a label
         :return: None
         """
-        self.label = "integration " + str(index + 1) # count from 1 
+        self.label = "integration " + str(index + 1) # generate name 
         self.mask = mask
+        self.selector = selector
         self.value = np.sum(mask) / np.count_nonzero(mask)
 
     def update (self, mask=None, label=None):
@@ -29,6 +30,5 @@ class Integration:
             self.label = label
         
 
-    def get_list_item(self):
-
-        QListWidgetItem(self.label)
+    def destroy(self):
+        self.selector.destroy

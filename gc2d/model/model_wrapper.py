@@ -64,7 +64,7 @@ class ModelWrapper(Observable):
 
         self.notify('model', self.model)  # Notify all observers
     
-    def add_integration(self, mask):
+    def add_integration(self, mask, selector):
         """
         Appends a new integration data object to the self.integrations, with generated label
         Notifies the view that integration values have changed
@@ -72,7 +72,7 @@ class ModelWrapper(Observable):
         :return index: the index of this integration, to be used as identifier
         """
         index = len(self.integrations)
-        self.integrations.append(Integration(mask, index))
+        self.integrations.append(Integration(mask, index, selector))
         self.notify('integrationUpdate', self.integrations)
         return index
     
@@ -80,8 +80,12 @@ class ModelWrapper(Observable):
         """
         Update an integration mask, and notifies the view that integration values have been changed
         :param mask: the updated mask
-        :param index: the position of the altered integration in self.integrations
+        :param index: the position-id of the altered integration
         :return: None
         """
         self.integrations[index].update(mask, label)
+        self.notify('integrationUpdate', self.integrations)
+
+    def clear_integration(self, index):
+        del self.integrations[index]
         self.notify('integrationUpdate', self.integrations)
