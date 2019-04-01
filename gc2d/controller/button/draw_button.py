@@ -10,7 +10,7 @@ class DrawButton:
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
         """
-        self.button = QAction('Draw Selection', parent)
+        self.button = QAction('Draw Selection', parent.window)
         self.window = parent
         self.model_wrapper = model_wrapper
         self.button.setShortcut('Ctrl+D')
