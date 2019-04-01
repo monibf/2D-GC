@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QLabel
+from PyQt5.QtWidgets import QMainWindow, QLabel, QWidget
 
 from pyqtgraph import QtCore
 from pyqtgraph.dockarea import Dock, DockArea
@@ -9,6 +9,7 @@ from gc2d.controller.button.open_button import OpenButton
 from gc2d.controller.button.draw_button import DrawButton
 from gc2d.view.plot_2d_widget import Plot2DWidget
 from gc2d.view.plot_3d_widget import Plot3DWidget
+from gc2d.view.integration_list import IntegrationList
 
 
 class Window:
@@ -28,8 +29,8 @@ class Window:
         """The model wrapper."""
 
         # init the window settings.
-        self.win.resize(250, 150)
-        self.win.setWindowTitle('GCxGC')
+        self.resize(500, 500)
+        self.setWindowTitle('GCxGC')
 
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
@@ -91,7 +92,13 @@ class Window:
         dock_3d.addWidget(self.plot_3d.widget)
 
         self.plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
-        dock_2d.addWidget(self.plot_2d.widget)
+        dock_2d.addWidget(self.plot_2d)
+
+        #TODO: move away from this function
+        dock_list = Dock('integration')
+        dock_area.addDock(dock_list)
+        dock_list.addWidget(IntegrationList(self.model_wrapper, dock_list))
+
     
     def keyPressEvent(self, event): 
         if event.key() == QtCore.Qt.Key_Escape:

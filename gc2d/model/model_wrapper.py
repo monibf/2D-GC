@@ -2,6 +2,7 @@ import numpy as np
 
 from gc2d.model.model import Model
 from gc2d.observable import Observable
+from gc2d.model.integration import Integration
 
 
 class ModelWrapper(Observable):
@@ -13,6 +14,7 @@ class ModelWrapper(Observable):
         super().__init__()
         self.model = None
         """The model containing all information relating to the chromatogram"""
+        self.integrations = []
 
     def set_palette(self, palette):
         """
@@ -22,15 +24,6 @@ class ModelWrapper(Observable):
         """
         self.model.palette = palette
         self.notify('model.palette', self.model)
-
-    def get_integration(self):
-        """
-        Integrate using the current settings in the model.
-        :return: The integration value.
-        """
-
-        # Insert some hook to the integration module.
-        print("ModelWrapper.save_model() not yet implemented.")
 
     def save_model(self, location):
         """
@@ -70,3 +63,29 @@ class ModelWrapper(Observable):
         self.model = None
 
         self.notify('model', self.model)  # Notify all observers
+    
+    def add_integration(self, mask, selector):
+        """
+        Appends a new integration data object to the self.integrations, with generated label
+        Notifies the view that integration values have changed
+        :param mask: a selection mask of the chromatogram
+        :return index: the index of this integration, to be used as identifier
+        """
+        index = len(self.integrations)
+        self.integrations.append(Integration(mask, index, selector))
+        self.notify('integrationUpdate', self.integrations)
+        return index
+    
+    def update_integration(self, index, mask=None, label=None):
+        """
+        Update an integration mask, and notifies the view that integration values have been changed
+        :param mask: the updated mask
+        :param index: the position-id of the altered integration
+        :return: None
+        """
+        self.integrations[index].update(mask, label)
+        self.notify('integrationUpdate', self.integrations)
+
+    def clear_integration(self, index):
+        del self.integrations[index]
+        self.notify('integrationUpdate', self.integrations)
