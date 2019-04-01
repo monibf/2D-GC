@@ -17,8 +17,8 @@ if sys.version_info[0] < 3:
 
 if __package__ != "gc2d":
     import os.path
-    sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
+    sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 from gc2d.main import main
 
