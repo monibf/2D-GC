@@ -31,4 +31,5 @@ class Integration:
         
 
     def destroy(self):
-        self.selector.destroy
+        print("in integration.py destroys")
+        self.selector.destroy()

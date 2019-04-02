@@ -1,4 +1,4 @@
-from PyQt5.Qt import QObject
+from PyQt5.Qt import QObject, QPen, QColor
 from pyqtgraph import PolyLineROI 
 
 class Selector(QObject):
@@ -20,7 +20,11 @@ class Selector(QObject):
         the ROI is connected to save(self) which is called every time the ROI has been edited
         :return: None
         """
-        self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pen=(6,9), closed=True) 
+        pen = QPen()
+        pen.setStyle(1) # solid line
+        pen.setWidth(8)
+        pen.setColor(QColor("red"))
+        self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pen=pen, closed=True) 
         self.window.plot_2d.widget.addItem(self.roi)
         self.roi.sigRegionChangeFinished.connect(self.update_mask)
         self.id = self.model_wrapper.add_integration(self.get_region(), self)
@@ -47,5 +51,7 @@ class Selector(QObject):
         return self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.window.plot_2d.img)
 
     def destroy(self):
+        print("hey")
+        self.window.plot_2d.widget.removeItem(self.roi)
         fixed = self.roi.getSceneHandlePositions()
         return fixed
