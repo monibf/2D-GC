@@ -51,7 +51,6 @@ class Selector(QObject):
         return self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.window.plot_2d.img)
 
     def destroy(self):
-        print("hey")
         self.window.plot_2d.widget.removeItem(self.roi)
         fixed = self.roi.getSceneHandlePositions()
         return fixed
