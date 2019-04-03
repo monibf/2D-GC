@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QAction
 from gc2d.controller.selector import Selector
 
-class DrawButton:
+class DrawButton(QAction):
 
     def __init__(self, parent, model_wrapper):
         """ #TODO: this comment is what it should do, not what it does
@@ -10,12 +10,12 @@ class DrawButton:
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
         """
-        self.button = QAction('Draw Selection', parent.window)
+        super().__init__('Draw Selection', parent)
         self.window = parent
         self.model_wrapper = model_wrapper
-        self.button.setShortcut('Ctrl+D')
-        self.button.setStatusTip('Select integration area')
-        self.button.triggered.connect(self.draw)
+        self.setShortcut('Ctrl+D')
+        self.setStatusTip('Select integration area')
+        self.triggered.connect(self.draw)
         
     def draw(self):
         Selector(self.window, self.model_wrapper)
