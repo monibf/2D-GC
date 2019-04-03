@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QAction, QFileDialog
 
 
-class OpenButton:
+class OpenButton(QAction):
 
     def __init__(self, parent, model_wrapper):
         """
@@ -10,12 +10,12 @@ class OpenButton:
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
         """
-        self.button = QAction('Open', parent)
+        super().__init__('Open', parent)
         self.window = parent
         self. model_wrapper = model_wrapper
-        self.button.setShortcut('Ctrl+O')
-        self.button.setStatusTip('Open chromatography data')
-        self.button.triggered.connect(self.show_dialog)
+        self.setShortcut('Ctrl+O')
+        self.setStatusTip('Open chromatography data')
+        self.triggered.connect(self.show_dialog)
 
     def show_dialog(self):
         """
