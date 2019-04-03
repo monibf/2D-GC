@@ -12,7 +12,7 @@ from gc2d.view.plot_3d_widget import Plot3DWidget
 from gc2d.view.integration_list import IntegrationList
 
 
-class Window:
+class Window(QMainWindow):
 
     # noinspection PyArgumentList
     def __init__(self, model_wrapper):
@@ -22,15 +22,16 @@ class Window:
 
         :param model_wrapper: The model wrapper.
         """
-        self.window = QMainWindow()
+        super().__init__()
 
         self.model_wrapper = model_wrapper
-        self.dialogs = []
         """The model wrapper."""
 
+        self.dialogs = []
+
         # init the window settings.
-        self.window.resize(500, 500)
-        self.window.setWindowTitle('GCxGC')
+        self.resize(500, 500)
+        self.setWindowTitle('GCxGC')
 
         self.open_button = OpenButton(self.window, self.model_wrapper)
         self.exit_button = ExitButton(self.window)
@@ -45,10 +46,10 @@ class Window:
         self.create_graph_views()  # Create 2D and 3D dock tabs.
 
         # TODO status bar.
-        status_bar = self.window.statusBar()
+        status_bar = self.statusBar()
         status_bar.addWidget(QLabel("Some status"))
 
-        self.window.show()  # Show the window.
+        self.show()  # Show the window.
 
     def create_menus(self):
         """
@@ -56,7 +57,7 @@ class Window:
         :return: None
         """
 
-        main_menu = self.window.menuBar()
+        main_menu = self.menuBar()
 
         # button objects need to be members because otherwise they get garbage collected
         
@@ -87,7 +88,7 @@ class Window:
         :return: None. Later it should return a QWidget containing the views.
         """
         dock_area = DockArea()
-        self.window.setCentralWidget(dock_area)  # This is temporary
+        self.setCentralWidget(dock_area)  # This is temporary
 
         dock_3d = Dock('3D')
         dock_area.addDock(dock_3d)

@@ -5,7 +5,7 @@ from gc2d.controller.listener.plot_3d_listener import Plot3DListener
 from gc2d.view.palette.shader import PaletteShader
 
 
-class Plot3DWidget:
+class Plot3DWidget(GLViewWidget):
 
     def __init__(self, model_wrapper, parent=None):
         """
@@ -13,12 +13,12 @@ class Plot3DWidget:
         :param model_wrapper: the wrapper of the model.
         :param parent: the parent of this Widget.
         """
-        self.widget = GLViewWidget(parent)
-        self.widget.listener = Plot3DListener(self.widget, model_wrapper)
-        self.widget.setCameraPosition(distance=400)
+        super().__init__(parent=parent)
+        self.listener = Plot3DListener(self, model_wrapper)
+        self.setCameraPosition(distance=400)
 
         self.surface = gl.GLSurfacePlotItem(computeNormals=False)
-        self.widget.addItem(self.surface)
+        self.addItem(self.surface)
 
         self.surface.translate(-len(model_wrapper.model.get_2d_chromatogram_data()) / 2,
                                -len(model_wrapper.model.get_2d_chromatogram_data()[0]) / 2, 0)
@@ -36,9 +36,9 @@ class Plot3DWidget:
         """
         if name == 'model':
             if value is None:
-                self.widget.setVisible(False)
+                self.setVisible(False)
             else:
-                if not self.widget.isVisible():
+                if not self.isVisible():
                     self.widget.setVisible(True)
 
                 self.surface.setData(z=value.get_2d_chromatogram_data())
