@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QAction, QHBoxLayout, QLabel, QLayout, QListWidget, QListWidgetItem, QMainWindow, \
     QPushButton, QVBoxLayout, QWidget
 
-from gc2d.view.palette import palette
+from gc2d.view.palette.palette import Palette
 
 
 class OpenChoosePaletteAction(QAction):
@@ -53,7 +53,7 @@ class OpenChoosePaletteAction(QAction):
         select_button.clicked.connect(self.select)
         cancel_select_layout.addWidget(select_button)
 
-        for palt in palette.palettes:
+        for palt in Palette.palettes:
             item = QListWidgetItem()
             widg = QWidget()
             text = QLabel(palt.name)
@@ -73,7 +73,7 @@ class OpenChoosePaletteAction(QAction):
 
     def select(self):
         index = self.list.currentRow()
-        self.model_wrapper.set_palette(palette.palettes[index])
+        self.model_wrapper.set_palette(Palette.palettes[index])
         self.dialog.close()
 
     def close(self):

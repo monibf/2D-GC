@@ -14,6 +14,7 @@ class Model:
         self.__chromatogram_data = chromatogram_data
         """The data of the chromatogram stored as a 1D array """
         self.palette = palette.viridis
+        """The palette to color the data with """
         self.lowest = float('inf')
         """The lowest value in the chromatogram """
         self.highest = float('-inf')
