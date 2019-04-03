@@ -12,7 +12,7 @@ class OpenAction(QAction):
         """
         super().__init__('Open', parent)
         self.window = parent
-        self. model_wrapper = model_wrapper
+        self.model_wrapper = model_wrapper
         self.setShortcut('Ctrl+O')
         self.setStatusTip('Open chromatography data')
         self.triggered.connect(self.show_dialog)

@@ -1,15 +1,13 @@
-from PyQt5.QtWidgets import QMainWindow, QLabel, QWidget
-
-from pyqtgraph import QtCore
+from PyQt5.QtWidgets import QLabel, QMainWindow
 from pyqtgraph.dockarea import Dock, DockArea
 
-from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
+from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
 from gc2d.controller.action.open_action import OpenAction
-from gc2d.controller.action.draw_action import DrawAction
+from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
+from gc2d.view.integration_list import IntegrationList
 from gc2d.view.plot_2d_widget import Plot2DWidget
 from gc2d.view.plot_3d_widget import Plot3DWidget
-from gc2d.view.integration_list import IntegrationList
 
 
 class Window(QMainWindow):
@@ -60,7 +58,7 @@ class Window(QMainWindow):
         main_menu = self.menuBar()
 
         # action objects need to be members because otherwise they get garbage collected
-        
+
         file_menu = main_menu.addMenu('File')
 
         file_menu.addAction(self.open_button)
@@ -102,7 +100,7 @@ class Window(QMainWindow):
         self.plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
         dock_2d.addWidget(self.plot_2d)
 
-        #TODO: move away from this function
+        # TODO: move away from this function
         dock_list = Dock('integration')
         dock_area.addDock(dock_list)
         dock_list.addWidget(IntegrationList(self.model_wrapper, dock_list))

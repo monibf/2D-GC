@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QAction
+
 from gc2d.controller.selector import Selector
 
 
@@ -17,6 +18,6 @@ class DrawAction(QAction):
         self.setShortcut('Ctrl+D')
         self.setStatusTip('Select integration area')
         self.triggered.connect(self.draw)
-        
+
     def draw(self):
         Selector(self.window, self.model_wrapper)

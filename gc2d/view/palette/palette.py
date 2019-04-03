@@ -57,4 +57,3 @@ viridis = Palette(
         (255, 231, 37)
     ]
 )
-

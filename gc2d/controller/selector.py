@@ -1,5 +1,6 @@
-from PyQt5.Qt import QObject, QPen, QColor
-from pyqtgraph import PolyLineROI 
+from PyQt5.Qt import QColor, QObject, QPen
+from pyqtgraph import PolyLineROI
+
 
 class Selector(QObject):
 
@@ -11,8 +12,10 @@ class Selector(QObject):
         """
         super().__init__(parent)
         self.model_wrapper = model_wrapper
+        self.roi = None
+        self.id = None
         self.draw()
-        
+
     def draw(self):
         """
         Draw region of interest (ROI)
@@ -20,10 +23,10 @@ class Selector(QObject):
         :return: None
         """
         pen = QPen()
-        pen.setStyle(1) # solid line
+        pen.setStyle(1)  # solid line
         pen.setWidth(8)
         pen.setColor(QColor("red"))
-        self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pen=pen, closed=True) 
+        self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pen=pen, closed=True)
         self.parent().plot_2d.addItem(self.roi)  # this is hacky
         self.roi.sigRegionChangeFinished.connect(self.update_mask)
         self.id = self.model_wrapper.add_integration(self.get_region(), self)
@@ -38,7 +41,7 @@ class Selector(QObject):
     def update_label(self, string):
         self.model_wrapper.update_integration(self.currentRow(), label=string)
 
-    def clearValue(self, row):
+    def clear_value(self, row):
         self.plot_2d.removeItem(self.roi)
         self.model_wrapper.clear_integration(row)
 

@@ -1,5 +1,5 @@
-from PyQt5.QtWidgets import QAction, QMainWindow, QVBoxLayout, QWidget, QPushButton, QListWidget, QLabel, QHBoxLayout, \
-    QLayout, QListWidgetItem
+from PyQt5.QtWidgets import QAction, QHBoxLayout, QLabel, QLayout, QListWidget, QListWidgetItem, QMainWindow, \
+    QPushButton, QVBoxLayout, QWidget
 
 from gc2d.view.palette import palette
 
@@ -79,4 +79,3 @@ class OpenChoosePaletteAction(QAction):
     def close(self):
         self.parent().dialogs.remove(self.dialog)
         self.dialog.close()
-
