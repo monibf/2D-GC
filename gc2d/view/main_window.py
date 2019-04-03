@@ -3,10 +3,10 @@ from PyQt5.QtWidgets import QMainWindow, QLabel, QWidget
 from pyqtgraph import QtCore
 from pyqtgraph.dockarea import Dock, DockArea
 
-from gc2d.controller.button.choose_palette_button import ChoosePaletteButton
-from gc2d.controller.button.exit_button import ExitButton
-from gc2d.controller.button.open_button import OpenButton
-from gc2d.controller.button.draw_button import DrawButton
+from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
+from gc2d.controller.action.exit_action import ExitAction
+from gc2d.controller.action.open_action import OpenAction
+from gc2d.controller.action.draw_action import DrawAction
 from gc2d.view.plot_2d_widget import Plot2DWidget
 from gc2d.view.plot_3d_widget import Plot3DWidget
 from gc2d.view.integration_list import IntegrationList
@@ -33,10 +33,10 @@ class Window(QMainWindow):
         self.resize(500, 500)
         self.setWindowTitle('GCxGC')
 
-        self.open_button = OpenButton(self, self.model_wrapper)
-        self.exit_button = ExitButton(self)
-        self.draw_button = DrawButton(self, self.model_wrapper)
-        self.palette_chooser_button = ChoosePaletteButton(self, self.model_wrapper)
+        self.open_button = OpenAction(self, self.model_wrapper)
+        self.exit_button = ExitAction(self)
+        self.draw_button = DrawAction(self, self.model_wrapper)
+        self.palette_chooser_button = OpenChoosePaletteAction(self, self.model_wrapper)
 
         self.plot_2d = None
         self.plot_3d = None
@@ -59,7 +59,7 @@ class Window(QMainWindow):
 
         main_menu = self.menuBar()
 
-        # button objects need to be members because otherwise they get garbage collected
+        # action objects need to be members because otherwise they get garbage collected
         
         file_menu = main_menu.addMenu('File')
 
