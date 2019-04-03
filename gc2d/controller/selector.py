@@ -9,8 +9,7 @@ class Selector(QObject):
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
         """
-        super().__init__(parent.window)
-        self.window = parent
+        super().__init__(parent)
         self.model_wrapper = model_wrapper
         self.draw()
         
@@ -25,7 +24,7 @@ class Selector(QObject):
         pen.setWidth(8)
         pen.setColor(QColor("red"))
         self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pen=pen, closed=True) 
-        self.window.plot_2d.widget.addItem(self.roi)
+        self.parent().plot_2d.addItem(self.roi)  # this is hacky
         self.roi.sigRegionChangeFinished.connect(self.update_mask)
         self.id = self.model_wrapper.add_integration(self.get_region(), self)
 
@@ -40,7 +39,7 @@ class Selector(QObject):
         self.model_wrapper.update_integration(self.currentRow(), label=string)
 
     def clearValue(self, row):
-        self.window.plot_2d.removeItem(self.roi)
+        self.plot_2d.removeItem(self.roi)
         self.model_wrapper.clear_integration(row)
 
     def get_region(self):
@@ -48,9 +47,9 @@ class Selector(QObject):
         generates a mask for ROI region of the current chromatogram
         :return: The generated mask of the chromatogram 
         """
-        return self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.window.plot_2d.img)
+        return self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.parent().plot_2d.img)
 
     def destroy(self):
-        self.window.plot_2d.widget.removeItem(self.roi)
+        self.parent().plot_2d.removeItem(self.roi)
         fixed = self.roi.getSceneHandlePositions()
         return fixed

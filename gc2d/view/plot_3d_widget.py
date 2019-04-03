@@ -39,7 +39,7 @@ class Plot3DWidget(GLViewWidget):
                 self.setVisible(False)
             else:
                 if not self.isVisible():
-                    self.widget.setVisible(True)
+                    self.setVisible(True)
 
                 self.surface.setData(z=value.get_2d_chromatogram_data())
                 self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))

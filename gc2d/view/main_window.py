@@ -33,10 +33,10 @@ class Window(QMainWindow):
         self.resize(500, 500)
         self.setWindowTitle('GCxGC')
 
-        self.open_button = OpenButton(self.window, self.model_wrapper)
-        self.exit_button = ExitButton(self.window)
+        self.open_button = OpenButton(self, self.model_wrapper)
+        self.exit_button = ExitButton(self)
         self.draw_button = DrawButton(self, self.model_wrapper)
-        self.palette_chooser_button = ChoosePaletteButton(self.window, self.model_wrapper)
+        self.palette_chooser_button = ChoosePaletteButton(self, self.model_wrapper)
 
         self.plot_2d = None
         self.plot_3d = None
@@ -63,17 +63,17 @@ class Window(QMainWindow):
         
         file_menu = main_menu.addMenu('File')
 
-        file_menu.addAction(self.open_button.button)
+        file_menu.addAction(self.open_button)
 
-        file_menu.addAction(self.exit_button.button)
+        file_menu.addAction(self.exit_button)
 
         edit_menu = main_menu.addMenu('Edit')
-        edit_menu.addAction(self.draw_button.button)
+        edit_menu.addAction(self.draw_button)
         # TODO
 
         view_menu = main_menu.addMenu('View')
 
-        view_menu.addAction(self.palette_chooser_button.button)
+        view_menu.addAction(self.palette_chooser_button)
 
         tools_menu = main_menu.addMenu('Tools')
         # TODO
@@ -97,10 +97,10 @@ class Window(QMainWindow):
         dock_area.addDock(dock_2d, 'above', dock_3d)
 
         self.plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
-        dock_3d.addWidget(self.plot_3d.widget)
+        dock_3d.addWidget(self.plot_3d)
 
         self.plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
-        dock_2d.addWidget(self.plot_2d.widget)
+        dock_2d.addWidget(self.plot_2d)
 
         #TODO: move away from this function
         dock_list = Dock('integration')
