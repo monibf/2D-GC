@@ -3,7 +3,7 @@ from pyqtgraph.dockarea import Dock, DockArea
 
 from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
-from gc2d.controller.action.open_action import OpenAction
+from gc2d.controller.action.open_file_action import OpenFileAction
 from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
 from gc2d.view.integration_list import IntegrationList
 from gc2d.view.plot_2d_widget import Plot2DWidget
@@ -31,7 +31,7 @@ class Window(QMainWindow):
         self.resize(500, 500)
         self.setWindowTitle('GCxGC')
 
-        self.open_button = OpenAction(self, self.model_wrapper)
+        self.open_button = OpenFileAction(self, self.model_wrapper)
         self.exit_button = ExitAction(self)
         self.draw_button = DrawAction(self, self.model_wrapper)
         self.palette_chooser_button = OpenChoosePaletteAction(self, self.model_wrapper)
