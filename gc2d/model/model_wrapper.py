@@ -87,5 +87,6 @@ class ModelWrapper(Observable):
         self.notify('integrationUpdate', self.integrations)
 
     def clear_integration(self, index):
+        self.integrations[index].destroy()
         del self.integrations[index]
         self.notify('integrationUpdate', self.integrations)
