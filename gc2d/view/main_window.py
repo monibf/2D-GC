@@ -31,10 +31,10 @@ class Window(QMainWindow):
         self.resize(500, 500)
         self.setWindowTitle('GCxGC')
 
-        self.open_button = OpenFileAction(self, self.model_wrapper)
-        self.exit_button = ExitAction(self)
-        self.draw_button = DrawAction(self, self.model_wrapper)
-        self.palette_chooser_button = OpenChoosePaletteAction(self, self.model_wrapper)
+        self.open_file_action = OpenFileAction(self, self.model_wrapper)
+        self.exit_action = ExitAction(self)
+        self.draw_action = DrawAction(self, self.model_wrapper)
+        self.open_palette_chooser_action = OpenChoosePaletteAction(self, self.model_wrapper)
 
         self.plot_2d = None
         self.plot_3d = None
@@ -61,17 +61,16 @@ class Window(QMainWindow):
 
         file_menu = main_menu.addMenu('File')
 
-        file_menu.addAction(self.open_button)
+        file_menu.addAction(self.open_file_action)
 
-        file_menu.addAction(self.exit_button)
+        file_menu.addAction(self.exit_action)
 
         edit_menu = main_menu.addMenu('Edit')
-        edit_menu.addAction(self.draw_button)
-        # TODO
+        edit_menu.addAction(self.draw_action)
 
         view_menu = main_menu.addMenu('View')
 
-        view_menu.addAction(self.palette_chooser_button)
+        view_menu.addAction(self.open_palette_chooser_action)
 
         tools_menu = main_menu.addMenu('Tools')
         # TODO
