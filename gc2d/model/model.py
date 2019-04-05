@@ -7,23 +7,17 @@ class Model:
         """
         The Model is responsible for storing the state of the program.
 
-        :param chromatogram_data: The 1D array containing the chromatography data.
+        :param chromatogram_data: The 2D array containing the chromatography data.
         :param period: The period of the data.
         """
 
         self.__chromatogram_data = chromatogram_data
-        """The data of the chromatogram stored as a 1D array """
+        """The data of the chromatogram stored as a 2D array """
         self.palette = palette.viridis
-        self.lowest = float('inf')
+        self.lowest = self.__chromatogram_data.min()
         """The lowest value in the chromatogram """
-        self.highest = float('-inf')
+        self.highest = self.__chromatogram_data.max()
         """The highest value in the chromatogram """
-        for row in chromatogram_data:
-            for element in row:
-                if self.highest < element:
-                    self.highest = element
-                if self.lowest > element:
-                    self.lowest = element
 
         self.lower_bound = self.lowest
         """ The lower bound of the intensity scale """
