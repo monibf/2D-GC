@@ -1,10 +1,10 @@
 import numpy as np
 from pyqtgraph import ColorMap
 
-palettes = []
-
 
 class Palette(ColorMap):
+
+    palettes = []
 
     def __init__(self, name, colors):
         """
@@ -13,7 +13,7 @@ class Palette(ColorMap):
         """
         super().__init__(pos=np.linspace(0.0, 1.0, len(colors)), color=colors)
         self.name = name
-        palettes.append(self)
+        Palette.palettes.append(self)
 
     def __call__(self, *args):
         """
@@ -57,4 +57,3 @@ viridis = Palette(
         (255, 231, 37)
     ]
 )
-

@@ -1,4 +1,3 @@
-from PyQt5.Qt import QListWidgetItem
 import numpy as np
 
 
@@ -12,15 +11,16 @@ class Integration:
         :param index: an index to generate a label
         :return: None
         """
-        self.label = "integration " + str(index + 1) # generate name 
+        self.label = "integration " + str(index + 1)  # generate name
         self.mask = mask
         self.selector = selector
         self.value = np.sum(mask) / np.count_nonzero(mask)
 
-    def update (self, mask=None, label=None):
+    def update(self, mask=None, label=None):
         """
         updates the mask and integration value and/or label
-        :param mask: the new mask 
+        :param mask: the new mask
+        :param label: TODO
         :return: None
         """
         if mask is not None:
@@ -28,7 +28,6 @@ class Integration:
             self.value = np.sum(mask) / np.count_nonzero(mask)
         if label is not None:
             self.label = label
-        
 
     def destroy(self):
         self.selector.destroy()
