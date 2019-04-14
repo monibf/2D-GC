@@ -1,8 +1,7 @@
 import numpy as np
-
 from pyqtgraph import PlotWidget
 
-from gc2d.controller.listener.plot_2d_listener import Plot2DListener
+from gc2d.controller.listener.plot_1d_listener import Plot1DListener
 
 
 class Plot1DWidget(PlotWidget):
@@ -15,7 +14,7 @@ class Plot1DWidget(PlotWidget):
         """
         super().__init__(parent=parent)
 
-        self.listener = Plot2DListener(self, model_wrapper)
+        self.listener = Plot1DListener(self, model_wrapper)
         self.curve = self.plot(pen='y')
         self.notify('model', model_wrapper.model)
         model_wrapper.add_observer(self, self.notify)
