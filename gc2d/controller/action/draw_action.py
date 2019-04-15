@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QAction
 
-from gc2d.controller.selector import Selector
+from gc2d.controller.integration.selector import Selector
 
 
 class DrawAction(QAction):
@@ -20,4 +20,4 @@ class DrawAction(QAction):
         self.triggered.connect(self.draw)
 
     def draw(self):
-        Selector(self.window, self.model_wrapper)
+        Selector(self.model_wrapper)

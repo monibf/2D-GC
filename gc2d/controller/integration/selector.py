@@ -4,13 +4,13 @@ from pyqtgraph import PolyLineROI
 
 class Selector(QObject):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, model_wrapper):
         """ 
         Selector draws a Region of Interest, and sends + updates the selected region as mask to the model.
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
         """
-        super().__init__(parent)
+        super().__init__()
         self.model_wrapper = model_wrapper
         self.roi = None
         self.id = None
@@ -24,12 +24,11 @@ class Selector(QObject):
         """
         pen = QPen()
         pen.setStyle(1)  # solid line
-        pen.setWidth(8)
+        pen.setWidth(4)
         pen.setColor(QColor("red"))
         self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pen=pen, closed=True)
-        self.parent().plot_2d.addItem(self.roi)  # this is hacky
-        self.roi.sigRegionChangeFinished.connect(self.update_mask)
-        self.id = self.model_wrapper.add_integration(self.get_region(), self)
+        self.id = self.model_wrapper.get_new_key()
+        self.model_wrapper.add_integration(self, self.id)
 
     def update_mask(self):
         """
@@ -38,21 +37,18 @@ class Selector(QObject):
         """
         self.model_wrapper.update_integration(self.id, mask=self.get_region())
 
-    def update_label(self, string):
-        self.model_wrapper.update_integration(self.currentRow(), label=string)
-
-    def clear_value(self, row):
-        self.plot_2d.removeItem(self.roi)
-        self.model_wrapper.clear_integration(row)
+    def set_viewport(self, img):
+        self.viewport = img
+        self.roi.sigRegionChangeFinished.connect(self.update_mask)
+        self.update_mask()
 
     def get_region(self):
         """
         generates a mask for ROI region of the current chromatogram
         :return: The generated mask of the chromatogram 
         """
-        return self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.parent().plot_2d.img)
+        return self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.viewport)
 
-    def destroy(self):
-        self.parent().plot_2d.removeItem(self.roi)
-        fixed = self.roi.getSceneHandlePositions()
-        return fixed
+    def get_handles(self):
+        return self.roi.getSceneHandlePositions()
+        

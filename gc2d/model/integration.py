@@ -3,7 +3,7 @@ import numpy as np
 
 class Integration:
 
-    def __init__(self, mask, index, selector):
+    def __init__(self, key, selector):
         """
         Container for a selection mask of a chromatogram
         Calculates mean area under the curve 
@@ -11,10 +11,10 @@ class Integration:
         :param index: an index to generate a label
         :return: None
         """
-        self.label = "integration " + str(index + 1)  # generate name
-        self.mask = mask
+        self.label = "integration " + str(key + 1)  # generate name
+        self.id = key
         self.selector = selector
-        self.value = np.sum(mask) / np.count_nonzero(mask)
+        # self.value = np.sum(mask) / np.count_nonzero(mask)
 
     def update(self, mask=None, label=None):
         """
@@ -29,5 +29,5 @@ class Integration:
         if label is not None:
             self.label = label
 
-    def destroy(self):
-        self.selector.destroy()
+    
+

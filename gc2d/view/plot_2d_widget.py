@@ -16,6 +16,7 @@ class Plot2DWidget(PlotWidget):
         self.listener = Plot2DListener(self, model_wrapper)  # Not yet Ready
         self.img = ImageItem()
         self.addItem(self.img)
+        self.wrapper_temp = model_wrapper #TEMPORARY
 
         self.setAspectLocked(True)
         self.notify('model', model_wrapper.model)
@@ -27,11 +28,17 @@ class Plot2DWidget(PlotWidget):
         :return: None
         """
 
-        if name == 'model':
+        
+        if name == 'newIntegration':
+            self.addItem(value.selector.roi)
+            value.selector.set_viewport(self.img)
+        elif name == 'removeIntegration':
+            self.removeItem(value.selector.roi)
+        elif name == 'model':
             if value is None:
                 self.img.clear()
             else:
                 self.img.setImage(value.get_2d_chromatogram_data().clip(value.lower_bound, value.upper_bound),
                                   lut=value.palette)
-        if name == 'model.palette':
+        elif name == 'model.palette':
             self.img.setLookupTable(value.palette)

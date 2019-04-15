@@ -1,6 +1,6 @@
 from PyQt5 import QtCore
 from PyQt5.Qt import QHeaderView, QPushButton, QTableWidget, QTableWidgetItem
-
+from gc2d.controller.integration.handler import Handler
 
 class IntegrationList(QTableWidget):
     def __init__(self, model_wrapper, parent=None):
@@ -11,12 +11,12 @@ class IntegrationList(QTableWidget):
         :param parent: the parent of this Widget.
         """
         super().__init__(parent)
-        self.model_wrapper = model_wrapper
 
+        self.showing = []
+        self.handler = Handler(model_wrapper)
         model_wrapper.add_observer(self, self.notify)
-        # noinspection PyUnresolvedReferences
+        
         self.itemSelectionChanged.connect(self.select)
-        # noinspection PyUnresolvedReferences
         self.cellChanged.connect(self.change_label)
 
         self.setColumnCount(3)
@@ -31,38 +31,39 @@ class IntegrationList(QTableWidget):
         :return: None
         """
         if name == 'integrationUpdate':
-            self.redraw_list(value)
+            self.redraw_row(value)
+        elif name == 'newIntegration':
+            self.new_row(value)
         elif name == 'model':
             if value is None:
                 self.clear()
 
-    def redraw_list(self, value):
+    def new_row(self, integration):
+        row = self.rowCount()
+        self.insertRow(row)
+        clear_button = QPushButton()
+        clear_button.setText('Clear')
+        clear_button.pressed.connect(lambda: self.clear_value(integration.id))
+        self.setCellWidget(row, 2, clear_button)
+        self.showing.append(integration.id)
+        self.redraw_row(integration)
+
+    def redraw_row(self, integration):
         """
         Takes the Integration objects from param value and draws them in the integrationList
         :param value: list of Integration objects
         :return: None
         """
+        if integration.id not in self.showing:
+            return
         self.blockSignals(True)
-        if len(value) > self.rowCount():
-            # add row
-            row = len(value) - 1
-            self.insertRow(row)
-            clear_button = QPushButton()
-            clear_button.setText('Clear')
-            # noinspection PyUnresolvedReferences
-            clear_button.pressed.connect(lambda: self.clear_value(row))
-            self.setCellWidget(row, 2, clear_button)
-        elif len(value) < self.rowCount():
-            # remove row
-            self.removeRow(len(value))
-
-        for row, integration in enumerate(value):
-            # update values
-            self.setItem(row, 0, QTableWidgetItem(integration.label))
-            value = QTableWidgetItem(str(integration.value))
-            value.setFlags(QtCore.Qt.ItemIsEnabled)
-            self.setItem(row, 1, value)
+        row = self.showing.index(integration.id)
+        self.setItem(row, 0, QTableWidgetItem(integration.label))
+        value_item = QTableWidgetItem(str(integration.value))
+        value_item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
+        self.setItem(row, 1, value_item)
         self.blockSignals(False)
+    
 
     def select(self):
         return
@@ -73,12 +74,11 @@ class IntegrationList(QTableWidget):
         Takes an edited label and saves this to the appropriate Integration object in the model_wrapper
         :return: None
         """
-        if self.currentColumn() == 0:  # currently only labels can be edited
-            self.model_wrapper.update_integration(self.currentRow(), label=self.currentItem().text())
-
-    def clear_value(self, row):
-        """
-        Removes an integration from the model wrapper
-        :return: None
-        """
-        self.model_wrapper.clear_integration(row)
+        self.handler.change_label(self.showing[self.currentRow()], self.currentItem().text())
+       
+    def clear_value(self, key):
+        row = self.showing.index(key)
+        self.removeRow(row)
+        self.handler.clear_value(key)   
+        del self.showing[row]
+        
