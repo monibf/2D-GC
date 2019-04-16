@@ -77,19 +77,32 @@ class ModelWrapper(Observable):
         self.notify('newIntegration', self.integrations[key])
     
     def get_new_key(self):
+        """
+        Generates a new identifier for an integration value
+        :return: a unique identifier 
+        """
         self.integrate_id += 1
         return self.integrate_id - 1
 
-    def update_integration(self, index, mask=None, label=None):
+    def update_integration(self, key, mask=None, label=None):
         """
         Update an integration mask, and notifies the view that integration values have been changed
         :param mask: the updated mask
         :param index: the key of the altered integration
         :return: None
         """
-        self.integrations[index].update(mask, label)
-        self.notify('integrationUpdate', self.integrations[index])
+        self.integrations[key].update(mask, label)
+        self.notify('integrationUpdate', self.integrations[key])
+    
+    def toggle_show(self, key):
+        #still in progress, should show integration in view
+        self.notify('toggleIntegration', self.integrations[key])
 
-    def clear_integration(self, index):
-        self.notify('removeIntegration', self.integrations[index])
-        del self.integrations[index]
+    def clear_integration(self, key):
+        """
+        Removes an integration and notifies view that this has happened
+        :param key: identifier of the integration to be removed
+        :return: None
+        """
+        self.notify('removeIntegration', self.integrations[key])
+        del self.integrations[key]

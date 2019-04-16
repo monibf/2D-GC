@@ -49,6 +49,6 @@ class Selector(QObject):
         """
         return self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.viewport)
 
-    def get_handles(self):
-        return self.roi.getSceneHandlePositions()
+    # def get_handles(self):
+    #     return self.roi.getSceneHandlePositions()
         

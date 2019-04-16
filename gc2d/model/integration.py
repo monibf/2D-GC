@@ -14,7 +14,6 @@ class Integration:
         self.label = "integration " + str(key + 1)  # generate name
         self.id = key
         self.selector = selector
-        # self.value = np.sum(mask) / np.count_nonzero(mask)
 
     def update(self, mask=None, label=None):
         """
