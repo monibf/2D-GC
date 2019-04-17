@@ -67,7 +67,6 @@ class PaletteChooser(QMainWindow):
 
 
     def closeEvent(self, event):
-        print("closing")
         self.on_close()
         event.accept()
     
