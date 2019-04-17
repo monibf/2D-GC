@@ -27,8 +27,10 @@ class OpenChoosePaletteAction(QAction):
         if self.dialog is None:
             self.dialog = PaletteChooser(self.on_select, self.on_close)
             self.parent().dialogs.append(self.dialog)
-        else:
-            self.dialog.activateWindow()
+        
+        self.dialog.show()
+        self.dialog.raise_()
+        self.dialog.activateWindow()
 
     def on_select(self, palette):
         self.model_wrapper.set_palette(palette)

@@ -58,7 +58,6 @@ class PaletteChooser(QMainWindow):
 
             self.list.addItem(item)
             self.list.setItemWidget(item, widg)
-        self.show()
         
     def select(self):
         index = self.list.currentRow()
