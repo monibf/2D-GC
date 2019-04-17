@@ -66,6 +66,8 @@ class PaletteChooser(QMainWindow):
 
 
     def closeEvent(self, event):
+        """ Overrides the closing event to execute the on_close callback first.
+        This is better than overriding close() because thhis will also execute when the user presses the x button on the top of the window."""
         self.on_close()
         event.accept()
     
