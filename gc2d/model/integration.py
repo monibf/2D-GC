@@ -15,6 +15,7 @@ class Integration:
         self.label = "integration " + str(key + 1)  # generate name
         self.id = key
         self.selector = selector
+        self.mask = None
         self.value = None
 
     def update(self, mask=None, label=None):
