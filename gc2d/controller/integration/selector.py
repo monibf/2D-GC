@@ -6,14 +6,15 @@ class Selector(QObject):
 
     def __init__(self, model_wrapper):
         """ 
-        Selector draws a Region of Interest, and sends + updates the selected region as mask to the model.
-        :param parent: The parent widget
+        Selector can draw a Region of Interest once a viewport (pyqtgraph plot) is set
+        It sends + updates the selected region as mask in the model
         :param model_wrapper: The Model Wrapper
         """
         super().__init__()
         self.model_wrapper = model_wrapper
         self.roi = None
         self.id = None
+        self.viewport = None
         self.draw()
 
     def draw(self):
@@ -35,10 +36,17 @@ class Selector(QObject):
         Updates region mask in model 
         :return: None
         """
+        if self.viewport is None:
+            return
         self.model_wrapper.update_integration(self.id, mask=self.get_region())
 
-    def set_viewport(self, img):
-        self.viewport = img
+    def set_viewport(self, plot):
+        """
+        sets a pyqtgraph imageItem to find the viewport of the screen, so the current array region can be found
+        :param plot: a pyqtgraph imageitem, usually a 2d plot
+        :return: None
+        """
+        self.viewport = plot
         self.roi.sigRegionChangeFinished.connect(self.update_mask)
         self.update_mask()
 
@@ -50,5 +58,6 @@ class Selector(QObject):
         return self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.viewport)
 
     # def get_handles(self):
+    #     # will be reused in later iterations of the code
     #     return self.roi.getSceneHandlePositions()
         

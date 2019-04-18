@@ -70,7 +70,7 @@ class ModelWrapper(Observable):
         Appends a new integration data object to the self.integrations, with generated label
         Notifies the view that integration values have changed
         :param mask: a selection mask of the chromatogram
-        :param selector: TODO
+        :param selector: Selector object, drawing a region of interest in a plot2d
         :return index: the index of this integration, to be used as identifier
         """
         self.integrations[key] = Integration(key, selector)
@@ -87,8 +87,9 @@ class ModelWrapper(Observable):
     def update_integration(self, key, mask=None, label=None):
         """
         Update an integration mask, and notifies the view that integration values have been changed
-        :param mask: the updated mask
-        :param index: the key of the altered integration
+        :param key: the key of the altered integration
+        :param mask: an updated mask
+        :parame label: an updated label
         :return: None
         """
         self.integrations[key].update(mask, label)

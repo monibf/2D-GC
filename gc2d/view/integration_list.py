@@ -12,7 +12,11 @@ class IntegrationList(QTableWidget):
         """
         super().__init__(parent)
 
-        self.showing = []
+        # self.showing contains the id of each shown integration
+        # the index in showing corresponds with the row in the table
+        self.showing = [] 
+
+        # self.handler is a controller for all actions from this view with model_wrapper
         self.handler = Handler(model_wrapper)
         model_wrapper.add_observer(self, self.notify)
         
@@ -69,7 +73,7 @@ class IntegrationList(QTableWidget):
         """
         if integration.id not in self.showing:
             return
-        self.blockSignals(True)
+        self.blockSignals(True) # signals are blocked during redraw so cellChanged -> change_label is not called
         row = self.showing.index(integration.id)
         self.setItem(row, 1, QTableWidgetItem(integration.label))
         value_item = QTableWidgetItem(str(integration.value))
