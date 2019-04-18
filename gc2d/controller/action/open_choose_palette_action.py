@@ -1,7 +1,7 @@
 
 from PyQt5.QtWidgets import QAction
 
-from gc2d.controller.menus.palette_chooser import PaletteChooser
+from gc2d.controller.dialogs.palette_chooser import PaletteChooser
 
 class OpenChoosePaletteAction(QAction):
 
