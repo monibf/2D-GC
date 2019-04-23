@@ -12,15 +12,25 @@ class Plot1DListener(WidgetListener):
         :param model_wrapper: the model wrapper
         """
         super().__init__(plot1d)
+
         self.model_wrapper = model_wrapper
+        """ The model wrapper this potentially interacts with. This may not be necessary later on. """
 
     def mouse_scroll_event(self, event):
+        """
+        TODO Currently this is a template to show the potential of this.
+        :param event: The scroll_event.
+        :return: None? Check the returns of the default events. This might be a requirement.
+        """
+
         mods = event.modifiers()
 
+        # Strip modifiers.
         ctrl = mods & Qt.ControlModifier
         shift = mods & Qt.ShiftModifier
         alt = mods & Qt.AltModifier
 
+        # Every combination of them.
         if ctrl and shift and alt:
             print("Ctrl + Shift + Alt")
         elif ctrl and shift:
@@ -38,4 +48,5 @@ class Plot1DListener(WidgetListener):
         else:
             print("none")
 
+        # Do the default stuff.
         super().mouse_scroll_event(event)
