@@ -14,7 +14,8 @@ class ModelWrapper(Observable):
         super().__init__()
         self.model = None
         """The model containing all information relating to the chromatogram"""
-        self.integrations = []
+        self.integrations = {}
+        self.integrate_id = 0
 
     def set_palette(self, palette):
         """
@@ -64,30 +65,45 @@ class ModelWrapper(Observable):
 
         self.notify('model', self.model)  # Notify all observers
 
-    def add_integration(self, mask, selector):
+    def add_integration(self, selector, key):
         """
         Appends a new integration data object to the self.integrations, with generated label
         Notifies the view that integration values have changed
         :param mask: a selection mask of the chromatogram
-        :param selector: TODO
+        :param selector: Selector object, drawing a region of interest in a plot2d
         :return index: the index of this integration, to be used as identifier
         """
-        index = len(self.integrations)
-        self.integrations.append(Integration(mask, index, selector))
-        self.notify('integrationUpdate', self.integrations)
-        return index
+        self.integrations[key] = Integration(key, selector)
+        self.notify('newIntegration', self.integrations[key])
+    
+    def get_new_key(self):
+        """
+        Generates a new identifier for an integration value
+        :return: a unique identifier 
+        """
+        self.integrate_id += 1
+        return self.integrate_id - 1
 
-    def update_integration(self, index, mask=None, label=None):
+    def update_integration(self, key, mask=None, label=None):
         """
         Update an integration mask, and notifies the view that integration values have been changed
-        :param mask: the updated mask
-        :param index: the position-id of the altered integration
+        :param key: the key of the altered integration
+        :param mask: an updated mask
+        :parame label: an updated label
         :return: None
         """
-        self.integrations[index].update(mask, label)
-        self.notify('integrationUpdate', self.integrations)
+        self.integrations[key].update(mask, label)
+        self.notify('integrationUpdate', self.integrations[key])
+    
+    def toggle_show(self, key):
+        #still in progress, should show integration in view
+        self.notify('toggleIntegration', self.integrations[key])
 
-    def clear_integration(self, index):
-        self.integrations[index].destroy()
-        del self.integrations[index]
-        self.notify('integrationUpdate', self.integrations)
+    def clear_integration(self, key):
+        """
+        Removes an integration and notifies view that this has happened
+        :param key: identifier of the integration to be removed
+        :return: None
+        """
+        self.notify('removeIntegration', self.integrations[key])
+        del self.integrations[key]

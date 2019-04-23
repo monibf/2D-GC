@@ -3,24 +3,26 @@ import numpy as np
 
 class Integration:
 
-    def __init__(self, mask, index, selector):
+    def __init__(self, key, selector):
         """
         Container for a selection mask of a chromatogram
+        Holds its own selector controller object to enable interacting with specific selectors
         Calculates mean area under the curve 
-        :param mask: a mask of a chromatogram (a copy of the data with zeroes outside the selected region)
-        :param index: an index to generate a label
+        :param key: an identifier which is unique over all integrations in the model
+        :param selector: a Selector object which contains an ROI drawer
         :return: None
         """
-        self.label = "integration " + str(index + 1)  # generate name
-        self.mask = mask
+        self.label = "integration " + str(key + 1)  # generate name
+        self.id = key
         self.selector = selector
-        self.value = np.sum(mask) / np.count_nonzero(mask)
+        self.mask = None
+        self.value = None
 
     def update(self, mask=None, label=None):
         """
-        updates the mask and integration value and/or label
-        :param mask: the new mask
-        :param label: TODO
+        updates the mask + integration value and/or the label
+        :param mask: an updated mask
+        :param label: an new label
         :return: None
         """
         if mask is not None:
@@ -29,5 +31,5 @@ class Integration:
         if label is not None:
             self.label = label
 
-    def destroy(self):
-        self.selector.destroy()
+    
+
