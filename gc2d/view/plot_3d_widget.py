@@ -52,8 +52,7 @@ class Plot3DWidget(GLViewWidget):
                     self.integrations[value.id].scale(1, 1, 0.00001)
                 else:
                     self.set_highlight(value)
-                    # indices = self.bounding_box_indices(value.pos)
-                    # highlight.setData(x=indices[0], y=indices[1], z=value.mask + 100000) 
+                    
                     
         if name == 'model':
             if value is None:
@@ -70,9 +69,15 @@ class Plot3DWidget(GLViewWidget):
             self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))
 
     def set_highlight(self, integration):
+        """
+        Computes where the bounding box of an ROI is located and sets the data for a surface plot in self.integrations[id]
+        with, if the data is inside the ROI the model data (somewhat higher to avoid clipping) and np.nan in the rest of the 
+        bounding box + outside model region
+        """
         bound_x = int(integration.pos.x()) + self.translation_x
         bound_y = int(integration.pos.y()) + self.translation_y
         range_x = np.arange(bound_x, bound_x + len(integration.mask))
         range_y = np.arange(bound_y, bound_y + len(integration.mask[0]))
-        integration.mask[integration.mask > 0] += self.upper_bound * 0.01
-        self.integrations[integration.id].setData(x=range_x, y=range_y, z=integration.mask) 
+
+        highlight = np.where(integration.mask > 0, integration.mask + self.upper_bound *0.01, np.nan)
+        self.integrations[integration.id].setData(x=range_x, y=range_y, z=highlight) 
