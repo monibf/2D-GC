@@ -97,7 +97,8 @@ class ModelWrapper(Observable):
     
     def toggle_show(self, key):
         #still in progress, should show integration in view
-        self.notify('toggleIntegration', self.integrations[key])
+        self.integrations[key].toggle_show()
+        self.notify('integrationUpdate', self.integrations[key])
 
     def clear_integration(self, key):
         """
