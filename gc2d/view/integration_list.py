@@ -1,6 +1,16 @@
 from PyQt5 import QtCore
 from PyQt5.Qt import QHeaderView, QPushButton, QTableWidget, QTableWidgetItem, QCheckBox
+from enum import Enum
+from decimal import Decimal
 from gc2d.controller.integration.handler import Handler
+
+class Col(Enum):
+    show = 0
+    label = 1
+    mean = 2
+    integration = 3
+    clear = 4
+
 
 class IntegrationList(QTableWidget):
     def __init__(self, model_wrapper, parent=None):
@@ -22,13 +32,16 @@ class IntegrationList(QTableWidget):
         
         self.cellChanged.connect(self.change_label)
 
-        self.setColumnCount(4)
-        self.setHorizontalHeaderLabels((' ', 'Label', 'Mean Count', ' '))
-        self.horizontalHeader().setDefaultSectionSize(180)
-        self.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
-        self.horizontalHeader().setSectionResizeMode(1, QHeaderView.Interactive)
-        self.horizontalHeader().setSectionResizeMode(2, QHeaderView.Interactive)
-        self.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
+        self.precision = 5
+
+        self.setColumnCount(len(Col))
+        self.setHorizontalHeaderLabels((' ', 'Label', 'Mean Count', 'Integration', ' '))
+        self.horizontalHeader().setDefaultSectionSize(130)
+        self.horizontalHeader().setSectionResizeMode(Col.show.value, QHeaderView.ResizeToContents)
+        self.horizontalHeader().setSectionResizeMode(Col.label.value, QHeaderView.Interactive)
+        self.horizontalHeader().setSectionResizeMode(Col.mean.value, QHeaderView.Interactive)
+        self.horizontalHeader().setSectionResizeMode(Col.integration.value, QHeaderView.Interactive)
+        self.horizontalHeader().setSectionResizeMode(Col.clear.value, QHeaderView.Stretch)
 
     def notify(self, name, value):
         """
@@ -56,11 +69,11 @@ class IntegrationList(QTableWidget):
         clear_button.setText('Clear')
         clear_button.setMinimumWidth(2)
         clear_button.pressed.connect(lambda: self.clear_value(integration.id))
-        self.setCellWidget(row, 3, clear_button)
+        self.setCellWidget(row, Col.clear.value, clear_button)
 
         show_toggle = QCheckBox()
         show_toggle.stateChanged.connect(lambda: self.select(integration.id))
-        self.setCellWidget(row, 0, show_toggle)
+        self.setCellWidget(row, Col.show.value, show_toggle)
         
         self.showing.append(integration.id)
         self.redraw_row(integration)
@@ -75,10 +88,16 @@ class IntegrationList(QTableWidget):
             return
         self.blockSignals(True) # signals are blocked during redraw so cellChanged -> change_label is not called
         row = self.showing.index(integration.id)
-        self.setItem(row, 1, QTableWidgetItem(integration.label))
-        value_item = QTableWidgetItem(str(integration.value))
+        self.setItem(row, Col.label.value, QTableWidgetItem(integration.label))
+
+
+        value_item = QTableWidgetItem('{num:.{precision}E}'.format(num=Decimal(integration.value), precision=self.precision))
         value_item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
-        self.setItem(row, 2, value_item)
+        self.setItem(row, Col.mean.value, value_item)
+
+        sum_item = QTableWidgetItem('{num:.{precision}E}'.format(num=Decimal(integration.sum), precision=self.precision))
+        sum_item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
+        self.setItem(row, Col.integration.value, sum_item)
         self.blockSignals(False)
     
 
