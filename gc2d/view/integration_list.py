@@ -32,7 +32,7 @@ class IntegrationList(QTableWidget):
         
         self.cellChanged.connect(self.change_label)
 
-        self.precision = 5
+        self.precision = 5 #amount of decimals displayed
 
         self.setColumnCount(len(Col))
         self.setHorizontalHeaderLabels((' ', 'Label', 'Mean Count', 'Integration', ' '))
