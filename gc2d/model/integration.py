@@ -36,5 +36,9 @@ class Integration:
             self.label = label
 
     def toggle_show(self):
+        """
+        toggle the show parameter between True and False, used for highlighting in 3d view
+        :return: None
+        """
         self.show = not self.show
 

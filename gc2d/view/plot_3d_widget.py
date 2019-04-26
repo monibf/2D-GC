@@ -11,7 +11,7 @@ class Plot3DWidget(GLViewWidget):
 
     def __init__(self, model_wrapper, parent=None):
         """
-        The Plot2DWidget is responsible for rendering the 2D chromatogram data.
+        The Plot3DWidget is responsible for rendering the 3D chromatogram data, and showing highlights of integration areas
         :param model_wrapper: the wrapper of the model.
         :param parent: the parent of this Widget.
         """
@@ -36,23 +36,26 @@ class Plot3DWidget(GLViewWidget):
 
     def notify(self, name, value):
         """
-        Updates the image rendered to match the model.
+        Updates the image rendered to match the model; is able to draw and remove integration highlights.
         :return: None
         """
-        if name == 'integrationUpdate':
-            
+
+        if name == 'integrationUpdate' and value.show is True:
+                self.set_highlight(value)
+
+        if name == "showIntegration":
             if value.show is True:
-                
-                if value.id not in self.integrations:
-                    highlight = gl.GLSurfacePlotItem(computeNormals=False)
-                    self.addItem(highlight)
-                    highlight.setShader(PaletteShader(self.lower_bound, self.upper_bound, palette.jet))
-                    self.integrations[value.id] = highlight
-                    self.set_highlight(value)
-                    self.integrations[value.id].scale(1, 1, 0.00001)
-                else:
-                    self.set_highlight(value)
-                    
+                highlight = gl.GLSurfacePlotItem(computeNormals=False)
+                self.addItem(highlight)
+                highlight.setShader(PaletteShader(self.lower_bound + self.upper_bound, self.upper_bound * 2, palette.jet))
+                self.integrations[value.id] = highlight
+                self.set_highlight(value)
+                self.integrations[value.id].scale(1, 1, 0.00001)
+            else:
+                self.removeItem(self.integrations[value.id]) 
+
+        if name == "removeIntegration":
+            self.removeItem(self.integrations[value.id])            
                     
         if name == 'model':
             if value is None:
@@ -79,5 +82,5 @@ class Plot3DWidget(GLViewWidget):
         range_x = np.arange(bound_x, bound_x + len(integration.mask))
         range_y = np.arange(bound_y, bound_y + len(integration.mask[0]))
 
-        highlight = np.where(integration.mask > 0, integration.mask + self.upper_bound *0.01, np.nan)
+        highlight = np.where(integration.mask > 0, integration.mask + self.upper_bound, np.nan)
         self.integrations[integration.id].setData(x=range_x, y=range_y, z=highlight) 
