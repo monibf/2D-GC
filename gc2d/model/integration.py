@@ -16,7 +16,8 @@ class Integration:
         self.id = key
         self.selector = selector
         self.mask = None
-        self.value = None
+        self.mean = None
+        self.sum = None
 
     def update(self, mask=None, label=None):
         """
@@ -28,7 +29,12 @@ class Integration:
         if mask is not None:
             self.mask = mask
             self.sum = np.sum(mask)
-            self.value = self.sum / np.count_nonzero(mask)
+            if self.sum > 0.0:
+                self.mean = self.sum / np.count_nonzero(mask)
+            else: 
+                # outside of graph
+                self.sum = np.nan
+                self.mean = np.nan
         if label is not None:
             self.label = label
 

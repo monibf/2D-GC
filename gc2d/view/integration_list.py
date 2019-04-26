@@ -35,7 +35,7 @@ class IntegrationList(QTableWidget):
         self.precision = 5 #amount of decimals displayed
 
         self.setColumnCount(len(Col))
-        self.setHorizontalHeaderLabels((' ', 'Label', 'Mean Count', 'Integration', ' '))
+        self.setHorizontalHeaderLabels((' ', 'Label', 'Mean Count', 'Sum', ' '))
         self.horizontalHeader().setDefaultSectionSize(130)
         self.horizontalHeader().setSectionResizeMode(Col.show.value, QHeaderView.ResizeToContents)
         self.horizontalHeader().setSectionResizeMode(Col.label.value, QHeaderView.Interactive)
@@ -91,9 +91,9 @@ class IntegrationList(QTableWidget):
         self.setItem(row, Col.label.value, QTableWidgetItem(integration.label))
 
 
-        value_item = QTableWidgetItem('{num:.{precision}E}'.format(num=Decimal(integration.value), precision=self.precision))
-        value_item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
-        self.setItem(row, Col.mean.value, value_item)
+        mean_item = QTableWidgetItem('{num:.{precision}E}'.format(num=Decimal(integration.mean), precision=self.precision))
+        mean_item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
+        self.setItem(row, Col.mean.value, mean_item)
 
         sum_item = QTableWidgetItem('{num:.{precision}E}'.format(num=Decimal(integration.sum), precision=self.precision))
         sum_item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
