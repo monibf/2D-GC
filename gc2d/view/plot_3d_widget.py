@@ -47,7 +47,7 @@ class Plot3DWidget(GLViewWidget):
             if value.show is True:
                 highlight = gl.GLSurfacePlotItem(computeNormals=False)
                 self.addItem(highlight)
-                highlight.setShader(PaletteShader(self.lower_bound + self.upper_bound, self.upper_bound * 2, palette.jet))
+                highlight.setShader(PaletteShader(self.lower_bound + self.offset, self.upper_bound +self.offset, palette.jet))
                 self.integrations[value.id] = highlight
                 self.set_highlight(value)
                 self.integrations[value.id].scale(1, 1, 0.00001)
@@ -68,6 +68,7 @@ class Plot3DWidget(GLViewWidget):
                 self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))
                 self.lower_bound = value.lower_bound
                 self.upper_bound = value.upper_bound
+                self.offset = self.upper_bound
         if name == 'model.palette':
             self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))
 
@@ -82,5 +83,5 @@ class Plot3DWidget(GLViewWidget):
         range_x = np.arange(bound_x, bound_x + len(integration.mask))
         range_y = np.arange(bound_y, bound_y + len(integration.mask[0]))
 
-        highlight = np.where(integration.mask > 0, integration.mask + self.upper_bound, np.nan)
+        highlight = np.where(integration.mask > 0, integration.mask + self.offset, np.nan)
         self.integrations[integration.id].setData(x=range_x, y=range_y, z=highlight) 
