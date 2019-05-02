@@ -5,7 +5,7 @@ from gc2d.controller.listener.plot_2d_listener import Plot2DListener
 
 class Plot2DWidget(PlotWidget):
 
-    def __init__(self, model_wrapper, parent=None):
+    def __init__(self, model_wrapper, main_window, parent=None):
         """
         The Plot2DWidget is responsible for rendering the 2D chromatogram data.
         :param model_wrapper: the wrapper of the model.
