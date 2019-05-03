@@ -29,40 +29,12 @@ if '%errorlevel%' NEQ '0' (
     CD /D "%~dp0"
 :--------------------------------------    
 
-echo Checking if python3 is installed...
-py -3 --version >NUL
-if errorlevel 1 goto npython
+echo Uninstalling 2D-GC...
+cd ..
+rmdir /s /q "%PROGRAMFILES%\2D-GC"
+rmdir /s /q "%APPDATA%\Microsoft\Windows\Start Menu\Programs\2D-GC"
 
-echo Checking if pip3 is installed...
-pip3 -v >NUL
-if errorlevel 1 goto npip
-
-echo Checking if pyinstaller is installed...
-pyinstaller -v >NUL
-if errorlevel 1 pip3 install pyinstaller
-
-echo Installing GC-2D...
-pyinstaller --name=2D-GC --noconsole --distpath="%PROGRAMFILES%" gc2d\__main__.py
-
-mkdir "%PROGRAMFILES%\2D-GC\gc2d"
-mkdir "%PROGRAMFILES%\2D-GC\exampledata"
-copy exampledata "%PROGRAMFILES%\2D-GC\exampledata\"
-copy UNINSTALL_WINDOWS.bat "%PROGRAMFILES%\2D-GC\UNINSTALL.bat"
-mkdir "%APPDATA%\Microsoft\Windows\Start Menu\Programs\2D-GC"
-cscript GENERATE_LINK_WINDOWS.vbs
-copy 2D-GC.lnk "%APPDATA%\Microsoft\Windows\Start Menu\Programs\2D-GC"
-copy 2D-GC.lnk "%USERPROFILE%\Desktop"
 echo Done!
-pause
-exit
-
-:npython
-echo Error^: please install python3.
-pause
-exit
-
-:npip
-echo Error^: please install pip3.
 pause
 exit
 

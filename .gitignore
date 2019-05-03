@@ -1,3 +1,7 @@
 .idea/
 __pycache__/
 time_keeping_2dgc
+*.spec
+*.lnk
+build
+dist
