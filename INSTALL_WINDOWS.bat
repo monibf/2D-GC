@@ -39,7 +39,10 @@ if errorlevel 1 goto npip
 
 echo Checking if pyinstaller is installed...
 pyinstaller -v >NUL
-if errorlevel 1 pip3 install pyinstaller
+if errorlevel 1 pip install git+https://github.com/pyinstaller/pyinstaller.git
+
+echo Installing dependencies...
+pip3 install -r requirements.txt
 
 echo Installing GC-2D...
 pyinstaller --name=2D-GC --noconsole --distpath="%PROGRAMFILES%" gc2d\__main__.py
