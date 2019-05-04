@@ -24,7 +24,9 @@ fi
 
 echo "Installing $NAME..."
 "$PYTHON" -m PyInstaller --noconfirm --onefile --windowed \
- --distpath="INSTALL_LOCATION" \
+ --distpath="$INSTALL_LOCATION" \
  --name="$NAME" gc2d/__main__.py
-
+if [[ $? != 0 ]]; then
+    exit 1
+fi
 echo "Install Complete!"

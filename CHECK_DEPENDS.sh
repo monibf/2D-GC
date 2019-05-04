@@ -25,8 +25,8 @@ if [[ $("$PIP" --disable-pip-version-check list | grep PyInstaller) ]]; then
 else
     printf "NO\n"
     printf "Installing PyInstaller...\n"
-    "$PIP" install PyInstaller
+    "$PIP" install --user PyInstaller
 fi
 
 printf "Installing Dependencies..."
-"$PIP" install -r requirements.txt
+"$PIP" install --user -r requirements.txt
