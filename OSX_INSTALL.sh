@@ -32,6 +32,6 @@ echo "Installing $NAME..."
 plutil -replace NSHighResolutionCapable -bool true "dist/$NAME.app/Contents/Info.plist"
 
 # move it to user Applications.
-cp -r "dist/$NAME.app" "$HOME/Applications/$NAME.app"
+cp -r "dist/$NAME.app" "$INSTALL_LOCATION/$NAME.app"
 
 echo "Install Complete!"
