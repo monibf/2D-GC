@@ -3,5 +3,6 @@ __pycache__/
 time_keeping_2dgc
 *.spec
 *.lnk
+python-installer.exe
 build
 dist

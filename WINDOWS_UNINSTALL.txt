@@ -1,4 +1,4 @@
-set /p yn=Are you sure you wish to uninstall %NAME% (y/N)?
+set /p yn=Are you sure you wish to uninstall %NAME% (y/N)? 
 if /I not "%yn%"=="y" echo Uninstall canceled... & pause & exit
 echo Uninstalling %NAME%...
 cd ..
