@@ -15,8 +15,8 @@ fi
 
 if [[ $? != 0 ]]; then
     exit 1
-elif [[ -d "python" ]]; then
-    PYTHON=python3/bin
+elif [[ -d "python3" ]]; then
+    # maybe one day I'll get this to work.
     pass
 else
     PYTHON=$(command -v python3)

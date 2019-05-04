@@ -3,29 +3,30 @@
 printf "Checking python3 is installed: "
 if [[ -x $(command -v python3) ]]; then
     printf "YES\n"
+    PYTHON=$(command -v python3)
 else
     printf "NO\n"
-    printf "Please install python3...\n"
+    printf "Please install the latest version of python3 from https://www.python.org/downloads/"
     exit 1
 fi
 
 printf "Checking pip3 is installed: "
-if [[ -x $(command -v pip3) ]]; then
+if [[ -x $(command -v pip3 --disable-pip-version-check) ]]; then
     printf "YES\n"
+    PIP=$(command -v pip3 --disable-pip-version-check)
 else
     printf "NO\n"
-    printf "Please install pip3...\n"
-    exit 1
+    printf "Please install the latest version of pip from https://pip.pypa.io/en/stable/installing/"
 fi
 
 printf "Checking PyInstaller is installed: "
-if [[ $(pip3 --disable-pip-version-check list | grep PyInstaller) ]]; then
+if [[ $("$PIP" --disable-pip-version-check list | grep PyInstaller) ]]; then
     printf "YES\n"
 else
     printf "NO\n"
     printf "Installing PyInstaller...\n"
-    pip3 install PyInstaller
+    "$PIP" install PyInstaller
 fi
 
 printf "Installing Dependencies..."
-pip3 install -r requirements.txt
+"$PIP" install -r requirements.txt
