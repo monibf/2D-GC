@@ -12,10 +12,10 @@ def main():
     """ The model wrapper. """
     app = QApplication([])
     """ The Qt application. """
-    datafile = os.path.join(os.path.dirname(__file__), "..", "exampledata", "MF_AE3.txt")
-    model_wrapper.load_model(datafile)
-    model_wrapper.model.lower_bound = -30000
-    model_wrapper.model.upper_bound = 581910
+    if len(sys.argv) > 1:
+        datafile = os.path.join(os.path.dirname(__file__), sys.argv[1])
+        model_wrapper.load_model(datafile)
+        
     win = Window(model_wrapper)  # create the window.
 
     sys.exit(app.exec_())

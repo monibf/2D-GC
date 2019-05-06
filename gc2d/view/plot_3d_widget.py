@@ -20,12 +20,10 @@ class Plot3DWidget(GLViewWidget):
         self.surface = gl.GLSurfacePlotItem(computeNormals=False)
         self.addItem(self.surface)
 
-        self.surface.translate(-len(model_wrapper.model.get_2d_chromatogram_data()) / 2,
-                               -len(model_wrapper.model.get_2d_chromatogram_data()[0]) / 2, 0)
-        # This will need to be done dynamically later. TODO
-        self.surface.scale(1, 1, 0.00001)
+        
 
-        self.notify('model', model_wrapper.model)
+        if model_wrapper.model is not None: 
+            self.notify('model', model_wrapper.model)
 
         model_wrapper.add_observer(self, self.notify)
 
@@ -39,6 +37,10 @@ class Plot3DWidget(GLViewWidget):
                 self.setVisible(False)
             else:
                 if not self.isVisible():
+                    self.surface.translate(-len(value.get_2d_chromatogram_data()) / 2,
+                                           -len(value.get_2d_chromatogram_data()[0]) / 2, 0)
+                    # This will need to be done dynamically later. TODO
+                    self.surface.scale(1, 1, 0.00001)
                     self.setVisible(True)
 
                 self.surface.setData(z=value.get_2d_chromatogram_data())

@@ -19,7 +19,6 @@ class ModelWrapper(Observable):
 
     def set_palette(self, palette):
         """
-
         :param palette:
         :return:
         """
@@ -60,10 +59,9 @@ class ModelWrapper(Observable):
         Sets the model to None, effectively closing the chromatogram without closing the program.
         :return: None
         """
-
-        self.model = None
-
-        self.notify('model', self.model)  # Notify all observers
+        if (self.model is not None):
+            self.model = None
+            self.notify('model', self.model)  # Notify all observers
 
     def add_integration(self, selector, key):
         """

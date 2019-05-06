@@ -8,7 +8,8 @@ class Plot1DWidget(PlotWidget):
 
     def __init__(self, model_wrapper, parent=None):
         """
-        The Plot2DWidget is responsible for rendering the 2D chromatogram data.
+        The Plot1DWidget is responsible for rendering the 1D chromatogram data.
+        The data is represented as a curve plot of the integrated data over the x axis. 
         :param model_wrapper: the wrapper of the model.
         :param parent: the parent of this Widget.
         """
@@ -23,7 +24,8 @@ class Plot1DWidget(PlotWidget):
         model_wrapper.add_observer(self, self.notify)
 
         # call notify to draw the model.
-        self.notify('model', model_wrapper.model)
+        if model_wrapper.model is not None: 
+            self.notify('model', model_wrapper.model)
 
     def notify(self, name, value):
         """

@@ -92,11 +92,11 @@ class Window(QMainWindow):
         dock_3d = Dock('3D')
         dock_area.addDock(dock_3d)
 
+        dock_1d = Dock('1D')
+        dock_area.addDock(dock_1d, 'above', dock_3d)
+
         dock_2d = Dock('2D')
         dock_area.addDock(dock_2d, 'above', dock_3d)
-
-        dock_1d = Dock('1D')
-        dock_area.addDock(dock_1d, 'bottom', dock_2d)
 
         self.plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
         dock_3d.addWidget(self.plot_3d)
