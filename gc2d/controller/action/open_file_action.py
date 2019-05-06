@@ -10,7 +10,7 @@ class OpenFileAction(QAction):
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
         """
-        super().__init__('Open', parent)
+        super().__init__('Open New', parent)
         self.window = parent
         self.model_wrapper = model_wrapper
         self.setShortcut('Ctrl+O')

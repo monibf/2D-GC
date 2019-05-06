@@ -18,9 +18,12 @@ class Plot3DWidget(GLViewWidget):
         self.setCameraPosition(distance=400)
 
         self.surface = gl.GLSurfacePlotItem(computeNormals=False)
+        # This will need to be done dynamically later. TODO
+        self.surface.scale(1, 1, 0.00001)
         self.addItem(self.surface)
 
-        
+        self.translation_x, self.translation_y = 0, 0
+
 
         if model_wrapper.model is not None: 
             self.notify('model', model_wrapper.model)
@@ -37,13 +40,12 @@ class Plot3DWidget(GLViewWidget):
                 self.setVisible(False)
             else:
                 if not self.isVisible():
-                    self.surface.translate(-len(value.get_2d_chromatogram_data()) / 2,
-                                           -len(value.get_2d_chromatogram_data()[0]) / 2, 0)
-                    # This will need to be done dynamically later. TODO
-                    self.surface.scale(1, 1, 0.00001)
+                    prev_x, prev_y = self.translation_x, self.translation_y
+                    self.translation_x = -len(value.get_2d_chromatogram_data()) / 2
+                    self.translation_y = -len(value.get_2d_chromatogram_data()[0]) / 2
+                    self.surface.translate(self.translation_x - prev_x, self.translation_y - prev_y, 0)
+                    self.surface.setData(z=value.get_2d_chromatogram_data())
                     self.setVisible(True)
-
-                self.surface.setData(z=value.get_2d_chromatogram_data())
                 self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))
         if name == 'model.palette':
             self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))

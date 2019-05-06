@@ -62,6 +62,11 @@ class ModelWrapper(Observable):
         if (self.model is not None):
             self.model = None
             self.notify('model', self.model)  # Notify all observers
+            keys = [key for key in self.integrations]
+            for key in keys:
+                self.clear_integration(key)
+            self.integrate_id = 0
+            
 
     def add_integration(self, selector, key):
         """
