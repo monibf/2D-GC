@@ -122,19 +122,20 @@ The second type of stakeholder are the developers. These are students following 
 \subsection*{Important Functional Requirements}
 \begin{itemize}
     \item Be able to save the current state of the program, with the loaded data and any attached user inputs such as integration or labels in a specific file format from which the graph and any user inputs would be able to be reloaded by the program in a different session. 
-	\item Be able to select a freeform space to integrate over as a polyline region with multiple anchor points. The position of the anchor points at initial drawing should be specified by clicking in the graph in a 'drawing' mode. The integrations should be shown in an integration list under the graph with a renamable label, absolute integrations and mean sums. The integration areas should be destructible via a button which is shown within the integration list.
+	\item Be able to select a freeform space to integrate over as a polyline region with multiple anchor points. The position of the anchor points at initial drawing should be specified by clicking in the graph in a 'drawing' mode. The integrations should be shown in an 'integration list' under the graph with a renamable label, absolute integrations and mean sums. The integration areas should be destructible via a button which is shown within the integration list.
 	\item Changing the colors of the visualizations between multiple preset palettes. Switching between these should be done via a separate dialog window where all options are displayed.
 	\item Convolution of the graph should be possible. Switching between raw data and convoluted data should be under a toggle button or action, and the convolution kernel should be able to switch between presets in a separate dialog. Optionally, these presets would have variables which could also be changed in this dialog.
-	\item Showing the 1-dimensional plot of the first gas chromatography run through. This would be shown as a line plot of the integration over the x axis of the supplied 2D data. Dragging would track the eye in this plot, zooming would be handled by drawing a rectangle where the new plotting area would be.
+	\item Showing the 1-dimensional plot of the first gas chromatography run through. This would be shown as a line plot of the integration over the x axis of the supplied 2D data. Zooming and tracking the eye would be handled by drawing a rectangle where the new plotting area would be, with a button to go back to the previous view.
 \end{itemize}
 
 \subsection*{Useful Functional Requirements}
 \begin{itemize}
     \item Having presets and editable user settings for the palettes, convolution kernels and drawing of regions of interest. These settings would be taken from text json files, so that users could write their own if the need later arises.
     \item Visualizing the integration areas in 3D, by highlighting the integration area in a different palette. Which integrations are shown should be toggled per integration within the integration list.
+    \item Showing the x and y location of the mouse in scene coordinates in both the 2D and the 3D view would be very relevant. This would be shown in a status bar under the screen, where the x and y is also translated to the amount of minutes and seconds (the units of the x and y axes).
     \item Showing multiple chromatograms simultaneously, by having a 'compare with...' button, which would overlay the new chromatogram in the same plots as a previously opened one so the position and height of the peaks can be easily compared. 
     \item Be able to export the 2D graph, 3D graph and integrations to publishable formats. This would be .png (or related) image files for the graphs, where any integration regions and such visible user inputs in the graph would be kept, and copied text to clipboard for the list of integrations.
-    \item Be able to save peak data in a database, with any attached information, such as which sample it was from, integration value, and label. The user should be able to retrieve previously saved information in a look-up table while looking at a new sample.
+    \item Be able to save peak data in a database via a button in the integration list, with any attached information, such as which sample it was from, integration value, and label. The user should be able to retrieve previously saved information in a look-up table while looking at a new sample.
 	\item Compound recognition/matching with the internal database, where older labelled data (which was identified with mass spectrometry) would automatically be recognized if it's already in the internal database, and new data shows a peak at the same position. A relevant match would be shown in the integration list in a new column.
 \end{itemize}
 \subsection*{Won't Do}
@@ -143,10 +144,10 @@ The second type of stakeholder are the developers. These are students following 
 \end{itemize}
 \section{Non-functional requirements}
 \begin{itemize}
-	\item \textbf{Extensibility:} this is essential, as the client is preparing to switch to a different detection system, which alters the dimensionality of the data. We have to make sure that this extension would be easily incorporated in the program. 
+	\item \textbf{Extensibility:} this is essential, as the client is preparing to switch to a different detection system, which alters the dimensionality of the data. We have to make sure that this extension would be easily incorporated in the program. This can be done by making sure the program architecture is clear and there is already a way to retrieve the mouse-scene coordinates inside the program.
 	\item \textbf{Technology:} the program needs to be able to run on older versions of operating systems, as the measurement software itself is run on windows XP. 
 	\item \textbf{Maintainability: } the software has to be designed in such a way that the program is easily  maintainable. After the course \textit{Software Engineering} has ended, the developers will not provide further maintenance to the software. 
-	\item \textbf{Scalability: } The amount of information in the database will most likely grow with time. Therefore, the database has to be scalable to a certain extend. 
+	\item \textbf{Scalability: } The amount of information in the database will most likely grow with time. Therefore, the database has to be scalable to a certain extent. 
 \end{itemize}
 \printglossary[type =\acronymtype]
 
@@ -192,7 +193,9 @@ The second type of stakeholder are the developers. These are students following 
   31/03/2019 & Wouter Brink & Added Maintainability and Scalability to the non functional \\
   & & requirements. \\
   \hline
-  01/04/2019 & Maarten de jager & Added glossary and corrected spelling \\
+  01/04/2019 & Maarten de Jager & Added glossary and corrected spelling \\
+  \hline
+  05/05/2019 & Oane Gros & Concretized the functional requirements \\
   \hline
  \end{tabular}
 \end{center}
