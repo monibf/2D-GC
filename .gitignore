@@ -6,3 +6,4 @@ time_keeping_2dgc
 python-installer.exe
 build
 dist
+.python-version
