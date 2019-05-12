@@ -49,6 +49,7 @@ class OpenConvolutionPickerAction(QAction):
         gaussian_params_layout = QVBoxLayout()
         self.gaussian_params.setLayout(gaussian_params_layout)
         vlayout.addWidget(self.gaussian_params)
+        self.gaussian_params.setVisible(False)
 
         gaussian_sigma_label = QLabel('Sigma: ')
         self.gaussian_sigma = QDoubleSpinBox()
