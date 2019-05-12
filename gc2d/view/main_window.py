@@ -4,6 +4,7 @@ from pyqtgraph.dockarea import Dock, DockArea
 from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
 from gc2d.controller.action.open_file_action import OpenFileAction
+from gc2d.controller.action.save_action import SaveAction
 from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
 from gc2d.view.integration_list import IntegrationList
 from gc2d.view.plot_1d_widget import Plot1DWidget
@@ -33,6 +34,7 @@ class Window(QMainWindow):
         self.setWindowTitle('GCxGC')
 
         self.open_file_action = OpenFileAction(self, self.model_wrapper)
+        self.save_action = SaveAction(self, self.model_wrapper)
         self.exit_action = ExitAction(self)
         self.draw_action = DrawAction(self, self.model_wrapper)
         self.open_palette_chooser_action = OpenChoosePaletteAction(self, self.model_wrapper)
@@ -64,7 +66,7 @@ class Window(QMainWindow):
         file_menu = main_menu.addMenu('File')
 
         file_menu.addAction(self.open_file_action)
-
+        file_menu.addAction(self.save_action)
         file_menu.addAction(self.exit_action)
 
         edit_menu = main_menu.addMenu('Edit')

@@ -38,5 +38,6 @@ class Integration:
         if label is not None:
             self.label = label
 
-    
-
+    def get_state(self):
+        """ return state values to be serialized """
+        return (self.label, [(handle[1].x(), handle[1].y()) for handle in self.selector.get_handles()])

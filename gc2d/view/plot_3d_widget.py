@@ -23,8 +23,7 @@ class Plot3DWidget(GLViewWidget):
         self.addItem(self.surface)
 
         self.translation_x, self.translation_y = 0, 0
-
-
+        
         if model_wrapper.model is not None: 
             self.notify('model', model_wrapper.model)
 

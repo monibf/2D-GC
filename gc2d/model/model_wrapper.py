@@ -25,15 +25,9 @@ class ModelWrapper(Observable):
         self.model.palette = palette
         self.notify('model.palette', self.model)
 
-    def save_model(self, location):
-        """
-        Later in development we may wish to save the settings of the program to file.
-        :param location: The location to save to.
-        :return: None
-        """
-
-        # Insert some hook to the save/load module.
-        print("ModelWrapper.save_model() not yet implemented.")
+    def get_state(self):
+        """ returns an array with the model data and the integration data for storage """
+        return [self.model.get_2d_chromatogram_data(), [self.integrations[key].get_state() for key in self.integrations]]
 
     def load_model(self, file_name):
         """
