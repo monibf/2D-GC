@@ -29,24 +29,21 @@ class ModelWrapper(Observable):
         """ returns an array with the model data and the integration data for storage """
         return [self.model.get_2d_chromatogram_data(), [self.integrations[key].get_state() for key in self.integrations]]
 
+    def set_model(self, arr):
+        self.close_model()
+        self.model = Model(arr, len(arr[0]))
+        self.notify('model', self.model)  # Notify all observers.
+
     def load_model(self, file_name):
         """
-        Loads the chromatogram data into a new model.
+        Loads the chromatogram data from a text file into a new model, omits last column (trailing commas).
         Later in development this may be responsible for loading more than just the chromatogram data.
         :param file_name: The name of the chromatogram file to open.
         :return: None
         """
-        self.close_model()
-        data = []
-        with open(file_name) as sourcefile:
-            for line in sourcefile:
-                row = [float(val.strip()) for val in line.split(",") if val.strip()]
-                data.append(row)
-        arr = np.array(data, dtype=np.float64)
-
-        self.model = Model(arr, len(data[0]))
-
-        self.notify('model', self.model)  # Notify all observers.
+        arr = np.genfromtxt(file_name, delimiter=',', dtype=np.float64)
+        self.set_model(arr[:,:-1])
+        
 
     def close_model(self):
         """

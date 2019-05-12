@@ -4,7 +4,7 @@ from pyqtgraph import PolyLineROI
 
 class Selector(QObject):
 
-    def __init__(self, model_wrapper):
+    def __init__(self, model_wrapper, label=None, handles=None):
         """ 
         Selector can draw a Region of Interest once a viewport (pyqtgraph plot) is set
         It sends + updates the selected region as mask in the model
@@ -15,9 +15,11 @@ class Selector(QObject):
         self.roi = None
         self.id = None
         self.viewport = None
-        self.draw()
+        self.label = label 
+        self.draw(handles=handles)
+        
 
-    def draw(self):
+    def draw(self, handles):
         """
         Draw region of interest (ROI)
         the ROI is connected to save(self) which is called every time the ROI has been edited
@@ -27,7 +29,10 @@ class Selector(QObject):
         pen.setStyle(1)  # solid line
         pen.setWidth(4)
         pen.setColor(QColor("red"))
-        self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pen=pen, closed=True)
+        if handles == None:
+            self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pen=pen, closed=True)
+        else: 
+            self.roi = PolyLineROI(handles, pen=pen, closed=True)
         self.id = self.model_wrapper.get_new_key()
         self.model_wrapper.add_integration(self, self.id)
 
@@ -49,6 +54,7 @@ class Selector(QObject):
         self.viewport = plot
         self.roi.sigRegionChangeFinished.connect(self.update_mask)
         self.update_mask()
+        if self.label != None: self.model_wrapper.update_integration(self.id, label=self.label)
 
     def get_region(self):
         """

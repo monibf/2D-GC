@@ -1,6 +1,8 @@
 from PyQt5.QtWidgets import QAction, QFileDialog
 import os.path
-import pickle
+import numpy as np
+import json
+from gc2d.controller.integration.selector import Selector
 
 class OpenFileAction(QAction):
 
@@ -32,7 +34,8 @@ class OpenFileAction(QAction):
             self.model_wrapper.load_model(file_name[0])
         if extension == ".gcgc":
             file = open(file_name[0], 'rb')
-            model, integrations = pickle.load(file)
-            self.model_wrapper.model = model
-            for key in integrations:
-                print(integrations[key][0], integrations[key][1])
+            loaded = json.load(file)
+            file.close()
+            self.model_wrapper.set_model(np.array(loaded["model"]))
+            for entry in loaded["integrations"]:
+                Selector(self.model_wrapper, entry[0], entry[1])
