@@ -3,7 +3,7 @@ from pyqtgraph import ImageItem, PlotWidget
 from gc2d.controller.listener.plot_2d_listener import Plot2DListener
 
 
-class Plot2DWidget:
+class Plot2DWidget(PlotWidget):
 
     def __init__(self, model_wrapper, parent=None):
         """
@@ -11,12 +11,14 @@ class Plot2DWidget:
         :param model_wrapper: the wrapper of the model.
         :param parent: the parent of this Widget.
         """
-        self.widget = PlotWidget(parent)
-        self.widget.listener = Plot2DListener(self.widget, model_wrapper)  # Not yet Ready
-        self.img = ImageItem()
-        self.widget.addItem(self.img)
+        super().__init__(parent=parent)
 
-        self.widget.setAspectLocked(True)
+        self.listener = Plot2DListener(self, model_wrapper)  # Not yet Ready
+        self.img = ImageItem()
+        self.addItem(self.img)
+        self.wrapper_temp = model_wrapper #TEMPORARY
+
+        self.setAspectLocked(True)
         self.notify('model', model_wrapper.model)
         model_wrapper.add_observer(self, self.notify)
 
@@ -26,11 +28,17 @@ class Plot2DWidget:
         :return: None
         """
 
-        if name == 'model':
+        
+        if name == 'newIntegration':
+            self.addItem(value.selector.roi)
+            value.selector.set_viewport(self.img)
+        elif name == 'removeIntegration':
+            self.removeItem(value.selector.roi)
+        elif name == 'model':
             if value is None:
                 self.img.clear()
             else:
                 self.img.setImage(value.get_2d_chromatogram_data().clip(value.lower_bound, value.upper_bound),
                                   lut=value.palette)
-        if name == 'model.palette':
+        elif name == 'model.palette':
             self.img.setLookupTable(value.palette)
