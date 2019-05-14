@@ -6,6 +6,7 @@ class WidgetListener:
         widgets.
         :param widget: The widget to override
         """
+        self.widget = widget
 
         self.super_mouse_press_event = widget.mousePressEvent
         widget.mousePressEvent = self.mouse_press_event

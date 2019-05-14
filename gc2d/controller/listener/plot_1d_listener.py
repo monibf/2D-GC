@@ -2,19 +2,27 @@ from PyQt5.QtCore import Qt
 
 from gc2d.controller.listener.widget_listener import WidgetListener
 
-
 class Plot1DListener(WidgetListener):
 
-    def __init__(self, plot1d, model_wrapper):
+    def __init__(self, plot1d, model_wrapper, statusbar):
         """
         A stub listener for the plot_1d_widget
         :param plot1d: the plot_1d_widget
         :param model_wrapper: the model wrapper
         """
         super().__init__(plot1d)
-
         self.model_wrapper = model_wrapper
+
+        self.statusbar = statusbar
+
         """ The model wrapper this potentially interacts with. This may not be necessary later on. """
+
+    def mouse_move_event(self, event):
+        mouse_point = self.widget.plotItem.vb.mapSceneToView(event.localPos())
+        self.statusbar.showMessage("(x): " + str(round(mouse_point.x())))
+
+        # Do the default stuff.
+        super().mouse_move_event(event)
 
     def mouse_scroll_event(self, event):
         """

@@ -6,7 +6,7 @@ from gc2d.controller.listener.plot_1d_listener import Plot1DListener
 
 class Plot1DWidget(PlotWidget):
 
-    def __init__(self, model_wrapper, parent=None):
+    def __init__(self, model_wrapper, statusbar, parent=None):
         """
         The Plot2DWidget is responsible for rendering the 2D chromatogram data.
         :param model_wrapper: the wrapper of the model.
@@ -14,7 +14,7 @@ class Plot1DWidget(PlotWidget):
         """
         super().__init__(parent=parent)
 
-        self.listener = Plot1DListener(self, model_wrapper)
+        self.listener = Plot1DListener(self, model_wrapper, statusbar)
         """ The listener for the 1D plot """
         self.curve = self.plot(pen='y')
         """ The curve drawn on the 1D plot """
