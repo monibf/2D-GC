@@ -34,7 +34,7 @@ class Plot1DWidget(PlotWidget):
         """
 
         if name == 'model':
-            if value is None:
+            if value is None or value.get_2d_chromatogram_data() is None:
                 # Then Draw nothing.
                 self.curve.setData([])
             else:

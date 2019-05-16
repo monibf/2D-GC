@@ -35,7 +35,7 @@ class Plot3DWidget(GLViewWidget):
         :return: None
         """
         if name == 'model':
-            if value is None:
+            if value is None or value.get_2d_chromatogram_data() is None:
                 self.setVisible(False)
             else:
                 if not self.isVisible():

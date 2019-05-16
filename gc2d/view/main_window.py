@@ -5,6 +5,8 @@ from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
 from gc2d.controller.action.open_file_action import OpenFileAction
 from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
+from gc2d.controller.action.open_convolution_picker_action import OpenConvolutionPickerAction
+from gc2d.controller.action.toggle_convolution_action import ToggleConvolutionAction
 from gc2d.view.integration_list import IntegrationList
 from gc2d.view.plot_1d_widget import Plot1DWidget
 from gc2d.view.plot_2d_widget import Plot2DWidget
@@ -36,6 +38,8 @@ class Window(QMainWindow):
         self.exit_action = ExitAction(self)
         self.draw_action = DrawAction(self, self.model_wrapper)
         self.open_palette_chooser_action = OpenChoosePaletteAction(self, self.model_wrapper)
+        self.open_convolution_picker_action = OpenConvolutionPickerAction(self, self.model_wrapper)
+        self.toggle_convolution_action = ToggleConvolutionAction(self, self.model_wrapper)
 
         self.plot_1d = None
         self.plot_2d = None
@@ -73,8 +77,10 @@ class Window(QMainWindow):
         view_menu = main_menu.addMenu('View')
 
         view_menu.addAction(self.open_palette_chooser_action)
+        view_menu.addAction(self.toggle_convolution_action)
 
         tools_menu = main_menu.addMenu('Tools')
+        tools_menu.addAction(self.open_convolution_picker_action)
         # TODO
 
         help_menu = main_menu.addMenu('Help')
