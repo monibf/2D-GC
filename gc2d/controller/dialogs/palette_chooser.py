@@ -14,10 +14,11 @@ class PaletteChooser(QMainWindow):
         """
         
         super().__init__(parent=None)
-        self.setWindowTitle("Choose Palette")
         
         self.on_select = on_select
         self.on_close = on_close
+        
+        self.setWindowTitle("Choose Palette")
 
         vbox = QWidget()
         self.setCentralWidget(vbox)
