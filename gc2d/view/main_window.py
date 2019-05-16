@@ -47,6 +47,7 @@ class Window(QMainWindow):
 
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
+        self.create_toolbar()
         self.create_graph_views()  # Create 2D and 3D dock tabs.
 
         # TODO status bar.
@@ -85,6 +86,13 @@ class Window(QMainWindow):
 
         help_menu = main_menu.addMenu('Help')
         # TODO
+    
+    def create_toolbar(self):
+        
+        self.toolbar = self.addToolBar("toolbar")
+        self.toolbar.addAction(self.toggle_convolution_action)
+        self.toolbar.addAction(self.open_convolution_picker_action)
+        self.toolbar.addAction(self.open_palette_chooser_action)
 
     # noinspection PyArgumentList
     def create_graph_views(self):
