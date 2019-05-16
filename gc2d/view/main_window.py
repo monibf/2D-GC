@@ -93,6 +93,7 @@ class Window(QMainWindow):
         self.toolbar.addAction(self.toggle_convolution_action)
         self.toolbar.addAction(self.open_convolution_picker_action)
         self.toolbar.addAction(self.open_palette_chooser_action)
+        self.toolbar.addAction(self.draw_action)
 
     # noinspection PyArgumentList
     def create_graph_views(self):
