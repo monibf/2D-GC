@@ -8,7 +8,7 @@ class ImportDataAction(QAction):
 
     def __init__(self, parent, model_wrapper):
         """
-        An OpenFileAction is a QAction that when triggered, opens a QFileDialog to select chromatogram data to open. The
+        The ImportDataAction is a QAction that when triggered, opens a QFileDialog to select chromatogram data to open. The
         file name is passed to the model_wrapper to load the data into the model.
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
@@ -22,7 +22,7 @@ class ImportDataAction(QAction):
 
     def show_dialog(self):
         """
-        Show the Open file dialog.
+        Show the Open file dialog for importing data from text
         :return: None
         """
         file_name = QFileDialog.getOpenFileName(self.window, 'Open chromatography data', filter='2D-GC data (*.txt *.csv)')

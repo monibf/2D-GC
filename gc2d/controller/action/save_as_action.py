@@ -7,10 +7,10 @@ class SaveAsAction(QAction):
 
     def __init__(self, parent, model_wrapper, save_action):
         """
-        An SaveAction is a QAction that when triggered, opens a QFileDialog to save the current state of the program. 
-        The program state is serialized and saved in the specified file.
+        A SaveAsAction is a QAction that when triggered, opens a QFileDialog to save the current state of the program. 
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
+        :param save_action: a SaveAction object, which handles the actual saving
         """
         super().__init__('Save As...', parent)
         self.window = parent
@@ -21,7 +21,11 @@ class SaveAsAction(QAction):
         self.triggered.connect(self.save)
 
     def save(self):
+        """"
+        Sets the save_file path in the preferences to None and calls a regular save call in save_action.
+        Because the save_file path is None, the SaveAction will ask for a new path via a dialog
+        :return: None
+        """
         self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, None) 
         SaveAction.save(self.save_action) 
 
-            

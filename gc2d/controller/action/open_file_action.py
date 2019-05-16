@@ -10,8 +10,8 @@ class OpenFileAction(QAction):
 
     def __init__(self, parent, model_wrapper):
         """
-        An OpenFileAction is a QAction that when triggered, opens a QFileDialog to select chromatogram data to open. The
-        file name is passed to the model_wrapper to load the data into the model.
+        An OpenFileAction is a QAction that when triggered, opens a QFileDialog to select a gcgc file to open. The
+        The opening of the model is interpreted in this class.
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
         """
@@ -24,15 +24,15 @@ class OpenFileAction(QAction):
 
     def show_dialog(self):
         """
-        Show the Open file dialog.
+        Show the Open file dialog, and interpret the data: 
+        the model is overwritten, new selector objects are made for the integration area
+        the program will save over this file, as the save_file preference is set to the selected path
         :return: None
         """
-        # noinspection PyArgumentList
         file_name = QFileDialog.getOpenFileName(self.window, 'Open chromatography data', filter='GCxGC files (*.gcgc)')[0]
         if file_name:
-            file = open(file_name, 'rb')
-            loaded = json.load(file)
-            file.close()
+            with open(file_name, 'rb') as file:
+                loaded = json.load(file)
             self.model_wrapper.set_model(np.array(loaded["model"]))
             self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, file_name)
             for entry in loaded["integrations"]:

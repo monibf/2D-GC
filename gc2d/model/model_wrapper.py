@@ -29,10 +29,14 @@ class ModelWrapper(Observable):
 
     def get_state(self):
         """ returns an array with the model data and the integration data for storage """
-        print([self.integrations[key].get_state() for key in self.integrations])
         return [self.model.get_2d_chromatogram_data(), [self.integrations[key].get_state() for key in self.integrations]]
 
     def set_model(self, arr):
+        """
+        Overwrites the model data and notifies listeners
+        :param arr: numpy array with the data to be set as the new model
+        :return: None
+        """
         self.close_model()
         self.model = Model(arr, len(arr[0]))
         self.notify('model', self.model)  # Notify all observers.
@@ -40,14 +44,12 @@ class ModelWrapper(Observable):
     def import_model(self, file_name):
         """
         Loads the chromatogram data from a text file into a new model, omits last column (trailing commas).
-        Later in development this may be responsible for loading more than just the chromatogram data.
         :param file_name: The name of the chromatogram file to open.
         :return: None
         """
         arr = np.genfromtxt(file_name, delimiter=',', dtype=np.float64)
         self.set_model(arr[:,:-1])
         
-
     def close_model(self):
         """
         Sets the model to None, effectively closing the chromatogram without closing the program.
@@ -106,7 +108,17 @@ class ModelWrapper(Observable):
         del self.integrations[key]
 
     def get_preference(self, which):
+        """
+        Gets a preference value, specified by which
+        :param which: a PreferenceEnum object specifying which preference should be retrieved
+        :return: the called preference value 
+        """
         return self.preferences.get(which)
     
     def set_preference(self, which, value):
+        """
+        Sets a preference value, specified by which
+        :param which: a PreferenceEnum object specifying which preference should be overwritten
+        :return: None
+        """
         self.preferences.set(which, value)

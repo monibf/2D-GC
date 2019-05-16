@@ -1,6 +1,7 @@
 from PyQt5.Qt import QColor, QObject, QPen
 from pyqtgraph import PolyLineROI
 
+from gc2d.model.preferences import PreferenceEnum
 
 class Selector(QObject):
 
@@ -9,6 +10,10 @@ class Selector(QObject):
         Selector can draw a Region of Interest once a viewport (pyqtgraph plot) is set
         It sends + updates the selected region as mask in the model
         :param model_wrapper: The Model Wrapper
+         - optional params are used for reloading saved data -
+        :param label: a preset integration label
+        :param handles: handle positions of a region of interest within a bounding box
+        :param pos: the location of the bounding box in the scene
         """
         super().__init__()
         self.model_wrapper = model_wrapper
@@ -21,19 +26,15 @@ class Selector(QObject):
 
     def draw(self, handles, pos):
         """
-        Draw region of interest (ROI)
-        the ROI is connected to save(self) which is called every time the ROI has been edited
+        Initialize a region of interest (ROI) with the default pen preference
+        If handles and pos are specified, an ROI is reloaded
         :return: None
         """
-        pen = QPen()
-        pen.setStyle(1)  # solid line
-        pen.setWidth(4)
-        pen.setColor(QColor("red"))
+        pen = self.model_wrapper.get_preference(PreferenceEnum.PEN)
         if handles == None:
             self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pos=(100,100), pen=pen, closed=True)
         else: 
-            self.roi = PolyLineROI(handles, pos=pos, pen=pen, closed=True)
-            
+            self.roi = PolyLineROI(handles, pos=pos, pen=pen, closed=True)       
         self.id = self.model_wrapper.get_new_key()
         self.model_wrapper.add_integration(self, self.id)
 
@@ -65,5 +66,6 @@ class Selector(QObject):
         return self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.viewport)
 
     def get_handles(self):
+        """ returns the handles in local space and the position of the bounding box in the scene """
         return self.roi.getLocalHandlePositions(), self.roi.pos()
         
