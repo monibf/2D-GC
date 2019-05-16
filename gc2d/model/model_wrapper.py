@@ -1,5 +1,6 @@
 import numpy as np
 
+from gc2d.model.preferences import Preferences 
 from gc2d.model.integration import Integration
 from gc2d.model.model import Model
 from gc2d.observable import Observable
@@ -16,6 +17,7 @@ class ModelWrapper(Observable):
         """The model containing all information relating to the chromatogram"""
         self.integrations = {}
         self.integrate_id = 0
+        self.preferences = Preferences()
 
     def set_palette(self, palette):
         """
@@ -27,6 +29,7 @@ class ModelWrapper(Observable):
 
     def get_state(self):
         """ returns an array with the model data and the integration data for storage """
+        print([self.integrations[key].get_state() for key in self.integrations])
         return [self.model.get_2d_chromatogram_data(), [self.integrations[key].get_state() for key in self.integrations]]
 
     def set_model(self, arr):
@@ -34,7 +37,7 @@ class ModelWrapper(Observable):
         self.model = Model(arr, len(arr[0]))
         self.notify('model', self.model)  # Notify all observers.
 
-    def load_model(self, file_name):
+    def import_model(self, file_name):
         """
         Loads the chromatogram data from a text file into a new model, omits last column (trailing commas).
         Later in development this may be responsible for loading more than just the chromatogram data.
@@ -101,3 +104,9 @@ class ModelWrapper(Observable):
         """
         self.notify('removeIntegration', self.integrations[key])
         del self.integrations[key]
+
+    def get_preference(self, which):
+        return self.preferences.get(which)
+    
+    def set_preference(self, which, value):
+        self.preferences.set(which, value)

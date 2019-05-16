@@ -14,7 +14,7 @@ def main():
     """ The Qt application. """
     if len(sys.argv) > 1:
         datafile = os.path.join(os.path.dirname(__file__), sys.argv[1])
-        model_wrapper.load_model(datafile)
+        model_wrapper.import_model(datafile)
         
     win = Window(model_wrapper)  # create the window.
 

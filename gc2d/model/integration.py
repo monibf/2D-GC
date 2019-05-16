@@ -16,6 +16,7 @@ class Integration:
         self.id = key
         self.selector = selector
         self.mask = None
+        self.pos = None # track position of bounding box
         self.mean = None
         self.sum = None
 
@@ -27,10 +28,10 @@ class Integration:
         :return: None
         """
         if mask is not None:
-            self.mask = mask
-            self.sum = np.sum(mask)
+            self.mask = mask[1]
+            self.sum = np.sum(mask[1])
             if self.sum > 0.0:
-                self.mean = self.sum / np.count_nonzero(mask)
+                self.mean = self.sum / np.count_nonzero(mask[1])
             else: 
                 # outside of graph
                 self.sum = np.nan
@@ -40,4 +41,7 @@ class Integration:
 
     def get_state(self):
         """ return state values to be serialized """
-        return (self.label, [(handle[1].x(), handle[1].y()) for handle in self.selector.get_handles()])
+        handles, pos = self.selector.get_handles()
+        return (self.label, 
+                [(handle[1].x(), handle[1].y()) for handle in handles], 
+                (pos.x(), pos.y()))
