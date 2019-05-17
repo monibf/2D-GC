@@ -11,13 +11,15 @@ class Plot2DListener(WidgetListener):
         """
         super().__init__(plot2d)
         self.model_wrapper = model_wrapper
-
         self.statusbar = statusbar
 
     def mouse_move_event(self, event):
         mouse_point = self.widget.plotItem.vb.mapSceneToView(event.localPos())
-        self.statusbar.showMessage("(x, y): (" + str(round(mouse_point.x())) +
-                                   ", " + str(round(mouse_point.y())) + ")")
+        mouse_x = round(mouse_point.x())
+        mouse_y = round(mouse_point.y())
+
+        self.statusbar.showMessage("x, y: " + str(mouse_x) +
+                                   ", " + str(mouse_y))
 
         # Do the default stuff.
         super().mouse_move_event(event)

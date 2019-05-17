@@ -27,7 +27,6 @@ class Plot2DWidget(PlotWidget):
         Updates the image rendered to match the model.
         :return: None
         """
-
         
         if name == 'newIntegration':
             self.addItem(value.selector.roi)

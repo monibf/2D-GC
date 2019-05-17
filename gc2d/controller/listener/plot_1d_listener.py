@@ -2,6 +2,7 @@ from PyQt5.QtCore import Qt
 
 from gc2d.controller.listener.widget_listener import WidgetListener
 
+
 class Plot1DListener(WidgetListener):
 
     def __init__(self, plot1d, model_wrapper, statusbar):
@@ -12,14 +13,15 @@ class Plot1DListener(WidgetListener):
         """
         super().__init__(plot1d)
         self.model_wrapper = model_wrapper
-
         self.statusbar = statusbar
 
         """ The model wrapper this potentially interacts with. This may not be necessary later on. """
 
     def mouse_move_event(self, event):
         mouse_point = self.widget.plotItem.vb.mapSceneToView(event.localPos())
-        self.statusbar.showMessage("(x): " + str(round(mouse_point.x())))
+        mouse_x = round(mouse_point.x())
+
+        self.statusbar.showMessage("x: " + str(mouse_x))
 
         # Do the default stuff.
         super().mouse_move_event(event)
