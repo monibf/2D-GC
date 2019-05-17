@@ -1,4 +1,5 @@
 from PyQt5.QtWidgets import QAction
+import os
 
 from gc2d.model.preferences import PreferenceEnum
 from gc2d.controller.action.save_action import SaveAction
@@ -27,5 +28,10 @@ class SaveAsAction(QAction):
         :return: None
         """
         self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, None) 
-        SaveAction.save(self.save_action) 
+        SaveAction.dump(self.save_action, self.get_path) 
 
+    def get_path(self):
+        path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC', filter='Program(*.gcgc));;Integrations(*.gcgci);;Preferences(*.gcgcp)')[0]
+        if os.path.splitext(path)[1] is ".gcgc": 
+            self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)
+        return path 

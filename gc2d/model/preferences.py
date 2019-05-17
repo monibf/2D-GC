@@ -1,9 +1,14 @@
 from PyQt5.Qt import QColor, QPen
-from enum import Enum
+from enum import Enum, auto
 
 class PreferenceEnum(Enum):
-    SAVE_FILE, PALETTE, PRECISION, PEN = range(4)
+    SAVE_FILE = auto()
+    PEN = auto()
 
+class PenEnum(Enum):
+    COLOR = auto()
+    WIDTH = auto()
+    STYLE = auto()
 
 class Preferences:
 
@@ -14,7 +19,7 @@ class Preferences:
         This was done to avoid code clutter in the model_wrapper and make the preferences easily iterable
         """
         self.save_file = None
-        self.pen = None
+        self.pen = {}
         self.getter_map = {
             PreferenceEnum.SAVE_FILE : self.get_save_file,
             PreferenceEnum.PEN : self.get_pen
@@ -23,7 +28,12 @@ class Preferences:
             PreferenceEnum.SAVE_FILE : self.set_save_file,
             PreferenceEnum.PEN : self.set_pen
         }
+        self.set_defaults()
 
+    def set_defaults():
+        self.pen[PenEnum.STYLE] = 1
+        self.pen[PenEnum.WIDTH] = 4
+        self.pen[PenEnum.COLOR] = "red"
 
     def get(self, which):
         """
@@ -50,12 +60,11 @@ class Preferences:
         self.save_file = path
     
     def get_pen(self):
-        if self.pen is None:
-            self.pen = QPen()
-            self.pen.setStyle(1)  # solid line
-            self.pen.setWidth(4)
-            self.pen.setColor(QColor("red"))
+        """ returns the set pen or the default, if pen is not set """
         return self.pen
 
-    def set_pen(self, pen):
-        self.pen = pen
+    def set_pen(self, pen_dict):
+        """ sets the default pen for roi drawing """
+        for key in pen_dict:
+            self.pen[key] = pen_dict[key]
+        

@@ -1,6 +1,6 @@
 import numpy as np
 
-from gc2d.model.preferences import Preferences 
+from gc2d.model.preferences import Preferences, PreferenceEnum
 from gc2d.model.integration import Integration
 from gc2d.model.model import Model
 from gc2d.observable import Observable
@@ -29,7 +29,10 @@ class ModelWrapper(Observable):
 
     def get_state(self):
         """ returns an array with the model data and the integration data for storage """
-        return [self.model.get_2d_chromatogram_data(), [self.integrations[key].get_state() for key in self.integrations]]
+        return [self.model.get_2d_chromatogram_data(), 
+                [self.integrations[key].get_state() for key in self.integrations],
+                [self.get_preference(key) for key in PreferenceEnum]
+               ]
 
     def set_model(self, arr):
         """

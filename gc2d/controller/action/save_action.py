@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QAction, QFileDialog
 from PyQt5.QtCore import QFile
 import json
+import os
 
 from gc2d.model.preferences import PreferenceEnum
 
@@ -19,26 +20,33 @@ class SaveAction(QAction):
         self.model_wrapper = model_wrapper
         self.setShortcut('Ctrl+S')
         self.setStatusTip('Save')
-        self.triggered.connect(self.save)
+        self.triggered.connect(lambda: self.dump(self.get_path()))
 
-    def save(self):
-        """ 
-        The implementation of saving. 
-        Model state is saved in json format in a .gcgc file
-        if no path is in preferences, a dialog will open
-        :return: None
-        """
-        path = self.model_wrapper.get_preference(PreferenceEnum.SAVE_FILE) 
-        if path is None:
-            path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC', filter='program state (*.gcgc))')[0]
-            if path is '': # on cancel in file dialog
-                return
-            self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path) 
-        save_fd = open(path, 'w')
+    def dump(self, path):
+        if path is '':
+            return
         state = self.model_wrapper.get_state()
-        json.dump({ "model" : state[0].tolist(),
-                    "integrations" : state[1]}, 
+        extension = os.path.splitext(path)[1]
+        save_fd = open(path, 'w')
+        print(extension, "HEY")
+        if extension == ".gcgc":
+            print("saving full model ")
+            json.dump({"model" : state[0].tolist(),
+                       "integrations" : state[1],
+                       "preferences" : state[2]},
+                       save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
+        elif extension == ".gcgci":
+            json.dump({"integrations" : state[1]}, 
+                    save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
+        elif extension == ".gcgcp":
+            json.dump({"preferences" : state[1]}, 
                     save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
         save_fd.close()
 
-            
+    def get_path(self):
+        path = self.model_wrapper.get_preference(PreferenceEnum.SAVE_FILE) 
+        if path is None:
+            path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC', filter='Program(*.gcgc);;Integrations(*.gcgci);;Preferences(*.gcgcp)')[0]
+            if os.path.splitext(path)[1] is ".gcgc": 
+                self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)
+        return path 
