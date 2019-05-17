@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import QLabel, QMainWindow
 from pyqtgraph.dockarea import Dock, DockArea
 
 from gc2d.controller.action.draw_action import DrawAction
+from gc2d.controller.action.add_handle_action import HandleAction
 from gc2d.controller.action.exit_action import ExitAction
 from gc2d.controller.action.open_file_action import OpenFileAction
 from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction

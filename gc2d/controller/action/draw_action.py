@@ -1,5 +1,4 @@
 from PyQt5.QtWidgets import QAction
-
 from gc2d.controller.integration.selector import Selector
 
 
@@ -18,9 +17,11 @@ class DrawAction(QAction):
         self.setStatusTip('Select integration area')
         self.triggered.connect(self.draw)
 
+
     def draw(self):
         """
         Makes a new Selector object, which initializes itself in the model wrapper
         :return: None
         """
-        Selector(self.model_wrapper)
+        self.mouse_position = self.window.plot_2d.listener.mouse_position
+        self.window.plot_2d.listener.drawing_selector = Selector(self.model_wrapper, self.mouse_position)

@@ -15,7 +15,7 @@ class Selector(QObject):
         self.roi = None
         self.id = None
         self.viewport = None
-        self.position = mouse_position
+        self.points = [mouse_position,mouse_position]
         self.draw()
 
     def draw(self):
@@ -28,7 +28,6 @@ class Selector(QObject):
         pen.setStyle(1)  # solid line
         pen.setWidth(4)
         pen.setColor(QColor("red"))
-        self.points = [self.position, self.position]
         self.roi = PolyLineROI(self.points, pen=pen, closed=True)
         self.id = self.model_wrapper.get_new_key()
         self.model_wrapper.add_integration(self, self.id)
@@ -59,11 +58,11 @@ class Selector(QObject):
         """
         return self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.viewport)
 
-    # def get_handles(self):
-    #     # will be reused in later iterations of the code
-    #     return self.roi.getSceneHandlePositions()
-
     def add_point(self, mouse_position):
+        """"
+        adds a point to the integration selector
+        :param 2d mouse coordinates
+        :return: None
+        """
         self.points.append([mouse_position[0], mouse_position[1]])
         self.roi.setPoints(self.points)
-        

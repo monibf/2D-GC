@@ -27,7 +27,10 @@ class Integration:
         """
         if mask is not None:
             self.mask = mask
-            self.value = np.sum(mask) / np.count_nonzero(mask)
+            if np.count_nonzero(mask) is not 0:
+                self.value = np.sum(mask) / np.count_nonzero(mask)
+            else:
+                self.value = 0
         if label is not None:
             self.label = label
 

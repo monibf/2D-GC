@@ -1,5 +1,5 @@
 from pyqtgraph import ImageItem, PlotWidget
-
+from gc2d.controller.action.add_handle_action import HandleAction
 from gc2d.controller.listener.plot_2d_listener import Plot2DListener
 
 
@@ -18,9 +18,13 @@ class Plot2DWidget(PlotWidget):
         self.addItem(self.img)
         self.wrapper_temp = model_wrapper #TEMPORARY
 
+
         self.setAspectLocked(True)
         self.notify('model', model_wrapper.model)
         model_wrapper.add_observer(self, self.notify)
+
+        self.add_handle_action = HandleAction(self, model_wrapper)
+        self.addAction(self.add_handle_action)
 
     def notify(self, name, value):
         """
