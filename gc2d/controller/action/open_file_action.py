@@ -50,7 +50,7 @@ class OpenFileAction(QAction):
                 self.model_wrapper.set_model(np.array(loaded["model"]))
                 self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, file_name)
 
-            if "integrations" in loaded:
+            if "integrations" in loaded and self.model_wrapper.model != None:
                 for entry in loaded["integrations"]:
                     Selector(self.model_wrapper, entry[0], entry[1], entry[2])
             

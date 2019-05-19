@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QAction
+from PyQt5.QtWidgets import QAction, QFileDialog
 import os
 
 from gc2d.model.preferences import PreferenceEnum
@@ -28,7 +28,7 @@ class SaveAsAction(QAction):
         :return: None
         """
         self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, None) 
-        SaveAction.dump(self.save_action, self.get_path) 
+        SaveAction.dump(self.save_action, self.get_path()) 
 
     def get_path(self):
         """
