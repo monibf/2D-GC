@@ -31,6 +31,10 @@ class SaveAsAction(QAction):
         SaveAction.dump(self.save_action, self.get_path) 
 
     def get_path(self):
+        """
+        Opens a dialog for a new save path for either program, integrations, or preferences, with different extensions.
+        :return path: the path to save data to
+        """
         path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC', filter='Program(*.gcgc));;Integrations(*.gcgci);;Preferences(*.gcgcp)')[0]
         if os.path.splitext(path)[1] is ".gcgc": 
             self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)

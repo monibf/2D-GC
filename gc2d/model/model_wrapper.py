@@ -31,7 +31,7 @@ class ModelWrapper(Observable):
         """ returns an array with the model data and the integration data for storage """
         return [self.model.get_2d_chromatogram_data(), 
                 [self.integrations[key].get_state() for key in self.integrations],
-                [self.get_preference(key) for key in PreferenceEnum]
+                self.preferences.get_state_as_list()
                ]
 
     def set_model(self, arr):
@@ -91,7 +91,7 @@ class ModelWrapper(Observable):
         Update an integration mask, and notifies the view that integration values have been changed
         :param key: the key of the altered integration
         :param mask: an updated mask
-        :parame label: an updated label
+        :param label: an updated label
         :return: None
         """
         self.integrations[key].update(mask, label)
@@ -125,3 +125,4 @@ class ModelWrapper(Observable):
         :return: None
         """
         self.preferences.set(which, value)
+        

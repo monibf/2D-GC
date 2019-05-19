@@ -30,10 +30,20 @@ class Preferences:
         }
         self.set_defaults()
 
-    def set_defaults():
+    def set_defaults(self):
+        """ Constructs the default pen dictionary """
         self.pen[PenEnum.STYLE] = 1
         self.pen[PenEnum.WIDTH] = 4
         self.pen[PenEnum.COLOR] = "red"
+
+    def get_state_as_list(self):
+        """
+        returns a list of all specified preferences in text form for saving
+        :return: a list of preferences in text form
+        """
+        return [("SAVE_FILE", self.get_save_file()),
+                ("PEN", [(enum.name, self.pen[enum]) for enum in PenEnum])
+               ]
 
     def get(self, which):
         """
@@ -59,12 +69,21 @@ class Preferences:
         """ sets the save file path """
         self.save_file = path
     
-    def get_pen(self):
-        """ returns the set pen or the default, if pen is not set """
-        return self.pen
+    def get_pen(self, mode="pen"):
+        """ constructs and returns the set pen  """
+        pen = QPen()
+        pen.setWidth(self.pen[PenEnum.WIDTH])
+        pen.setColor(QColor(self.pen[PenEnum.COLOR]))
+        pen.setStyle(self.pen[PenEnum.STYLE])
+        return pen
 
     def set_pen(self, pen_dict):
-        """ sets the default pen for roi drawing """
+        """ 
+        Sets pen preferences to specified values. 
+        Can either set all preferences, or one as specified in the supplied dictionary
+        :param pen_dict: a dictionary of one or multiple fields of the form {PenEnum.(spec) : value}
+        """
         for key in pen_dict:
             self.pen[key] = pen_dict[key]
+
         

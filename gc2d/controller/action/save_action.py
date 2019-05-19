@@ -23,27 +23,38 @@ class SaveAction(QAction):
         self.triggered.connect(lambda: self.dump(self.get_path()))
 
     def dump(self, path):
+        """
+        Writes (parts of) the model state in the specified path as json format.
+        If *.gcgc, the complete model state will be written.
+        If *.gcgci, only the integration areas will be written.
+        If *.gcgcp, only preferences will be written. 
+        :param path: the path to write the data to
+        :return: None
+        """
         if path is '':
             return
         state = self.model_wrapper.get_state()
         extension = os.path.splitext(path)[1]
         save_fd = open(path, 'w')
-        print(extension, "HEY")
         if extension == ".gcgc":
-            print("saving full model ")
             json.dump({"model" : state[0].tolist(),
                        "integrations" : state[1],
                        "preferences" : state[2]},
                        save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
         elif extension == ".gcgci":
             json.dump({"integrations" : state[1]}, 
-                    save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
+                       save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
         elif extension == ".gcgcp":
-            json.dump({"preferences" : state[1]}, 
-                    save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
+            json.dump({"preferences" : state[2]}, 
+                       save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
         save_fd.close()
 
     def get_path(self):
+        """
+        Tries to find if this file was loaded from a *.gcgc file (in preferences), if so -> returns that path
+        Else opens a dialog to assign a new save path, or only save the integrations and preferences.
+        :return path: The path to save the data in.
+        """
         path = self.model_wrapper.get_preference(PreferenceEnum.SAVE_FILE) 
         if path is None:
             path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC', filter='Program(*.gcgc);;Integrations(*.gcgci);;Preferences(*.gcgcp)')[0]
