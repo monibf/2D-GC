@@ -1,3 +1,4 @@
+import math
 from gc2d.controller.listener.widget_listener import WidgetListener
 
 
@@ -15,8 +16,8 @@ class Plot2DListener(WidgetListener):
 
     def mouse_move_event(self, event):
         mouse_point = self.widget.plotItem.vb.mapSceneToView(event.localPos())
-        mouse_x = round(mouse_point.x())
-        mouse_y = round(mouse_point.y())
+        mouse_x = math.floor(mouse_point.x())
+        mouse_y = math.floor(mouse_point.y())
 
         self.statusbar.showMessage("x, y: " + str(mouse_x) +
                                    ", " + str(mouse_y))
