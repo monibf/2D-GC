@@ -6,12 +6,12 @@ if [[ -z "$NAME" ]]; then
     NAME="2D-GC"
 fi
 
-if [[ $OSTYPE != "linux"* ]]; then
-    echo "This install script is intended only for Linux! Please use another!"
+if [[ $OSTYPE == "darwin"* ]]; then
+    echo "Please use the OSX_INSTALL.command script! This one will not optimise for OSX..."
     exit 1
 fi
 
-printf "Checking python3 is installed: "
+printf "Checking python3 is installed:"
 if [[ -x $(command -v python3) ]]; then
     printf "YES\n"
     PYTHON=$(command -v python3)
@@ -47,7 +47,9 @@ printf "Installing Dependencies...\n"
 echo "Installing $NAME..."
 "$PYTHON" -m PyInstaller --noconfirm --windowed \
  --distpath="$INSTALL_LOCATION" \
- --name="$NAME" gc2d/__main__.py
+ --onefile --name="$NAME" \
+  gc2d/__main__.py
+
 if [[ $? != 0 ]]; then
     exit 1
 fi
