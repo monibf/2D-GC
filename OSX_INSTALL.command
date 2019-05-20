@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+cd `dirname $0`
 if [[ -z "$INSTALL_LOCATION" ]]; then
  INSTALL_LOCATION="$HOME/Applications"
 fi
