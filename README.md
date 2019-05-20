@@ -41,18 +41,34 @@ This will only work between the same Windows version and architecture.
 
 ### OSX
 
-1. If you don't already have python3 installed, install it from [www.python.org](https://www.python.org/downloads/), Python 3.7 is prefered, however any 
-version of python will probably work.
+If you don't already have python3 installed, install it from [www.python.org](https://www.python.org/downloads/), 
+Python 3.7 is prefered, however any version of python will probably work.
 
-2. Run `OSX_INSTALL.sh`
+Run `OSX_INSTALL.command`, either by starting it in a terminal, or by double clicking in Finder.
+
+GC2D will now be installed as an App in your user Applications directory and it should be visible in launcher. 
+
+**NOTE:** If you do not wish for GC2D's dependencies to be installed in your current python environment, it may be worth
+creating a new one before installation.
 
 ## Uninstallation
 
 ### Windows
-Run `WINDDOWS_UNINSTALL.bat`. This will remove the files from `%LOCALAPPDATA%`, the start menu shortcuts
+
+Navigate to `Control Panel -> Uninstall a Program` and select GC2D like you would any other program.
+This will remove the files from `%LOCALAPPDATA%`, the start menu shortcuts
 and the GC2D entries in the registry. Desktop shortcuts will not be deleted.
 
-Portable executables do not need uninstalling, just delete the executable. 
+Portable executables do not need uninstalling, just delete the executable.
+
+### OSX
+
+Simply delete `GC2D.app` from your local Applications directory like you would any other app.
+User preferences will not be removed. To also remove these delete the `$HOME/.gc2d` directory.
+
+### Linux
+
+
 
 ## TODO
 
