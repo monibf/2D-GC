@@ -12,6 +12,10 @@ A visualisation and analysis tool for two dimensional chromatography data.
 avoid having all of GC2D's dependencies installed into your current environment. They will not be removed post 
 installation.
 
+**NOTE:** The installers can take quite some time to build GC-2D, especially on slower systems. Don't be worried if it
+doesn't seem to be doing anything, particularly when it's `Building PKG (CArchive) PKG-000.pkg`.
+
+
 ### Windows
 Run the `WINDOWS_INSTALL.bat`. This will walk you through this installation and install
 all required dependencies. 
@@ -53,9 +57,10 @@ GC2D will now be installed as an App in your user Applications directory and it 
 
 For Linux and all other systems with a bash interpreter:
 - Install python3 if it isn't installed already. Please refer to your distro's help documentation for how to do that.
-- Run the `LINUX_INSTALL.sh` script from the project directory. This should create a folder, 2D-GC, which contains
-amongst other things, a `2D-GC` binary. Place this entire directory where ever you like and either execute `2D-GC`
-directly with `./2D-GC/2D-GC` or add a link to it somewhere on the PATH with `ln -s /some/where/on/the/path /where/you/put/2D-GC/2D-GC` 
+- Run the `LINUX_INSTALL.sh` script from the project directory. This will create a binary called `GC-2D` in the project
+directory, you can run this directly with `./GC-2D` or you can put it somewhere on your path and call it from the
+command line like any other program.
+
 
 ## Uninstallation
 
@@ -73,8 +78,8 @@ Simply delete `GC2D.app` from your local Applications directory like you would a
 User preferences will not be removed. To also remove these delete the `$HOME/.gc2d` directory.
 
 ### Linux/Other
-Delete the folders you created with 
-
+Remove the 2D-GC binary from your path.
+User preferences can be found in `$HOME/.gc2d`, delete this folder to completely uninstall.
 
 ## TODO
 
