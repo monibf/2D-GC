@@ -7,6 +7,11 @@ A visualisation and analysis tool for two dimensional chromatography data.
  - Importing of pre-formatted, comma separated GCxGC data.
 
 ## Installation
+
+**NOTE:** If you already have python3 installed, you may wish to setup a new environment before running the installer to
+avoid having all of GC2D's dependencies installed into your current environment. They will not be removed post 
+installation.
+
 ### Windows
 Run the `WINDOWS_INSTALL.bat`. This will walk you through this installation and install
 all required dependencies. 
@@ -18,10 +23,6 @@ python 3.7 so if at all possible use that version.
 
 **NOTE:** If attempting to install on windows XP, you will need to manually install python 3.4.
 Newer versions of python3 cannot be installed on XP.
-
-**NOTE:** If you already have python3 installed, you may wish to setup a new environment before running the installer to
-avoid having all of GC2D's dependencies installed into your current environment. They will not be removed post 
-installation.
 
 **NOTE:** If the python3 is installed by the installer, it will ask whether you wish to uninstall python3 afterwards.
 Doing so will not completely remove python3. The python3 uninstaller will leave `py` installer.
@@ -48,8 +49,13 @@ Run `OSX_INSTALL.command`, either by starting it in a terminal, or by double cli
 
 GC2D will now be installed as an App in your user Applications directory and it should be visible in launcher. 
 
-**NOTE:** If you do not wish for GC2D's dependencies to be installed in your current python environment, it may be worth
-creating a new one before installation.
+### Linux/Other
+
+For Linux and all other systems with a bash interpreter:
+- Install python3 if it isn't installed already. Please refer to your distro's help documentation for how to do that.
+- Run the `LINUX_INSTALL.sh` script from the project directory. This should create a folder, 2D-GC, which contains
+amongst other things, a `2D-GC` binary. Place this entire directory where ever you like and either execute `2D-GC`
+directly with `./2D-GC/2D-GC` or add a link to it somewhere on the PATH with `ln -s /some/where/on/the/path /where/you/put/2D-GC/2D-GC` 
 
 ## Uninstallation
 
@@ -66,8 +72,8 @@ Portable executables do not need uninstalling, just delete the executable.
 Simply delete `GC2D.app` from your local Applications directory like you would any other app.
 User preferences will not be removed. To also remove these delete the `$HOME/.gc2d` directory.
 
-### Linux
-
+### Linux/Other
+Delete the folders you created with 
 
 
 ## TODO
