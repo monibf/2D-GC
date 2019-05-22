@@ -34,7 +34,7 @@ copy /Y exampledata "%INSTALL_LOCATION%\%NAME%\exampledata\" >NUL
 echo @echo off>"%INSTALL_LOCATION%\%NAME%\UNINSTALL.bat"
 echo set INSTALL_LOCATION=%INSTALL_LOCATION%>>"%INSTALL_LOCATION%\%NAME%\UNINSTALL.bat"
 echo set NAME=%NAME%>>"%INSTALL_LOCATION%\%NAME%\UNINSTALL.bat"
-type WINDOWS_UNINSTALL.txt>>"%INSTALL_LOCATION%\%NAME%\UNINSTALL.bat"
+type Windows_Install_Helpers\WINDOWS_UNINSTALL.txt>>"%INSTALL_LOCATION%\%NAME%\UNINSTALL.bat"
 
 :: add the uninstall script to the registry
 echo registering uninstaller...
@@ -48,7 +48,7 @@ reg add "HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\%
 
 :: Create start menu and desktop shortcuts.
 echo Creating shortcuts...
-cscript WINDOWS_GENERATE_LINK.vbs "%INSTALL_LOCATION%" "%NAME%" >NUL
+cscript Windows_Install_Helpers\WINDOWS_GENERATE_LINK.vbs "%INSTALL_LOCATION%" "%NAME%" >NUL
 mkdir "%APPDATA%\Microsoft\Windows\Start Menu\Programs\%NAME%"
 copy /Y "%NAME%.lnk" "%APPDATA%\Microsoft\Windows\Start Menu\Programs\%NAME%" >NUL
 copy /Y "%NAME%.lnk" "%USERPROFILE%\Desktop" >NUL
@@ -67,7 +67,7 @@ set /p yn=Download and install python ^(y/N^)^?
 if /I not "%yn%"=="y" goto npython
 :: Download python if it hasn't been already...
 echo downloading python...
-if not exist python-installer.exe cscript WINDOWS_DOWNLOAD_PYTHON.vbs "%PYTHON_URL%" >NUL
+if not exist python-installer.exe cscript Windows_Install_Helpers\WINDOWS_DOWNLOAD_PYTHON.vbs "%PYTHON_URL%" >NUL
 
 :: Prompt user to install python3.
 echo installing python3...
