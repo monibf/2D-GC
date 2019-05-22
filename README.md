@@ -47,7 +47,7 @@ This will only work between the same Windows version and architecture.
 ### OSX
 
 If you don't already have python3 installed, install it from [www.python.org](https://www.python.org/downloads/), 
-Python 3.7 is prefered, however any version of python will probably work.
+Python 3.7 is prefered, however any version of python3 will probably work.
 
 Run `OSX_INSTALL.command`, either by starting it in a terminal, or by double clicking in Finder.
 
@@ -56,7 +56,7 @@ GC2D will now be installed as an App in your user Applications directory and it 
 ### Linux/Other
 
 For Linux and all other systems with a bash interpreter:
-- Install python3 if it isn't installed already. Please refer to your distro's help documentation for how to do that.
+- Install python3 if it isn't installed already. Please refer to your distribution help documentation for how to do that.
 - Run the `LINUX_INSTALL.sh` script from the project directory. This will create a binary called `GC-2D` in the project
 directory, you can run this directly with `./GC-2D` or you can put it somewhere on your path and call it from the
 command line like any other program.
