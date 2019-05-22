@@ -31,26 +31,31 @@ else
     exit 1
 fi
 
-printf "Checking PyInstaller is installed: "
-if [[ $("$PIP" --disable-pip-version-check list | grep PyInstaller) ]]; then
-    printf "YES\n"
-else
-    printf "NO\n"
-    printf "Installing PyInstaller...\n"
-    "$PIP" install --user PyInstaller
-fi
+#printf "Checking PyInstaller is installed: "
+#if [[ $("$PIP" --disable-pip-version-check list | grep PyInstaller) ]]; then
+#    printf "YES\n"
+#else
+#    printf "NO\n"
+#    printf "Installing PyInstaller...\n"
+#    "$PIP" install --user PyInstaller
+#fi
 
 printf "Installing Dependencies...\n"
 
 "$PIP" install --user -r requirements.txt
 
-echo "Installing $NAME..."
-"$PYTHON" -m PyInstaller --noconfirm --windowed \
- --distpath="$INSTALL_LOCATION" \
- --onefile --name="$NAME" \
-  gc2d/__main__.py
+#echo "Installing $NAME..."
+#"$PYTHON" -m PyInstaller --noconfirm --windowed \
+# --distpath="$INSTALL_LOCATION" \
+# --onefile --name="$NAME" \
+#  gc2d/__main__.py
+
 
 if [[ $? != 0 ]]; then
     exit 1
 fi
-echo "Install Complete!"
+
+chmod 755 LAUNCH_LINUX.sh
+ln -s gc2d pwd/LAUNCH_LINUX.sh
+
+echo "Link created! Put it somewhere on the PATH to run it from the terminal."
