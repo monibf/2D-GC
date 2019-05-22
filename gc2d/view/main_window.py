@@ -111,3 +111,18 @@ class Window(QMainWindow):
         dock_list = Dock('integration')
         dock_area.addDock(dock_list)
         dock_list.addWidget(IntegrationList(self.model_wrapper, dock_list))
+
+    def addDialog(self, dialog):
+        for d in self.dialogs:
+            if isinstance(d, type(dialog)):
+                d.show()
+                d.raise_()
+                d.activateWindow()
+                d.showNormal()
+                return
+
+        dialog.show()
+        dialog.raise_()
+        dialog.activateWindow()
+        dialog.showNormal()
+        self.dialogs.append(dialog)
