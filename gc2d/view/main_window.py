@@ -6,6 +6,7 @@ from gc2d.controller.action.exit_action import ExitAction
 from gc2d.controller.action.open_file_action import OpenFileAction
 from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
 from gc2d.view.integration_list import IntegrationList
+from gc2d.view.plot_1d_widget import Plot1DWidget
 from gc2d.view.plot_2d_widget import Plot2DWidget
 from gc2d.view.plot_3d_widget import Plot3DWidget
 
@@ -36,6 +37,7 @@ class Window(QMainWindow):
         self.draw_action = DrawAction(self, self.model_wrapper)
         self.open_palette_chooser_action = OpenChoosePaletteAction(self, self.model_wrapper)
 
+        self.plot_1d = None
         self.plot_2d = None
         self.plot_3d = None
 
@@ -93,13 +95,34 @@ class Window(QMainWindow):
         dock_2d = Dock('2D')
         dock_area.addDock(dock_2d, 'above', dock_3d)
 
+        dock_1d = Dock('1D')
+        dock_area.addDock(dock_1d, 'bottom', dock_2d)
+
         self.plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
         dock_3d.addWidget(self.plot_3d)
 
         self.plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
         dock_2d.addWidget(self.plot_2d)
 
+        self.plot_1d = Plot1DWidget(self.model_wrapper, dock_1d)
+        dock_1d.addWidget(self.plot_1d)
+
         # TODO: move away from this function
         dock_list = Dock('integration')
         dock_area.addDock(dock_list)
         dock_list.addWidget(IntegrationList(self.model_wrapper, dock_list))
+
+    def addDialog(self, dialog):
+        for d in self.dialogs:
+            if isinstance(d, type(dialog)):
+                d.show()
+                d.raise_()
+                d.activateWindow()
+                d.showNormal()
+                return
+
+        dialog.show()
+        dialog.raise_()
+        dialog.activateWindow()
+        dialog.showNormal()
+        self.dialogs.append(dialog)
