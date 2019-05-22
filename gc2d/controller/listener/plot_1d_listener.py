@@ -24,8 +24,9 @@ class Plot1DListener(WidgetListener):
         mouse_x = math.floor(mouse_point.x())
 
         # Get the y value at x if it exists
-        if 0 <= mouse_x < len(self.widget.plotItem.dataItems[0].curve.yData):
-            y_value = self.widget.plotItem.dataItems[0].curve.yData[mouse_x]
+        y_data = self.widget.plotItem.dataItems[0].curve.yData
+        if 0 <= mouse_x < len(y_data):
+            y_value = int(y_data[mouse_x])
 
         else:
             y_value = "no data"
@@ -70,7 +71,7 @@ class Plot1DListener(WidgetListener):
 
         # Do the default stuff.
         super().mouse_scroll_event(event)
-        
+
     def mouse_leave_event(self, event):
         self.statusbar.clearMessage()
         super().mouse_leave_event(event)
