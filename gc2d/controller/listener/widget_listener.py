@@ -23,6 +23,9 @@ class WidgetListener:
         self.super_mouse_scroll_event = widget.wheelEvent
         widget.wheelEvent = self.mouse_scroll_event
 
+        self.super_mouse_leave_event = widget.leaveEvent
+        widget.leaveEvent = self.mouse_leave_event
+
         self.super_key_press_event = widget.keyPressEvent
         widget.keyPressEvent = self.key_press_event
 
@@ -70,6 +73,14 @@ class WidgetListener:
         """
         self.super_mouse_scroll_event(event)
 
+    def mouse_leave_event(self, event):
+        """
+        Intercepts leaveEvent of the QWidget
+        :param event: the leave event
+        :return: None
+        """
+        self.super_mouse_leave_event(event)
+
     def key_press_event(self, event):
         """
         Intercepts keyPressEvent of the plot
@@ -85,3 +96,5 @@ class WidgetListener:
         :return: None
         """
         self.super_key_release_event(event)
+
+

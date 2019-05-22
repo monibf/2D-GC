@@ -70,3 +70,7 @@ class Plot1DListener(WidgetListener):
 
         # Do the default stuff.
         super().mouse_scroll_event(event)
+        
+    def mouse_leave_event(self, event):
+        self.statusbar.clearMessage()
+        super().mouse_leave_event(event)
