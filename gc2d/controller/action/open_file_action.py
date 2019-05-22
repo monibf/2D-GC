@@ -31,7 +31,7 @@ class OpenFileAction(QAction):
         """
         file_name = QFileDialog.getOpenFileName(self.window, 'Open chromatography data', filter='GCxGC files (*.gcgc *.gcgci *.gcgcp)')[0]
         if file_name:
-            with open(file_name, 'rb') as file:
+            with open(file_name, 'r') as file:
                 loaded = json.load(file)
 
             if "preferences" in loaded:
@@ -42,8 +42,8 @@ class OpenFileAction(QAction):
                     elif entry[0] == "PEN":
                         # construct pen dictionary to overwrite defaults; not all fields of PenEnum need to be specified
                         pen_dict = {}
-                        for penpref in entry[1]:
-                           pen_dict[PenEnum[penpref[0]]] = penpref[1]
+                        for property_type, value in entry[1]:
+                           pen_dict[PenEnum[property_type]] = value
                         self.model_wrapper.set_preference(PreferenceEnum.PEN, pen_dict)
 
             if "model" in loaded:

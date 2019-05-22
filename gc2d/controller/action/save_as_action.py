@@ -23,19 +23,9 @@ class SaveAsAction(QAction):
 
     def save(self):
         """"
-        Sets the save_file path in the preferences to None and calls a regular save call in save_action.
+        Sets save file to None and calls save_action
         Because the save_file path is None, the SaveAction will ask for a new path via a dialog
         :return: None
         """
         self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, None) 
-        SaveAction.dump(self.save_action, self.get_path()) 
-
-    def get_path(self):
-        """
-        Opens a dialog for a new save path for either program, integrations, or preferences, with different extensions.
-        :return path: the path to save data to
-        """
-        path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC', filter='Program(*.gcgc));;Integrations(*.gcgci);;Preferences(*.gcgcp)')[0]
-        if os.path.splitext(path)[1] is ".gcgc": 
-            self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)
-        return path 
+        SaveAction.save(self.save_action) 

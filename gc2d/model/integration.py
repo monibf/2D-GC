@@ -28,10 +28,10 @@ class Integration:
         :return: None
         """
         if mask is not None:
-            self.mask = mask[1]
-            self.sum = np.sum(mask[1])
+            self.mask = mask
+            self.sum = np.sum(mask)
             if self.sum > 0.0:
-                self.mean = self.sum / np.count_nonzero(mask[1])
+                self.mean = self.sum / np.count_nonzero(mask)
             else: 
                 # outside of graph
                 self.sum = np.nan

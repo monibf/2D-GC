@@ -20,44 +20,23 @@ class SaveAction(QAction):
         self.model_wrapper = model_wrapper
         self.setShortcut('Ctrl+S')
         self.setStatusTip('Save')
-        self.triggered.connect(lambda: self.dump(self.get_path()))
+        self.triggered.connect(self.save)
 
-    def dump(self, path):
+    def save(self):
         """
-        Writes (parts of) the model state in the specified path as json format.
-        If *.gcgc, the complete model state will be written.
-        If *.gcgci, only the integration areas will be written.
-        If *.gcgcp, only preferences will be written. 
+        Writes the model state (chromatogram, integration areas, preferences) in the specified path as json format..
         :param path: the path to write the data to
         :return: None
         """
-        if path is '':
-            return
+        path = self.model_wrapper.get_preference(PreferenceEnum.SAVE_FILE) 
+        if path is None:
+            path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC state', filter='GCxGC files (*.gcgc)')[0]
+            if path is '':
+                return
+            self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)
         state = self.model_wrapper.get_state()
-        extension = os.path.splitext(path)[1]
-        save_fd = open(path, 'w')
-        if extension == ".gcgc":
+        with open(path, 'w') as save_fd:
             json.dump({"model" : state[0].tolist(),
                        "integrations" : state[1],
                        "preferences" : state[2]},
                        save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
-        elif extension == ".gcgci":
-            json.dump({"integrations" : state[1]}, 
-                       save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
-        elif extension == ".gcgcp":
-            json.dump({"preferences" : state[2]}, 
-                       save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
-        save_fd.close()
-
-    def get_path(self):
-        """
-        Tries to find if this file was loaded from a *.gcgc file (in preferences), if so -> returns that path
-        Else opens a dialog to assign a new save path, or only save the integrations and preferences.
-        :return path: The path to save the data in.
-        """
-        path = self.model_wrapper.get_preference(PreferenceEnum.SAVE_FILE) 
-        if path is None:
-            path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC', filter='Program(*.gcgc);;Integrations(*.gcgci);;Preferences(*.gcgcp)')[0]
-            if os.path.splitext(path)[1] is ".gcgc": 
-                self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)
-        return path 
