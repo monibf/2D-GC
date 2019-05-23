@@ -96,8 +96,13 @@ class ModelWrapper(Observable):
         self.notify('integrationUpdate', self.integrations[key])
     
     def toggle_show(self, key):
-        #still in progress, should show integration in view
-        self.notify('toggleIntegration', self.integrations[key])
+        """ 
+        Toggle whether an integration is highlighted/showing in the 3D visualization
+        :param key: the key of the toggled integration
+        :return: None
+        """
+        self.integrations[key].toggle_show()
+        self.notify('showIntegration', self.integrations[key])
 
     def clear_integration(self, key):
         """
