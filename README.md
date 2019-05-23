@@ -18,7 +18,7 @@ Windows: `py -3 -m pip install -r requirements.txt`
 
 OSX/Linux: `pip3 install -r requirements.txt`
 
-You can then executing your operating systems respective launch script.
+You can then execute your operating systems respective launch script.
 
 ## Installation
 
