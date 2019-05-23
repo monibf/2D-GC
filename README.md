@@ -22,6 +22,17 @@ You can then executing your operating systems respective launch script.
 
 ## Installation
 
+### Prerequisites
+
+For all operating systems the installers require that you have installed:
+
+- python3
+- pip3 (This is usually installed with python3)
+- git
+
+All the scripts will check that you have the required programs. The Windows installer is capable of downloading and
+installing python3 for you, however it is highly recommended that you install it yourself.
+
 **NOTE:** If you already have python3 installed, you may wish to setup a new environment before running the installer to
 avoid having all of GC2D's dependencies installed into your current environment. They will not be removed post 
 installation.

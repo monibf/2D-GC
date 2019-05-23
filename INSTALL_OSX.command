@@ -32,6 +32,15 @@ else
     exit 1
 fi
 
+printf "Checking git is installed: "
+if [[ -x $(command -v git --version) ]]; then
+    printf "YES\n"
+else
+    printf "NO\n"
+    printf "Please install the latest version of git see the README.md for help."
+    exit 1
+fi
+
 printf "Checking PyInstaller is installed: "
 if [[ $("$PIP" --disable-pip-version-check list | grep PyInstaller) ]]; then
     printf "YES\n"

@@ -15,6 +15,10 @@ echo Checking if pip is installed...
 py -3 -m pip -v >NUL
 if errorlevel 1 goto ipip
 
+echo Checking if git is installed...
+git --version >NUL
+if errorlevel 1 goto igit
+
 echo Checking if pyinstaller is installed...
 py -3 -m PyInstaller -v >NUL
 if errorlevel 1 py -3 -m pip install git+https://github.com/pyinstaller/pyinstaller.git
@@ -91,3 +95,7 @@ echo Your current install of python3 does not include pip.
 echo You can either install pip yourself, or this script can download and reinstall python%PYTHON_VERSION% for you.
 :goto ipython
 ::----------------
+:igit
+echo To download some dependencies we require git. Please download and install git from https://git-scm.com.
+pause
+exit
