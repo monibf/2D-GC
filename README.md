@@ -6,6 +6,20 @@ A visualisation and analysis tool for two dimensional chromatography data.
  - Integration and convolution support.
  - Importing of pre-formatted, comma separated GCxGC data.
 
+## Launching without installing
+**NOTE:** Execution in the manner is heavily dependent on the python environment. Any changes to the source code, the
+python installation or the required dependencies could result in unexpected behavior.
+
+Please ensure that you have python3 installed, you can get it from [www.python.org](https://www.python.org/downloads/).
+Also insure that you have installed the requirements. To do this, execute the following command from the project root
+directory in a terminal or cmd:
+
+Windows: `py -3 -m pip install -r requirements.txt`
+
+OSX/Linux: `pip3 install -r requirements.txt`
+
+You can then executing your operating systems respective launch script.
+
 ## Installation
 
 **NOTE:** If you already have python3 installed, you may wish to setup a new environment before running the installer to
@@ -56,11 +70,16 @@ GC2D will now be installed as an App in your user Applications directory and it 
 ### Linux/Other
 
 For Linux and all other systems with a bash interpreter:
-- Install python3 if it isn't installed already. Please refer to your distribution help documentation for how to do that.
-- Run the `LINUX_INSTALL.sh` script from the project directory. This will create a binary called `GC-2D` in the project
-directory, you can run this directly with `./GC-2D` or you can put it somewhere on your path and call it from the
-command line like any other program.
+- Install python3 if it isn't installed already. Please refer to your distribution help documentation for how to do 
+that.
+- Run the `LINUX_INSTALL.sh` script from the project directory. This will create a soft link called `2D-GC` to the 
+`LAUNCH_LINUX.sh` script. You can then put this script anywhere on the `PATH` and it will be executable from the 
+terminal.
 
+#### Troubleshooting
+
+The `2D-GC` link is dependent on the current location of the 2D-GC source folder. If you move or delete this folder, the
+link will no longer work.
 
 ## Uninstallation
 
@@ -78,7 +97,7 @@ Simply delete `GC2D.app` from your local Applications directory like you would a
 User preferences will not be removed. To also remove these delete the `$HOME/.gc2d` directory.
 
 ### Linux/Other
-Remove the 2D-GC binary from your path.
+Remove the `2D-GC` link from your path.
 User preferences can be found in `$HOME/.gc2d`, delete this folder to completely uninstall.
 
 ## TODO
