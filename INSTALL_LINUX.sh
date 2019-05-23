@@ -56,6 +56,6 @@ if [[ $? != 0 ]]; then
 fi
 
 chmod 755 LAUNCH_LINUX.sh
-ln -s gc2d pwd/LAUNCH_LINUX.sh
+ln -s $(pwd)/LAUNCH_LINUX.sh ${NAME}
 
 echo "Link created! Put it somewhere on the PATH to run it from the terminal."
