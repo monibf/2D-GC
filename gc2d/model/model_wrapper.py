@@ -1,4 +1,5 @@
 import numpy as np
+from scipy import ndimage
 
 from gc2d.model.integration import Integration
 from gc2d.model.model import Model
@@ -64,6 +65,25 @@ class ModelWrapper(Observable):
         self.model = None
 
         self.notify('model', self.model)  # Notify all observers
+
+    def filter_gaussian(self, sigma):
+        """
+        Applies a Gaussian filter to the model and puts it in the convolution data.
+        :param sigma: The standard deviation of the Gaussian filter.
+        :return: None
+        """
+
+        self.model.set_convolved_data(ndimage.gaussian_filter(self.model.get_raw_data(), sigma, mode='constant'))
+        self.notify('model', self.model)
+
+    def toggle_convolved(self, convolved):
+        """
+        Toggle whether to show convolved data.
+        :param convolved: A boolean signifying whether to show convolved data or not.
+        :return: None
+        """
+        self.model.toggle_convolved(convolved)
+        self.notify('model', self.model)
 
     def add_integration(self, selector, key):
         """

@@ -34,7 +34,7 @@ class Plot2DWidget(PlotWidget):
         elif name == 'removeIntegration':
             self.removeItem(value.selector.roi)
         elif name == 'model':
-            if value is None:
+            if value is None or value.get_2d_chromatogram_data() is None:
                 self.img.clear()
             else:
                 self.img.setImage(value.get_2d_chromatogram_data().clip(value.lower_bound, value.upper_bound),
