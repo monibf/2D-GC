@@ -5,7 +5,7 @@ from gc2d.view.palette.palette import Palette
 
 class ConvolutionPicker(QMainWindow):
     
-    def __init__(self, on_select, on_close):
+    def __init__(self, on_select):
         """
         This window will open a convolution picker to let users select a convolution.
         :param on_select: A callback function that is called when a convolution is selected.
@@ -17,7 +17,6 @@ class ConvolutionPicker(QMainWindow):
         super().__init__(parent=None)
         
         self.on_select = on_select
-        self.on_close = on_close
         
         self.setWindowTitle("Convolve")
 
@@ -89,6 +88,5 @@ class ConvolutionPicker(QMainWindow):
         """ Overrides the closing event to execute the on_close callback after closing.
         This is better than overriding close() because this will also execute when the user presses the x button on the top of the window."""
         event.accept()
-        self.on_close()
     
 

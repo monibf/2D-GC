@@ -23,18 +23,9 @@ class OpenConvolutionPickerAction(QAction):
         """
 
        
-        if self.dialog is None:
-            self.dialog = ConvolutionPicker(self.on_select, self.on_close)
-            self.parent().dialogs.append(self.dialog)
-        
-        self.dialog.show()
-        self.dialog.raise_()
-        self.dialog.activateWindow()
+        self.parent().addDialog(ConvolutionPicker(self.on_select))
 
     def on_select(self, is_gaussian, gaussian_sigma=None):
         if is_gaussian:
             self.model_wrapper.filter_gaussian(gaussian_sigma)
 
-    def on_close(self):
-        self.parent().dialogs.remove(self.dialog)
-        self.dialog = None
