@@ -79,6 +79,8 @@ Run `OSX_INSTALL.command`, either by starting it in a terminal, or by double cli
 GC2D will now be installed as an App in your user Applications directory and it should be visible in launcher. 
 
 ### Linux/Other
+**NOTE:** This may or may not work for you. We have found that praying to the mighty God of Linux, Linus Torvalds, will
+increase the chance of success.
 
 For Linux and all other systems with a bash interpreter:
 - Install python3 if it isn't installed already. Please refer to your distribution help documentation for how to do 
