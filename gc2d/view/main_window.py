@@ -45,14 +45,13 @@ class Window(QMainWindow):
         self.plot_2d = None
         self.plot_3d = None
 
+        status_bar = self.statusBar()
+
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
         self.create_toolbar()
-        self.create_graph_views()  # Create 2D and 3D dock tabs.
+        self.create_graph_views(status_bar)  # Create 2D and 3D dock tabs.
 
-        # TODO status bar.
-        status_bar = self.statusBar()
-        status_bar.addWidget(QLabel("Some status"))
 
         self.show()  # Show the window.
 
@@ -96,7 +95,7 @@ class Window(QMainWindow):
         self.toolbar.addAction(self.draw_action)
 
     # noinspection PyArgumentList
-    def create_graph_views(self):
+    def create_graph_views(self, status_bar):
         """
         Creates the window containing the graph views.
         :return: None. Later it should return a QWidget containing the views.
@@ -116,13 +115,28 @@ class Window(QMainWindow):
         self.plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
         dock_3d.addWidget(self.plot_3d)
 
-        self.plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
+        self.plot_2d = Plot2DWidget(self.model_wrapper, status_bar, dock_2d)
         dock_2d.addWidget(self.plot_2d)
 
-        self.plot_1d = Plot1DWidget(self.model_wrapper, dock_1d)
+        self.plot_1d = Plot1DWidget(self.model_wrapper, status_bar, dock_1d)
         dock_1d.addWidget(self.plot_1d)
 
         # TODO: move away from this function
         dock_list = Dock('integration')
         dock_area.addDock(dock_list)
         dock_list.addWidget(IntegrationList(self.model_wrapper, dock_list))
+
+    def addDialog(self, dialog):
+        for d in self.dialogs:
+            if isinstance(d, type(dialog)):
+                d.show()
+                d.raise_()
+                d.activateWindow()
+                d.showNormal()
+                return
+
+        dialog.show()
+        dialog.raise_()
+        dialog.activateWindow()
+        dialog.showNormal()
+        self.dialogs.append(dialog)

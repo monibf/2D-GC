@@ -3,9 +3,10 @@ from PyQt5.QtWidgets import QHBoxLayout, QLabel, QLayout, QListWidget, QListWidg
 
 from gc2d.view.palette.palette import Palette
 
+
 class PaletteChooser(QMainWindow):
     
-    def __init__(self, on_select, on_close):
+    def __init__(self, on_select):
         """
         This window will open a palettle chooser to let users select a palette from the (global) list of possible palettes.
         :param on_select: A callback function that is called when a palette is selected.
@@ -14,11 +15,9 @@ class PaletteChooser(QMainWindow):
         """
         
         super().__init__(parent=None)
-        
-        self.on_select = on_select
-        self.on_close = on_close
-        
         self.setWindowTitle("Choose Palette")
+
+        self.on_select = on_select
 
         vbox = QWidget()
         self.setCentralWidget(vbox)
@@ -65,11 +64,7 @@ class PaletteChooser(QMainWindow):
         self.on_select(Palette.palettes[index])
         self.close()
 
-
     def closeEvent(self, event):
         """ Overrides the closing event to execute the on_close callback after closing.
         This is better than overriding close() because this will also execute when the user presses the x button on the top of the window."""
         event.accept()
-        self.on_close()
-    
-
