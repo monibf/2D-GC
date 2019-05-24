@@ -53,13 +53,20 @@ Run `OSX_INSTALL.command`, either by starting it in a terminal, or by double cli
 
 GC2D will now be installed as an App in your user Applications directory and it should be visible in launcher. 
 
-### Linux/Other
+### Linux/Other
 
 For Linux and all other systems with a bash interpreter:
 - Install python3 if it isn't installed already. Please refer to your distribution help documentation for how to do that.
 - Run the `LINUX_INSTALL.sh` script from the project directory. This will create a binary called `GC-2D` in the project
 directory, you can run this directly with `./GC-2D` or you can put it somewhere on your path and call it from the
 command line like any other program.
+
+### Pip
+
+An alternative is to install the application with [Pip](https://pip.pypa.io/en/stable/)
+- Install python3 and pip for python3 if those aren't installed already.
+- Run `pip install --user 2D-GC/` (assuming that `2D-GC/` is the directory that contains setup.py).
+- to launch the project, run `python3 -m gc2d`
 
 
 ## Uninstallation
@@ -80,6 +87,11 @@ User preferences will not be removed. To also remove these delete the `$HOME/.gc
 ### Linux/Other
 Remove the 2D-GC binary from your path.
 User preferences can be found in `$HOME/.gc2d`, delete this folder to completely uninstall.
+
+### Pip
+
+Run `pip uninstall gc2d-rug`.
+This does not uninstall dependencies (pyqtgraph, numpy, etc.). To install dependencies use [pip-autoremove](https://github.com/invl/pip-autoremove).
 
 ## TODO
 
