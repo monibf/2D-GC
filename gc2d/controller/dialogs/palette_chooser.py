@@ -1,6 +1,6 @@
 from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtWidgets import QHBoxLayout, QLabel, QLayout, QListWidget, QListWidgetItem, QMainWindow, \
-    QPushButton, QVBoxLayout, QWidget, QFileDialog, QSizePolicy, QDialog, QScrollArea
+    QPushButton, QVBoxLayout, QWidget, QFileDialog, QSizePolicy, QDialog, QScrollArea, QListView
 
 from shutil import copy
 
@@ -27,9 +27,9 @@ class PaletteChooser(QDialog):
         # vertical layout as central panel.
         vlayout = QVBoxLayout()
         self.setLayout(vlayout)
-        self.setFixedSize(600, 600)
+        self.setFixedSize(300, 400)
         # add a list widget to view all the pretty palettes.
-        self.list = QListWidget()
+        self.list = QListView()
         self.list.setSelectionMode(1)
         vlayout.addWidget(self.list)
 
@@ -54,12 +54,12 @@ class PaletteChooser(QDialog):
         select_button.clicked.connect(self.select)
         button_bar_layout.addWidget(select_button)
 
-        self.gen_paletteList()
+        self.gen_palette_list()
 
-    def gen_paletteList(self):
+    def gen_palette_list(self):
         self.list.clear()
         for palt in Palette.palettes:
-            item = QListWidgetItem(self.list)
+            item = QListWidget(self.list)
             # item.setBackground(QtCore.Qt.red)
 
             widg = QWidget()
@@ -69,9 +69,6 @@ class PaletteChooser(QDialog):
             self.list.setItemWidget(item, widg)
 
             text = QLabel(palt.name)
-            font = text.font()
-            font.setPointSize(20)
-            text.setFont(font)
             text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
 
             grad = QLabel()
@@ -88,8 +85,6 @@ class PaletteChooser(QDialog):
 
             item.setSizeHint(widg.sizeHint())
 
-
-
     def import_palette(self):
         files, _ = QFileDialog.getOpenFileNames(self, "Import palette file", "",
                                                 "Palette Files (*.palette);;All Files(*)")
@@ -97,7 +92,7 @@ class PaletteChooser(QDialog):
         for file in files:
             loaded.extend(Palette.load_custom_palettes(file))
 
-        self.gen_paletteList()
+        self.gen_palette_list()
 
         for file in loaded:
             copy(file, main.CUSTOM_PALETTE_PATH)
