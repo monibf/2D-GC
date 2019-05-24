@@ -30,7 +30,6 @@ class Palette(ColorMap):
             return loaded
 
         if os.path.isdir(path):
-            loaded.extend(Palette.load_custom_palettes(path))
             return loaded
 
         if os.path.isfile(path) and path.endswith(".palette"):
