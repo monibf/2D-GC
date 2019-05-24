@@ -25,12 +25,13 @@ class Palette(ColorMap):
 
     @staticmethod
     def load_custom_palette(path):
+        loaded = []
         if not os.path.exists(path):
-            return
+            return loaded
 
         if os.path.isdir(path):
-            Palette.load_custom_palettes(path)
-            return
+            loaded.extend(Palette.load_custom_palettes(path))
+            return loaded
 
         if os.path.isfile(path) and path.endswith(".palette"):
             data = []
@@ -39,20 +40,23 @@ class Palette(ColorMap):
                     row = [int(val.strip()) for val in line.split(",") if val.strip()]
                     data.append(row)
             Palette(os.path.basename(path).split(".")[0], data)
-            print(data)
+            loaded.append(path)
+        return loaded
 
     @staticmethod
     def load_custom_palettes(path):
+        loaded = []
         if not os.path.exists(path):
-            return
+            return loaded
 
         if not os.path.isdir(path):
-            Palette.load_custom_palette(path)
-
-        for file in os.listdir(path):
-            p = os.path.join(path, file)
-            if os.path.isfile(p):
-                Palette.load_custom_palette(p)
+            loaded.extend(Palette.load_custom_palette(path))
+        else:
+            for file in os.listdir(path):
+                p = os.path.join(path, file)
+                if os.path.isfile(p):
+                    loaded.extend(Palette.load_custom_palette(p))
+        return loaded
 
 
 jet = Palette(
