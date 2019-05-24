@@ -1,5 +1,7 @@
 import os
+from PIL import Image
 import numpy as np
+from PyQt5.QtGui import QPixmap, QImage
 from pyqtgraph import ColorMap
 
 
@@ -22,6 +24,14 @@ class Palette(ColorMap):
         :return: the lookup table that corresponds to this palette.
         """
         return self.getLookupTable(alpha=False)
+
+    def generate_preview(self, width = 400, height = 100):
+        gradient = self.getLookupTable(start=0.0, stop=1.0, nPts=width, mode='byte', alpha=False)
+        data = []
+        for color in gradient:
+            data.extend(color)
+        return QImage(bytearray(data), width, height, QImage.Format_RGB888)
+
 
     @staticmethod
     def load_custom_palette(path):
