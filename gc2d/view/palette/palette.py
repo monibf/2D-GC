@@ -1,7 +1,8 @@
 import os
 from PIL import Image
 import numpy as np
-from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtCore import QByteArray
+from PyQt5.QtGui import QPixmap, QImage, qRgb
 from pyqtgraph import ColorMap
 
 
@@ -27,10 +28,14 @@ class Palette(ColorMap):
 
     def generate_preview(self, width = 400, height = 100):
         gradient = self.getLookupTable(start=0.0, stop=1.0, nPts=width, mode='byte', alpha=False)
-        data = []
+        data = QByteArray()
+        img = QImage(width, height, QImage.Format_RGB32)
+        x = 0
         for color in gradient:
-            data.extend(color)
-        return QImage(bytearray(data), width, height, QImage.Format_RGB888)
+            for y in range(0, height):
+                img.setPixel(x, y, qRgb(color[0], color[1], color[2]))
+            x += 1
+        return img
 
 
     @staticmethod

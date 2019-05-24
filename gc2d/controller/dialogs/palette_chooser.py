@@ -1,13 +1,15 @@
+from PyQt5.QtGui import QPixmap, QFont
 from PyQt5.QtWidgets import QHBoxLayout, QLabel, QLayout, QListWidget, QListWidgetItem, QMainWindow, \
-    QPushButton, QVBoxLayout, QWidget, QFileDialog
+    QPushButton, QVBoxLayout, QWidget, QFileDialog, QSizePolicy, QDialog, QScrollArea
 
 from shutil import copy
+
+from PyQt5 import QtCore
 
 import gc2d.main as main
 from gc2d.view.palette.palette import Palette
 
-
-class PaletteChooser(QMainWindow):
+class PaletteChooser(QDialog):
     
     def __init__(self, on_select):
         """
@@ -23,11 +25,9 @@ class PaletteChooser(QMainWindow):
         self.on_select = on_select
 
         # vertical layout as central panel.
-        vbox = QWidget()
         vlayout = QVBoxLayout()
-        self.setCentralWidget(vbox)
-        vbox.setLayout(vlayout)
-
+        self.setLayout(vlayout)
+        self.setFixedSize(600, 600)
         # add a list widget to view all the pretty palettes.
         self.list = QListWidget()
         self.list.setSelectionMode(1)
@@ -59,21 +59,36 @@ class PaletteChooser(QMainWindow):
     def gen_paletteList(self):
         self.list.clear()
         for palt in Palette.palettes:
-            item = QListWidgetItem()
+            item = QListWidgetItem(self.list)
+            # item.setBackground(QtCore.Qt.red)
+
             widg = QWidget()
-            text = QLabel(palt.name)
-            grad = QLabel('placeholder')
+            # widg.setStyleSheet("background-color:blue")
+
             layo = QHBoxLayout()
+            self.list.setItemWidget(item, widg)
+
+            text = QLabel(palt.name)
+            font = text.font()
+            font.setPointSize(20)
+            text.setFont(font)
+            text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+
+            grad = QLabel()
+            grad.setScaledContents(True)
+            grad.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+            grad.setPixmap(QPixmap(palt.generate_preview(width=100, height=1)))
+            # grad.setStyleSheet("background-color:green")
+
             layo.addWidget(text)
             layo.addWidget(grad)
-            layo.addStretch()
 
-            layo.setSizeConstraint(QLayout.SetFixedSize)
             widg.setLayout(layo)
+            widg.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+
             item.setSizeHint(widg.sizeHint())
 
-            self.list.addItem(item)
-            self.list.setItemWidget(item, widg)
+
 
     def import_palette(self):
         files, _ = QFileDialog.getOpenFileNames(self, "Import palette file", "",
