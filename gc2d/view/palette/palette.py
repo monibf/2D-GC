@@ -1,3 +1,4 @@
+import os
 import numpy as np
 from pyqtgraph import ColorMap
 
@@ -21,6 +22,37 @@ class Palette(ColorMap):
         :return: the lookup table that corresponds to this palette.
         """
         return self.getLookupTable(alpha=False)
+
+    @staticmethod
+    def load_custom_palette(path):
+        if not os.path.exists(path):
+            return
+
+        if os.path.isdir(path):
+            Palette.load_custom_palettes(path)
+            return
+
+        if os.path.isfile(path) and path.endswith(".palette"):
+            data = []
+            with open(path) as sourcefile:
+                for line in sourcefile:
+                    row = [int(val.strip()) for val in line.split(",") if val.strip()]
+                    data.append(row)
+            Palette(os.path.basename(path).split(".")[0], data)
+            print(data)
+
+    @staticmethod
+    def load_custom_palettes(path):
+        if not os.path.exists(path):
+            return
+
+        if not os.path.isdir(path):
+            Palette.load_custom_palette(path)
+
+        for file in os.listdir(path):
+            p = os.path.join(path, file)
+            if os.path.isfile(p):
+                Palette.load_custom_palette(p)
 
 
 jet = Palette(

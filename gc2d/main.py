@@ -1,6 +1,6 @@
 import os
 import sys
-
+from gc2d.view.palette.palette import Palette
 from PyQt5.QtWidgets import QApplication
 
 from gc2d.model.model_wrapper import ModelWrapper
@@ -25,6 +25,7 @@ def check_preferences_dir():
 
 def main():
     check_preferences_dir()
+    Palette.load_custom_palettes(CUSTOM_PALETTE_PATH)
 
     model_wrapper = ModelWrapper()
     """ The model wrapper. """
