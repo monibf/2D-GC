@@ -1,9 +1,10 @@
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QLabel, QDoubleSpinBox, \
-    QPushButton
+    QPushButton, QComboBox
 
 from gc2d.view.palette.palette import Palette
 
 from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff
+from gc2d.model.transformations.dynamiccutoff import CutoffMode
 
 class ConvolutionPicker(QMainWindow):
     
@@ -42,21 +43,20 @@ class ConvolutionPicker(QMainWindow):
         self.add_button(Transform, "No Transform", [], checked=True)
         
         # Static cut-off
-        cutoff_value = QDoubleSpinBox()
-        cutoff_value.setMinimum(0)
-        cutoff_value.setMaximum(float('inf'))
-        self.add_button(StaticCutoff, "Static cut-off", [("cut-off value: ", cutoff_value)])
+        self.add_button(StaticCutoff, "Static cut-off", [_ParamDouble("cut-off value: ")])
         
         # Dynamic cut-off
-        quantile = QDoubleSpinBox()
-        quantile.setMinimum(0)
-        quantile.setMaximum(100)
-        self.add_button(DynamicCutoff, "Dynamic cut-off", [("base percentile: ", quantile)])
+        self.add_button(
+            DynamicCutoff,
+            "Dynamic cut-off",
+            [
+                _ParamDouble("base percentile: ", 0, 100),
+                _ParamOption("cut-off point", [(CutoffMode.MEAN, "mean of percentile"), (CutoffMode.QUANTILE, "percentile")])
+            ]
+        )
 
         # Gaussian Convolution
-        gaussian_sigma = QDoubleSpinBox()
-        gaussian_sigma.setMinimum(0)
-        self.add_button(Gaussian, "Gaussian Convolution", [("Sigma: ", gaussian_sigma)])
+        self.add_button(Gaussian, "Gaussian Convolution", [_ParamDouble("Sigma: ")])
 
         cancel_select = QWidget()
         vlayout.addWidget(cancel_select)
@@ -85,19 +85,17 @@ class ConvolutionPicker(QMainWindow):
         self.vlayout.addWidget(param_area)
         param_area.setVisible(False)
 
-        params = []
-        for description, selector in parameters:
-            label = QLabel(description)
-            label.setBuddy(selector)
+        for param in parameters:
+            label = QLabel(param.label)
+            label.setBuddy(param.selector)
             gsb = QWidget()
             gsl = QHBoxLayout()
             gsb.setLayout(gsl)
             gsl.addWidget(label)
-            gsl.addWidget(selector)
+            gsl.addWidget(param.selector)
             params_layout.addWidget(gsb)
-            params.append(selector)
         
-        self.buttons.append(_Button(transform_type, radio_button, param_area, params))
+        self.buttons.append(_Button(transform_type, radio_button, param_area, parameters))
         
 
     def switch_params(self):
@@ -109,7 +107,7 @@ class ConvolutionPicker(QMainWindow):
     def select(self):
         for button in self.buttons:
             if button.radio_button.isChecked():
-                parameters = [param.value() for param in button.parameters]
+                parameters = [param.get_value() for param in button.parameters]
                 transform = button.transform_type(*parameters)
                 self.on_select(transform)
                 
@@ -130,3 +128,31 @@ class _Button:
         self.transform_type = transform_type
         self.param_area = param_area
         self.parameters = parameters
+
+class _ParamDouble:
+    
+    def __init__(self, label, minimum=0, maximum=float('inf')):
+        self.label = label
+        self.selector = QDoubleSpinBox()
+        self.selector.setMinimum(minimum)
+        self.selector.setMaximum(maximum)
+    
+    def get_value(self):
+        return self.selector.value()
+
+class _ParamOption:
+    
+    def __init__(self, label, options):
+        self.label = label
+        self.selector = QComboBox()
+        self.text_to_value = {}
+        for option in options:
+            if isinstance(option, str):
+                option = (option, option)
+            value, text = option
+            self.selector.addItem(text)
+            self.text_to_value[text] = value
+    
+    def get_value(self):
+        return self.text_to_value[self.selector.currentText()]
+
