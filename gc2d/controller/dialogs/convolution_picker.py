@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QRad
 
 from gc2d.view.palette.palette import Palette
 
-from gc2d.model.transformations import Transform, Gaussian, StaticCutoff
+from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff
 
 class ConvolutionPicker(QMainWindow):
     
@@ -46,6 +46,12 @@ class ConvolutionPicker(QMainWindow):
         cutoff_value.setMinimum(0)
         cutoff_value.setMaximum(float('inf'))
         self.add_button(StaticCutoff, "Static cut-off", [("cut-off value: ", cutoff_value)])
+        
+        # Dynamic cut-off
+        quantile = QDoubleSpinBox()
+        quantile.setMinimum(0)
+        quantile.setMaximum(100)
+        self.add_button(DynamicCutoff, "Dynamic cut-off", [("base percentile: ", quantile)])
 
         # Gaussian Convolution
         gaussian_sigma = QDoubleSpinBox()
