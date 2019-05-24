@@ -68,6 +68,9 @@ An alternative is to install the application with [Pip](https://pip.pypa.io/en/s
 - Run `pip install --user 2D-GC/` (assuming that `2D-GC/` is the directory that contains setup.py).
 - to launch the project, run `python3 -m gc2d`
 
+**NOTE:** On mac OSX you need to install the latest pyqtgraph from github rather than from pip. There is a bug for retina displays that has been fixed in the later development versions but that is not yet included in the latest release.
+To install this from github run `pip install --user git+https://github.com/pyqtgraph/pyqtgraph` before running `pip install --user 2D-GC/`.
+
 
 ## Uninstallation
 
