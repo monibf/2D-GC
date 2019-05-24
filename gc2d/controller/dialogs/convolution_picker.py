@@ -25,67 +25,32 @@ class ConvolutionPicker(QMainWindow):
         vbox = QWidget()
         self.setCentralWidget(vbox)
 
-        vlayout = QVBoxLayout()
-        vbox.setLayout(vlayout)
+        self.vlayout = vlayout = QVBoxLayout()
+        vbox.setLayout(self.vlayout)
 
         type_lbl = QLabel('Convolution filter type:')
         vlayout.addWidget(type_lbl)
 
-        radio_buttons = QWidget()
-        vlayout.addWidget(radio_buttons)
-        radio_button_layout = QVBoxLayout()
-        radio_buttons.setLayout(radio_button_layout)
+        self.radio_buttons = QWidget()
+        vlayout.addWidget(self.radio_buttons)
+        self.radio_button_layout = QVBoxLayout()
+        self.radio_buttons.setLayout(self.radio_button_layout)
+        
+        self.buttons = []
         
         # No transform
-        self.none_radio_button = QRadioButton('No transform')
-        self.none_radio_button.setChecked(True)
-        self.none_radio_button.toggled.connect(self.switch_params)
-        radio_button_layout.addWidget(self.none_radio_button)
+        self.add_button(Transform, "No Transform", [], checked=True)
         
         # Static cut-off
-        self.cutoff_radio_button = QRadioButton('Static cut-off', radio_buttons)
-        self.cutoff_radio_button.toggled.connect(self.switch_params)
-        radio_button_layout.addWidget(self.cutoff_radio_button)
-
-        self.cutoff_params = QWidget()
-        cutoff_params_layout = QVBoxLayout()
-        self.cutoff_params.setLayout(cutoff_params_layout)
-        vlayout.addWidget(self.cutoff_params)
-        self.cutoff_params.setVisible(False)
-
-        cutoff_value_label = QLabel('cut-off value: ')
-        self.cutoff_value = QDoubleSpinBox()
-        self.cutoff_value.setMinimum(0)
-        self.cutoff_value.setMaximum(float('inf'))
-        cutoff_value_label.setBuddy(self.cutoff_value)
-        gsb = QWidget()
-        gsl = QHBoxLayout()
-        gsb.setLayout(gsl)
-        gsl.addWidget(cutoff_value_label)
-        gsl.addWidget(self.cutoff_value)
-        cutoff_params_layout.addWidget(gsb)
+        cutoff_value = QDoubleSpinBox()
+        cutoff_value.setMinimum(0)
+        cutoff_value.setMaximum(float('inf'))
+        self.add_button(StaticCutoff, "Static cut-off", [("cut-off value: ", cutoff_value)])
 
         # Gaussian Convolution
-        self.gaussian_radio_button = QRadioButton('Gaussian Convolution', radio_buttons)
-        self.gaussian_radio_button.toggled.connect(self.switch_params)
-        radio_button_layout.addWidget(self.gaussian_radio_button)
-
-        self.gaussian_params = QWidget()
-        gaussian_params_layout = QVBoxLayout()
-        self.gaussian_params.setLayout(gaussian_params_layout)
-        vlayout.addWidget(self.gaussian_params)
-        self.gaussian_params.setVisible(False)
-
-        gaussian_sigma_label = QLabel('Sigma: ')
-        self.gaussian_sigma = QDoubleSpinBox()
-        self.gaussian_sigma.setMinimum(0)
-        gaussian_sigma_label.setBuddy(self.gaussian_sigma)
-        gsb = QWidget()
-        gsl = QHBoxLayout()
-        gsb.setLayout(gsl)
-        gsl.addWidget(gaussian_sigma_label)
-        gsl.addWidget(self.gaussian_sigma)
-        gaussian_params_layout.addWidget(gsb)
+        gaussian_sigma = QDoubleSpinBox()
+        gaussian_sigma.setMinimum(0)
+        self.add_button(Gaussian, "Gaussian Convolution", [("Sigma: ", gaussian_sigma)])
 
         cancel_select = QWidget()
         vlayout.addWidget(cancel_select)
@@ -99,25 +64,49 @@ class ConvolutionPicker(QMainWindow):
         select_button = QPushButton('Confirm')
         select_button.clicked.connect(self.select)
         cancel_select_layout.addWidget(select_button)
-	
-	
+    
+    def add_button(self, transform_type, label, parameters, checked=False):
+        
+        radio_button = QRadioButton(label, self.radio_buttons)
+        if checked:
+            radio_button.setChecked(True)
+        radio_button.toggled.connect(self.switch_params)
+        self.radio_button_layout.addWidget(radio_button)
+
+        param_area = QWidget()
+        params_layout = QVBoxLayout()
+        param_area.setLayout(params_layout)
+        self.vlayout.addWidget(param_area)
+        param_area.setVisible(False)
+
+        params = []
+        for description, selector in parameters:
+            label = QLabel(description)
+            label.setBuddy(selector)
+            gsb = QWidget()
+            gsl = QHBoxLayout()
+            gsb.setLayout(gsl)
+            gsl.addWidget(label)
+            gsl.addWidget(selector)
+            params_layout.addWidget(gsb)
+            params.append(selector)
+        
+        self.buttons.append(_Button(transform_type, radio_button, param_area, params))
+        
 
     def switch_params(self):
-        self.gaussian_params.setVisible(False)
-        if self.gaussian_radio_button.isChecked():
-            self.gaussian_params.setVisible(True)
-        
-        self.cutoff_params.setVisible(False)
-        if self.cutoff_radio_button.isChecked():
-            self.cutoff_params.setVisible(True)
+        for button in self.buttons:
+            button.param_area.setVisible(False)
+        for button in self.buttons:
+            button.param_area.setVisible(button.radio_button.isChecked())
         
     def select(self):
-        if self.none_radio_button.isChecked():
-            self.on_select(Transform())
-        elif self.gaussian_radio_button.isChecked():
-            self.on_select(Gaussian(self.gaussian_sigma.value()))
-        elif self.cutoff_radio_button.isChecked():
-            self.on_select(StaticCutoff(self.cutoff_value.value()))
+        for button in self.buttons:
+            if button.radio_button.isChecked():
+                parameters = [param.value() for param in button.parameters]
+                transform = button.transform_type(*parameters)
+                self.on_select(transform)
+                
         self.close()
 
 
@@ -127,3 +116,11 @@ class ConvolutionPicker(QMainWindow):
         event.accept()
     
 
+
+class _Button:
+    
+    def __init__(self, transform_type, radio_button, param_area, parameters):
+        self.radio_button = radio_button
+        self.transform_type = transform_type
+        self.param_area = param_area
+        self.parameters = parameters

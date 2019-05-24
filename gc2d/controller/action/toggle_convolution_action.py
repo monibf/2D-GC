@@ -11,7 +11,7 @@ class ToggleConvolutionAction(QAction):
         super().__init__('Show convolved data', parent, checkable=True)
         self.model_wrapper = model_wrapper
         self.toggled.connect(self.toggle)
-        #self.setChecked(True)
+        self.setChecked(True)
 
     def toggle(self):
         self.model_wrapper.toggle_convolved(self.isChecked())

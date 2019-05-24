@@ -2,7 +2,6 @@ import numpy as np
 
 from gc2d.model.integration import Integration
 from gc2d.model.model import Model
-from gc2d.model.transformations import Gaussian
 from gc2d.observable import Observable
 
 
