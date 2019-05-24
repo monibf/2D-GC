@@ -3,6 +3,8 @@ from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QRad
 
 from gc2d.view.palette.palette import Palette
 
+from gc2d.model.transformations import Transform, Gaussian, StaticCutoff
+
 class ConvolutionPicker(QMainWindow):
     
     def __init__(self, on_select):
@@ -31,11 +33,40 @@ class ConvolutionPicker(QMainWindow):
 
         radio_buttons = QWidget()
         vlayout.addWidget(radio_buttons)
-        radio_button_layout = QHBoxLayout()
+        radio_button_layout = QVBoxLayout()
         radio_buttons.setLayout(radio_button_layout)
+        
+        # No transform
+        self.none_radio_button = QRadioButton('No transform')
+        self.none_radio_button.setChecked(True)
+        self.none_radio_button.toggled.connect(self.switch_params)
+        radio_button_layout.addWidget(self.none_radio_button)
+        
+        # Static cut-off
+        self.cutoff_radio_button = QRadioButton('Static cut-off', radio_buttons)
+        self.cutoff_radio_button.toggled.connect(self.switch_params)
+        radio_button_layout.addWidget(self.cutoff_radio_button)
 
+        self.cutoff_params = QWidget()
+        cutoff_params_layout = QVBoxLayout()
+        self.cutoff_params.setLayout(cutoff_params_layout)
+        vlayout.addWidget(self.cutoff_params)
+        self.cutoff_params.setVisible(False)
 
-        self.gaussian_radio_button = QRadioButton('Gaussian', radio_buttons)
+        cutoff_value_label = QLabel('cut-off value: ')
+        self.cutoff_value = QDoubleSpinBox()
+        self.cutoff_value.setMinimum(0)
+        self.cutoff_value.setMaximum(float('inf'))
+        cutoff_value_label.setBuddy(self.cutoff_value)
+        gsb = QWidget()
+        gsl = QHBoxLayout()
+        gsb.setLayout(gsl)
+        gsl.addWidget(cutoff_value_label)
+        gsl.addWidget(self.cutoff_value)
+        cutoff_params_layout.addWidget(gsb)
+
+        # Gaussian Convolution
+        self.gaussian_radio_button = QRadioButton('Gaussian Convolution', radio_buttons)
         self.gaussian_radio_button.toggled.connect(self.switch_params)
         radio_button_layout.addWidget(self.gaussian_radio_button)
 
@@ -76,11 +107,17 @@ class ConvolutionPicker(QMainWindow):
         if self.gaussian_radio_button.isChecked():
             self.gaussian_params.setVisible(True)
         
+        self.cutoff_params.setVisible(False)
+        if self.cutoff_radio_button.isChecked():
+            self.cutoff_params.setVisible(True)
+        
     def select(self):
-        if self.gaussian_radio_button.isChecked():
-            self.on_select(True, self.gaussian_sigma.value())
-        else:
-            self.on_select(False)
+        if self.none_radio_button.isChecked():
+            self.on_select(Transform())
+        elif self.gaussian_radio_button.isChecked():
+            self.on_select(Gaussian(self.gaussian_sigma.value()))
+        elif self.cutoff_radio_button.isChecked():
+            self.on_select(StaticCutoff(self.cutoff_value.value()))
         self.close()
 
 
