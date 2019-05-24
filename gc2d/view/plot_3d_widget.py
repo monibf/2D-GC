@@ -17,22 +17,31 @@ class Plot3DWidget(GLViewWidget):
         """
         super().__init__(parent=parent)
         self.listener = Plot3DListener(self, model_wrapper)
-        self.setCameraPosition(distance=400)
-        
+        """The listener for the 3D plot"""
         self.integrations = {}
-
+        """The integrations array"""
         self.surface = gl.GLSurfacePlotItem(computeNormals=False)
+        """The surface to render the chromatogram"""
+
+        # add the surface to the plot
         self.addItem(self.surface)
 
+        # move the camera back a bit
+        self.setCameraPosition(distance=400)
+
+        # Translate the mesh so that it is centered in the view.
         self.translation_x = -len(model_wrapper.model.get_2d_chromatogram_data()) / 2
         self.translation_y = -len(model_wrapper.model.get_2d_chromatogram_data()[0]) / 2
         self.surface.translate(self.translation_x, self.translation_y, 0)
-        # This will need to be done dynamically later. TODO
-        self.surface.scale(1, 1, 0.00001)
 
-        self.notify('model', model_wrapper.model)
+        # Scale down the height of the mesh.
+        self.surface.scale(1, 1, 0.00001)  # TODO This will need to be done dynamically later.
 
+        # Register this widget as an observer of the model_wrapper.
         model_wrapper.add_observer(self, self.notify)
+
+        # call notify to draw the model.
+        self.notify('model', model_wrapper.model)
 
     def notify(self, name, value):
         """

@@ -19,6 +19,9 @@ class Plot1DWidget(PlotWidget):
         self.curve = self.plot(pen='y')
         """ The curve drawn on the 1D plot """
 
+        # Disable right click context menu.
+        self.getPlotItem().setMenuEnabled(False)
+
         # Register this widget as an observer of the model_wrapper.
         model_wrapper.add_observer(self, self.notify)
 

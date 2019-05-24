@@ -13,14 +13,24 @@ class Plot2DWidget(PlotWidget):
         """
         super().__init__(parent=parent)
 
-        self.listener = Plot2DListener(self, model_wrapper, statusbar)  # Not yet Ready
+        self.listener = Plot2DListener(self, model_wrapper, statusbar)
+        """ The listener for the 2D plot """
         self.img = ImageItem()
-        self.addItem(self.img)
-        self.wrapper_temp = model_wrapper #TEMPORARY
+        """ The image of the chromatogram"""
+        self.wrapper_temp = model_wrapper  # TEMPORARY TODO What is this for?
+        """A temporary reference to the wrapper?"""
 
-        self.setAspectLocked(True)
-        self.notify('model', model_wrapper.model)
+        # Add the image to the plot.
+        self.addItem(self.img)
+
+        # Disable right click context menu.
+        self.getPlotItem().setMenuEnabled(False)
+
+        # Register this widget as an observer of the model_wrapper.
         model_wrapper.add_observer(self, self.notify)
+
+        # call notify to draw the model.
+        self.notify('model', model_wrapper.model)
 
     def notify(self, name, value):
         """
