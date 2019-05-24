@@ -6,7 +6,32 @@ A visualisation and analysis tool for two dimensional chromatography data.
  - Integration and convolution support.
  - Importing of pre-formatted, comma separated GCxGC data.
 
+## Launching without installing
+**NOTE:** Execution in the manner is heavily dependent on the python environment. Any changes to the source code, the
+python installation or the required dependencies could result in unexpected behavior.
+
+Please ensure that you have python3 installed, you can get it from [www.python.org](https://www.python.org/downloads/).
+Also insure that you have installed the requirements. To do this, execute the following command from the project root
+directory in a terminal or cmd:
+
+Windows: `py -3 -m pip install -r requirements.txt`
+
+OSX/Linux: `pip3 install -r requirements.txt`
+
+You can then execute your operating systems respective launch script.
+
 ## Installation
+
+### Prerequisites
+
+For all operating systems the installers require that you have installed:
+
+- python3
+- pip3 (This is usually installed with python3)
+- git
+
+All the scripts will check that you have the required programs. The Windows installer is capable of downloading and
+installing python3 for you, however it is highly recommended that you install it yourself.
 
 **NOTE:** If you already have python3 installed, you may wish to setup a new environment before running the installer to
 avoid having all of GC2D's dependencies installed into your current environment. They will not be removed post 
@@ -54,13 +79,20 @@ Run `OSX_INSTALL.command`, either by starting it in a terminal, or by double cli
 GC2D will now be installed as an App in your user Applications directory and it should be visible in launcher. 
 
 ### Linux/Other
+**NOTE:** This may or may not work for you. We have found that praying to the mighty God of Linux, Linus Torvalds, will
+increase the chance of success.
 
 For Linux and all other systems with a bash interpreter:
-- Install python3 if it isn't installed already. Please refer to your distribution help documentation for how to do that.
-- Run the `LINUX_INSTALL.sh` script from the project directory. This will create a binary called `GC-2D` in the project
-directory, you can run this directly with `./GC-2D` or you can put it somewhere on your path and call it from the
-command line like any other program.
+- Install python3 if it isn't installed already. Please refer to your distribution help documentation for how to do 
+that.
+- Run the `LINUX_INSTALL.sh` script from the project directory. This will create a soft link called `2D-GC` to the 
+`LAUNCH_LINUX.sh` script. You can then put this script anywhere on the `PATH` and it will be executable from the 
+terminal.
 
+#### Troubleshooting
+
+The `2D-GC` link is dependent on the current location of the 2D-GC source folder. If you move or delete this folder, the
+link will no longer work.
 
 ## Uninstallation
 
@@ -78,7 +110,7 @@ Simply delete `GC2D.app` from your local Applications directory like you would a
 User preferences will not be removed. To also remove these delete the `$HOME/.gc2d` directory.
 
 ### Linux/Other
-Remove the 2D-GC binary from your path.
+Remove the `2D-GC` link from your path.
 User preferences can be found in `$HOME/.gc2d`, delete this folder to completely uninstall.
 
 ## TODO

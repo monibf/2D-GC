@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+cd `dirname $0`
 if [[ -z "$INSTALL_LOCATION" ]]; then
  INSTALL_LOCATION="$HOME/Applications"
 fi
@@ -28,6 +29,15 @@ if [[ -x $(command -v pip3 --disable-pip-version-check) ]]; then
 else
     printf "NO\n"
     printf "Please install the latest version of pip from https://pip.pypa.io/en/stable/installing/"
+    exit 1
+fi
+
+printf "Checking git is installed: "
+if [[ -x $(command -v git --version) ]]; then
+    printf "YES\n"
+else
+    printf "NO\n"
+    printf "Please install the latest version of git see the README.md for help."
     exit 1
 fi
 
