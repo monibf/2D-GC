@@ -17,7 +17,12 @@ class Palette(ColorMap):
         """
         super().__init__(pos=np.linspace(0.0, 1.0, len(colors)), color=colors)
         self.name = name
-        Palette.palettes.append(self)
+        for i, p in enumerate(Palette.palettes):
+            if p.name == self.name:
+                Palette.palettes[i] = self
+                return
+
+        Palette.palettes.insert(0, self)
 
     def __call__(self, *args):
         """

@@ -9,9 +9,10 @@ from PyQt5 import QtCore
 import gc2d.main as main
 from gc2d.view.palette.palette import Palette
 
+
 class PaletteChooser(QDialog):
     
-    def __init__(self, on_select):
+    def __init__(self, on_select, parent):
         """
         This window will open a palettle chooser to let users select a palette from the (global) list of possible palettes.
         :param on_select: A callback function that is called when a palette is selected.
@@ -19,7 +20,8 @@ class PaletteChooser(QDialog):
         :param on_close: A callback function that is called when the window closes. This function gets no arguments.
         """
         
-        super().__init__(parent=None)
+        super().__init__(parent=parent)
+        self.parent().addDialog(self)
         self.setWindowTitle("Choose Palette")
 
         self.on_select = on_select
@@ -29,7 +31,7 @@ class PaletteChooser(QDialog):
         self.setLayout(vlayout)
         self.setFixedSize(300, 400)
         # add a list widget to view all the pretty palettes.
-        self.list = QListView()
+        self.list = QListWidget()
         self.list.setSelectionMode(1)
         vlayout.addWidget(self.list)
 
@@ -59,17 +61,16 @@ class PaletteChooser(QDialog):
     def gen_palette_list(self):
         self.list.clear()
         for palt in Palette.palettes:
-            item = QListWidget(self.list)
+            item = QListWidgetItem(self.list)
             # item.setBackground(QtCore.Qt.red)
 
             widg = QWidget()
             # widg.setStyleSheet("background-color:blue")
-
             layo = QHBoxLayout()
             self.list.setItemWidget(item, widg)
-
+            print(palt.name)
             text = QLabel(palt.name)
-            text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+            text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
 
             grad = QLabel()
             grad.setScaledContents(True)
@@ -81,7 +82,7 @@ class PaletteChooser(QDialog):
             layo.addWidget(grad)
 
             widg.setLayout(layo)
-            widg.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Minimum)
+            widg.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
 
             item.setSizeHint(widg.sizeHint())
 
@@ -96,6 +97,8 @@ class PaletteChooser(QDialog):
 
         for file in loaded:
             copy(file, main.CUSTOM_PALETTE_PATH)
+        self.close()
+        PaletteChooser(self.on_select, self.parent())
 
     def select(self):
         index = self.list.currentRow()
@@ -107,3 +110,4 @@ class PaletteChooser(QDialog):
         """ Overrides the closing event to execute the on_close callback after closing.
         This is better than overriding close() because this will also execute when the user presses the x button on the top of the window."""
         event.accept()
+        self.parent().dialogs.remove(self)
