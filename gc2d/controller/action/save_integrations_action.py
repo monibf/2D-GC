@@ -26,7 +26,7 @@ class SaveIntegrationsAction(QAction):
         :param path: the path to write the data to
         :return: None
         """
-        path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC integrations', filter='GCxGC file (*.gcgc)')[0]
+        path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC integrations', filter='GCxGC file (*.gcgc);; All files (*.*)')[0]
         if path is not '':
             state = self.model_wrapper.get_state()
             with open(path, 'w') as save_fd:

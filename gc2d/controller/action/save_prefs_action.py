@@ -24,7 +24,7 @@ class SavePrefsAction(QAction):
         Asks for a path via a file dialog, Writes program preferences in the specified path as json format.
         :return: None
         """
-        path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC preferences', filter='GCxGC file (*.gcgc)')[0]
+        path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC preferences', filter='GCxGC file (*.gcgc);; All files (*.*)')[0]
         if path is not '':
             state = self.model_wrapper.get_state()
             with open(path, 'w') as save_fd:

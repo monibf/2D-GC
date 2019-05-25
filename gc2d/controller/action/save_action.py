@@ -30,7 +30,7 @@ class SaveAction(QAction):
         """
         path = self.model_wrapper.get_preference(PreferenceEnum.SAVE_FILE) 
         if path is None:
-            path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC state', filter='GCxGC files (*.gcgc)')[0]
+            path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC state', filter='GCxGC files (*.gcgc);; All files (*.*)')[0]
             if path is '':
                 return
             self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)

@@ -29,7 +29,7 @@ class OpenFileAction(QAction):
         the program will save over this file, as the save_file preference is set to the selected path
         :return: None
         """
-        file_name = QFileDialog.getOpenFileName(self.window, 'Open chromatography data', filter='GCxGC files (*.gcgc *.gcgci *.gcgcp)')[0]
+        file_name = QFileDialog.getOpenFileName(self.window, 'Open chromatography data', filter='GCxGC files (*.gcgc);; All files (*.*)')[0]
         if file_name:
             with open(file_name, 'r') as file:
                 loaded = json.load(file)
