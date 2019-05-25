@@ -17,12 +17,13 @@ class Palette(ColorMap):
         """
         super().__init__(pos=np.linspace(0.0, 1.0, len(colors)), color=colors)
         self.name = name
+
         for i, p in enumerate(Palette.palettes):
             if p.name == self.name:
                 Palette.palettes[i] = self
                 return
-
-        Palette.palettes.insert(0, self)
+        Palette.palettes.append(self)
+        Palette.palettes.sort(key=Palette.get_name)
 
     def __call__(self, *args):
         """
@@ -76,6 +77,10 @@ class Palette(ColorMap):
                 if os.path.isfile(p):
                     loaded.extend(Palette.load_custom_palette(p))
         return loaded
+
+    @staticmethod
+    def get_name(palette):
+        return palette.name
 
 
 jet = Palette(

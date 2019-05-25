@@ -68,7 +68,6 @@ class PaletteChooser(QDialog):
             # widg.setStyleSheet("background-color:blue")
             layo = QHBoxLayout()
             self.list.setItemWidget(item, widg)
-            print(palt.name)
             text = QLabel(palt.name)
             text.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
 
