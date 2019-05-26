@@ -1,0 +1,25 @@
+{
+    "preferences":[
+        [
+            "SAVE_FILE",
+            null
+        ],
+        [
+            "PEN",
+            [
+                [
+                    "COLOR",
+                    "blue"
+                ],
+                [
+                    "WIDTH",
+                    10
+                ],
+                [
+                    "STYLE",
+                    2
+                ]
+            ]
+        ]
+    ]
+}

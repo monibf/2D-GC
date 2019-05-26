@@ -1,5 +1,6 @@
 import numpy as np
 
+from gc2d.model.preferences import Preferences, PreferenceEnum
 from gc2d.model.integration import Integration
 from gc2d.model.model import Model
 from gc2d.observable import Observable
@@ -16,54 +17,55 @@ class ModelWrapper(Observable):
         """The model containing all information relating to the chromatogram"""
         self.integrations = {}
         self.integrate_id = 0
+        self.preferences = Preferences()
 
     def set_palette(self, palette):
         """
-
         :param palette:
         :return:
         """
         self.model.palette = palette
         self.notify('model.palette', self.model)
 
-    def save_model(self, location):
-        """
-        Later in development we may wish to save the settings of the program to file.
-        :param location: The location to save to.
-        :return: None
-        """
+    def get_state(self):
+        """ returns an array with the model data and the integration data for storage """
+        return [self.model.get_2d_chromatogram_data(), 
+                [self.integrations[key].get_state() for key in self.integrations],
+                self.preferences.get_state_as_list()
+               ]
 
-        # Insert some hook to the save/load module.
-        print("ModelWrapper.save_model() not yet implemented.")
-
-    def load_model(self, file_name):
+    def set_model(self, arr):
         """
-        Loads the chromatogram data into a new model.
-        Later in development this may be responsible for loading more than just the chromatogram data.
-        :param file_name: The name of the chromatogram file to open.
+        Overwrites the model data and notifies listeners
+        :param arr: numpy array with the data to be set as the new model
         :return: None
         """
         self.close_model()
-        data = []
-        with open(file_name) as sourcefile:
-            for line in sourcefile:
-                row = [float(val.strip()) for val in line.split(",") if val.strip()]
-                data.append(row)
-        arr = np.array(data, dtype=np.float64)
-
-        self.model = Model(arr, len(data[0]))
-
+        self.model = Model(arr, len(arr[0]))
         self.notify('model', self.model)  # Notify all observers.
 
+    def import_model(self, file_name):
+        """
+        Loads the chromatogram data from a text file into a new model, omits last column (trailing commas).
+        :param file_name: The name of the chromatogram file to open.
+        :return: None
+        """
+        arr = np.genfromtxt(file_name, delimiter=',', dtype=np.float64)
+        self.set_model(arr[:,:-1])
+        
     def close_model(self):
         """
         Sets the model to None, effectively closing the chromatogram without closing the program.
         :return: None
         """
-
-        self.model = None
-
-        self.notify('model', self.model)  # Notify all observers
+        if (self.model is not None):
+            self.model = None
+            self.notify('model', self.model)  # Notify all observers
+            keys = [key for key in self.integrations]
+            for key in keys:
+                self.clear_integration(key)
+            self.integrate_id = 0
+            
 
     def set_transform(self, transform):
         """
@@ -107,7 +109,7 @@ class ModelWrapper(Observable):
         Update an integration mask, and notifies the view that integration values have been changed
         :param key: the key of the altered integration
         :param mask: an updated mask
-        :parame label: an updated label
+        :param label: an updated label
         :return: None
         """
         self.integrations[key].update(mask, label)
@@ -130,3 +132,20 @@ class ModelWrapper(Observable):
         """
         self.notify('removeIntegration', self.integrations[key])
         del self.integrations[key]
+
+    def get_preference(self, which):
+        """
+        Gets a preference value, specified by which
+        :param which: a PreferenceEnum object specifying which preference should be retrieved
+        :return: the called preference value 
+        """
+        return self.preferences.get(which)
+    
+    def set_preference(self, which, value):
+        """
+        Sets a preference value, specified by which
+        :param which: a PreferenceEnum object specifying which preference should be overwritten
+        :return: None
+        """
+        self.preferences.set(which, value)
+        

@@ -15,6 +15,9 @@ class Plot2DListener(WidgetListener):
         self.statusbar = statusbar
 
     def mouse_move_event(self, event):
+        if self.model_wrapper.model is None:
+            self.statusbar.showMessage("No data")
+            return
         mouse_point = self.widget.plotItem.vb.mapSceneToView(event.localPos())
         mouse_x = math.floor(mouse_point.x())
         mouse_y = math.floor(mouse_point.y())

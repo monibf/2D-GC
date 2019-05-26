@@ -16,10 +16,10 @@ class Plot2DWidget(PlotWidget):
         self.listener = Plot2DListener(self, model_wrapper, statusbar)  # Not yet Ready
         self.img = ImageItem()
         self.addItem(self.img)
-        self.wrapper_temp = model_wrapper #TEMPORARY
 
         self.setAspectLocked(True)
-        self.notify('model', model_wrapper.model)
+        if model_wrapper.model is not None: 
+            self.notify('model', model_wrapper.model)
         model_wrapper.add_observer(self, self.notify)
 
     def notify(self, name, value):
@@ -27,7 +27,7 @@ class Plot2DWidget(PlotWidget):
         Updates the image rendered to match the model.
         :return: None
         """
-        
+
         if name == 'newIntegration':
             self.addItem(value.selector.roi)
             value.selector.set_viewport(self.img)
