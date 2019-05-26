@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QLabel, QDoubleSpinBox, \
+from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QLabel, QDoubleSpinBox, \
     QPushButton, QComboBox
 
 from gc2d.view.palette.palette import Palette
@@ -6,7 +6,7 @@ from gc2d.view.palette.palette import Palette
 from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff
 from gc2d.model.transformations.dynamiccutoff import CutoffMode
 
-class ConvolutionPicker(QMainWindow):
+class ConvolutionPicker(QDialog):
     
     def __init__(self, on_select):
         """
@@ -21,15 +21,12 @@ class ConvolutionPicker(QMainWindow):
         
         self.on_select = on_select
         
-        self.setWindowTitle("Convolve")
-
-        vbox = QWidget()
-        self.setCentralWidget(vbox)
+        self.setWindowTitle("Transform data")
 
         self.vlayout = vlayout = QVBoxLayout()
-        vbox.setLayout(self.vlayout)
+        self.setLayout(self.vlayout)
 
-        type_lbl = QLabel('Convolution filter type:')
+        type_lbl = QLabel('Transformation type:')
         vlayout.addWidget(type_lbl)
 
         self.radio_buttons = QWidget()

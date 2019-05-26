@@ -8,7 +8,7 @@ class ToggleConvolutionAction(QAction):
         Toggles whether the model will return original or convolved data.
         :param model_wrapper: The model wrapper
         """
-        super().__init__('Show convolved data', parent, checkable=True)
+        super().__init__('Show transformed data', parent, checkable=True)
         self.model_wrapper = model_wrapper
         self.toggled.connect(self.toggle)
         self.setChecked(True)
