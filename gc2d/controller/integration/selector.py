@@ -60,12 +60,13 @@ class Selector(QObject):
 
     def get_region(self):
         """
+        TODO this is region not maks tuple!
         generates a mask for ROI region of the current chromatogram
         :return: The generated mask of the chromatogram 
         """
-        return self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.viewport)
+        return (self.roi.parentBounds(), self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.viewport))
 
     def get_handles(self):
         """ returns the handles in local space and the position of the bounding box in the scene """
         return self.roi.getLocalHandlePositions(), self.roi.pos()
-        
+ 

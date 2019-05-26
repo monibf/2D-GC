@@ -77,11 +77,11 @@ The model wrapper contains the model, that is in this case, the data. Since the 
 The product is build on Python 3 software, which due to it's many available libraries and packages concerning data visualization and manipulation, makes for an convenient implementation. The used libraries include:
 
 \begin{itemize}
-    \item \textbf{numpy} - For advanced 2D data manipulation and storage.
-    \item \textbf{PyQtGraph} - For plotting 2D and 3D data.
-    \item \textbf{PyOpenGl} - Dependency for PyQtGraph.
-    \item \textbf{PyQt5} - Dependency of PyQtGraph. Also used for GUI.
-    \item \textbf{PyQt5-sip} - Dependency of PyQt5
+    \item \textbf{SciPy/NumPy} - SciPy and its sublibrary NumPy are used for advanced 2D data manipulation, such as the integration, convolution and other array operations. This library was chosen because it is an industry standard and very fast and easy in use. 
+    \item \textbf{PyQtGraph} - PyQtGraph is used for the plotting of both the 2D and 3D data, and was chosen because it is an effective library for both 2D and 3D plotting of graphs, and has relatively good support for surface plots. The PyQtGraph package also contains some GUI elements, which it inherits from PyQt5, and the functionality for drawing and manipulating regions of interest, which we use for integration.
+    \item \textbf{PyOpenGl} - Is a dependency of PyQtGraph and the industry standard for 3D graphics, we have chosen to work on the OpenGL functionality to accommodate more intuitive palette controls and coloring of the 3D graph.
+    \item \textbf{PyQt5} - The PyQtGraph GUI is built on the PyQt5 library, this is why we have built the rest of the GUI on the same structure.
+   %\item \textbf{PyQt5-sip} - Dependency of PyQt5 % What is this, and why do we name it?
 \end{itemize}
 
 \section*{Acronyms}
@@ -101,6 +101,8 @@ The product is build on Python 3 software, which due to it's many available libr
      19-03-2019 & Maarten de Jager & initialized the document \\
      \hline
      01-04-2019 & Oliver Strik & Updated to respect the new Qt program \\
+     \hline
+     05/05/2019 & Oane Gros & Explained the choices in the technology stack \\
      \hline
 \end{tabular}
 

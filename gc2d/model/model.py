@@ -13,6 +13,10 @@ class Model:
 
         self.__chromatogram_data = chromatogram_data
         """The data of the chromatogram stored as a 2D array """
+        self.convolved_data = None
+        """The convolved data for convolution display."""
+        self.show_convolved = False
+        """Whether to show convolved data."""
         self.palette = palette.viridis
         """The palette to color the data with """
       
@@ -32,4 +36,15 @@ class Model:
         """The period of the second GC. """
 
     def get_2d_chromatogram_data(self):
+        if self.show_convolved:
+            return self.convolved_data
         return self.__chromatogram_data
+
+    def set_convolved_data(self, data):
+        self.convolved_data = data
+
+    def get_raw_data(self):
+        return self.__chromatogram_data
+
+    def toggle_convolved(self, b):
+        self.show_convolved = b
