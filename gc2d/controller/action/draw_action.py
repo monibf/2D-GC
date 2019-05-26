@@ -23,5 +23,4 @@ class DrawAction(QAction):
         Makes a new Selector object, which initializes itself in the model wrapper
         :return: None
         """
-        if self.model_wrapper.model is not None:
-            Selector(self.model_wrapper)
+        Selector(self.model_wrapper)

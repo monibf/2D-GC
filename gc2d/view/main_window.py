@@ -3,12 +3,7 @@ from pyqtgraph.dockarea import Dock, DockArea
 
 from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
-from gc2d.controller.action.import_data_action import ImportDataAction
 from gc2d.controller.action.open_file_action import OpenFileAction
-from gc2d.controller.action.save_action import SaveAction
-from gc2d.controller.action.save_integrations_action import SaveIntegrationsAction
-from gc2d.controller.action.save_prefs_action import SavePrefsAction
-from gc2d.controller.action.save_as_action import SaveAsAction
 from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
 from gc2d.controller.action.open_convolution_picker_action import OpenConvolutionPickerAction
 from gc2d.controller.action.toggle_convolution_action import ToggleConvolutionAction
@@ -40,11 +35,6 @@ class Window(QMainWindow):
         self.setWindowTitle('GCxGC')
 
         self.open_file_action = OpenFileAction(self, self.model_wrapper)
-        self.save_action = SaveAction(self, self.model_wrapper)
-        self.save_as_action = SaveAsAction(self, self.model_wrapper, self.save_action)
-        self.save_integrations_action = SaveIntegrationsAction(self, self.model_wrapper)
-        self.save_prefs_action = SavePrefsAction(self, self.model_wrapper)
-        self.import_data_action = ImportDataAction(self, self.model_wrapper)
         self.exit_action = ExitAction(self)
         self.draw_action = DrawAction(self, self.model_wrapper)
         self.open_palette_chooser_action = OpenChoosePaletteAction(self, self.model_wrapper)
@@ -78,11 +68,7 @@ class Window(QMainWindow):
         file_menu = main_menu.addMenu('File')
 
         file_menu.addAction(self.open_file_action)
-        file_menu.addAction(self.import_data_action)
-        file_menu.addAction(self.save_action)
-        file_menu.addAction(self.save_as_action)
-        file_menu.addAction(self.save_integrations_action)
-        file_menu.addAction(self.save_prefs_action)
+
         file_menu.addAction(self.exit_action)
 
         edit_menu = main_menu.addMenu('Edit')
@@ -120,11 +106,11 @@ class Window(QMainWindow):
         dock_3d = Dock('3D')
         dock_area.addDock(dock_3d)
 
-        dock_1d = Dock('1D')
-        dock_area.addDock(dock_1d, 'above', dock_3d)
-
         dock_2d = Dock('2D')
         dock_area.addDock(dock_2d, 'above', dock_3d)
+
+        dock_1d = Dock('1D')
+        dock_area.addDock(dock_1d, 'bottom', dock_2d)
 
         self.plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
         dock_3d.addWidget(self.plot_3d)
