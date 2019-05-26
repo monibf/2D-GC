@@ -54,7 +54,7 @@ class Plot3DWidget(GLViewWidget):
             else:
                 self.removeItem(self.integrations[value.id]) 
 
-        if name == "removeIntegration":
+        if name == "removeIntegration" and value.id in self.integrations:
             self.removeItem(self.integrations[value.id])            
                     
         if name == 'model':
