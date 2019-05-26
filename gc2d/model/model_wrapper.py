@@ -30,10 +30,11 @@ class ModelWrapper(Observable):
 
     def get_state(self):
         """ returns an array with the model data and the integration data for storage """
-        return [self.model.get_2d_chromatogram_data(), 
-                [self.integrations[key].get_state() for key in self.integrations],
-                self.preferences.get_state_as_list()
-               ]
+        return (
+            self.model.get_2d_chromatogram_data(), 
+            [integration.get_state() for integration in self.integrations.values()],
+            self.preferences.get_state()
+        )
 
     def set_model(self, arr):
         """
