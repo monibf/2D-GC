@@ -26,8 +26,8 @@ class SavePrefsAction(QAction):
         """
         path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC preferences', filter='GCxGC file (*.gcgc);; All files (*.*)')[0]
         if path is not '':
-            state = self.model_wrapper.get_state()
+            _model, _integrations, preferences = self.model_wrapper.get_state()
             with open(path, 'w') as save_fd:
-                json.dump({"preferences" : state[2]}, 
+                json.dump({"preferences" : preferences}, 
                            save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
         
