@@ -25,6 +25,4 @@ class OpenChoosePaletteAction(QAction):
         """
         i = -1
         while i == -1:
-            i = PaletteChooser(self.on_select, self.parent())
-    def on_select(self, palette):
-        self.model_wrapper.set_palette(palette)
+            i = PaletteChooser(self.parent(), self.model_wrapper)

@@ -1,5 +1,4 @@
 import os
-from PIL import Image
 import numpy as np
 from PyQt5.QtCore import QByteArray
 from PyQt5.QtGui import QPixmap, QImage, qRgb

@@ -18,14 +18,23 @@ class ModelWrapper(Observable):
         self.integrations = {}
         self.integrate_id = 0
 
+    def get_palette(self):
+        """
+        :return: The palette of the model, or none if there is no model.
+        """
+        if self.model is not None:
+            return self.model.palette
+
+        return None
+
     def set_palette(self, palette):
         """
-
-        :param palette:
-        :return:
+        :param palette: the color palette to set.
+        :return: None
         """
-        self.model.palette = palette
-        self.notify('model.palette', self.model)
+        if self.model is not None:
+            self.model.palette = palette
+            self.notify('model.palette', self.model)
 
     def save_model(self, location):
         """

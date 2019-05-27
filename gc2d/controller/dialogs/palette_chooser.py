@@ -1,10 +1,8 @@
-from PyQt5.QtGui import QPixmap, QFont
-from PyQt5.QtWidgets import QHBoxLayout, QLabel, QLayout, QListWidget, QListWidgetItem, QMainWindow, \
-    QPushButton, QVBoxLayout, QWidget, QFileDialog, QSizePolicy, QDialog, QScrollArea, QListView
-
 from shutil import copy
 
-from PyQt5 import QtCore
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QHBoxLayout, QLabel, QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QWidget, \
+    QFileDialog, QSizePolicy, QDialog
 
 import gc2d.main as main
 from gc2d.view.palette.palette import Palette
@@ -12,19 +10,20 @@ from gc2d.view.palette.palette import Palette
 
 class PaletteChooser(QDialog):
     
-    def __init__(self, on_select, parent):
+    def __init__(self, parent, modelwrapper):
         """
-        This window will open a palettle chooser to let users select a palette from the (global) list of possible palettes.
-        :param on_select: A callback function that is called when a palette is selected.
-            This callback wil get one argument which is the palette that is selected.
-        :param on_close: A callback function that is called when the window closes. This function gets no arguments.
+        This window will open a palette chooser to let users select a palette from the (global) list of possible
+        palettes.
+
+        :param parent: The parent window, should be the current instance of MainWindow.
+        :param modelwrapper: The wrapper of the model.
         """
         
         super().__init__(parent=parent)
         self.parent().addDialog(self)
         self.setWindowTitle("Choose Palette")
 
-        self.on_select = on_select
+        self.modelwrapper = modelwrapper
 
         # vertical layout as central panel.
         vlayout = QVBoxLayout()
@@ -60,7 +59,7 @@ class PaletteChooser(QDialog):
 
     def gen_palette_list(self):
         self.list.clear()
-        for palt in Palette.palettes:
+        for i, palt in enumerate(Palette.palettes):
             item = QListWidgetItem(self.list)
             # item.setBackground(QtCore.Qt.red)
 
@@ -84,9 +83,11 @@ class PaletteChooser(QDialog):
             widg.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
 
             item.setSizeHint(widg.sizeHint())
+            if self.modelwrapper.get_palette() is palt:
+                self.list.setCurrentRow(i)
 
     def import_palette(self):
-        files, _ = QFileDialog.getOpenFileNames(self, "Import palette file", "",
+        files, _ = QFileDialog.getOpenFileNames(None, "Import palette file", "",
                                                 "Palette Files (*.palette);;All Files(*)")
         loaded = []
         for file in files:
@@ -97,11 +98,13 @@ class PaletteChooser(QDialog):
         for file in loaded:
             copy(file, main.CUSTOM_PALETTE_PATH)
         self.close()
-        PaletteChooser(self.on_select, self.parent())
+        PaletteChooser(self.parent(), self.modelwrapper)
 
     def select(self):
         index = self.list.currentRow()
-        self.on_select(Palette.palettes[index])
+        self.modelwrapper.set_palette(
+            Palette.palettes[index]
+        )
         self.close()
 
     # TODO is this function still necessary?
