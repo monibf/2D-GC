@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QAction
 
-from gc2d.controller.integration.selector import Selector
 
 class NewSelectorAction(QAction):
 
