@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import QHBoxLayout, QLabel, QListWidget, QListWidgetItem, Q
     QFileDialog, QSizePolicy, QDialog
 
 import gc2d.main as main
-from gc2d.view.palette.palette import Palette
+from gc2d.view.palette.palette import palettes, load_custom_palettes
 
 
 class PaletteChooser(QDialog):
@@ -59,7 +59,7 @@ class PaletteChooser(QDialog):
 
     def gen_palette_list(self):
         self.list.clear()
-        for i, palt in enumerate(Palette.palettes):
+        for i, palt in enumerate(palettes):
             item = QListWidgetItem(self.list)
             # item.setBackground(QtCore.Qt.red)
 
@@ -91,7 +91,7 @@ class PaletteChooser(QDialog):
                                                 "Palette Files (*.palette);;All Files(*)")
         loaded = []
         for file in files:
-            loaded.extend(Palette.load_custom_palettes(file))
+            loaded.extend(load_custom_palettes(file))
 
         self.gen_palette_list()
 
@@ -103,7 +103,7 @@ class PaletteChooser(QDialog):
     def select(self):
         index = self.list.currentRow()
         self.modelwrapper.set_palette(
-            Palette.palettes[index]
+            palettes[index]
         )
         self.close()
 

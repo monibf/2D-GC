@@ -1,13 +1,12 @@
 import os
 import numpy as np
-from PyQt5.QtCore import QByteArray
-from PyQt5.QtGui import QPixmap, QImage, qRgb
+from PyQt5.QtGui import QImage, qRgb
 from pyqtgraph import ColorMap
+
+palettes = []
 
 
 class Palette(ColorMap):
-
-    palettes = []
 
     def __init__(self, name, colors):
         """
@@ -17,12 +16,12 @@ class Palette(ColorMap):
         super().__init__(pos=np.linspace(0.0, 1.0, len(colors)), color=colors)
         self.name = name
 
-        for i, p in enumerate(Palette.palettes):
+        for i, p in enumerate(palettes):
             if p.name == self.name:
-                Palette.palettes[i] = self
+                palettes[i] = self
                 return
-        Palette.palettes.append(self)
-        Palette.palettes.sort(key=(lambda palette: palette.name))
+        palettes.append(self)
+        palettes.sort(key=(lambda palette: palette.name))
 
     def __call__(self, *args):
         """
@@ -31,9 +30,8 @@ class Palette(ColorMap):
         """
         return self.getLookupTable(alpha=False)
 
-    def generate_preview(self, width = 400, height = 100):
+    def generate_preview(self, width=400, height=100):
         gradient = self.getLookupTable(start=0.0, stop=1.0, nPts=width, mode='byte', alpha=False)
-        data = QByteArray()
         img = QImage(width, height, QImage.Format_RGB32)
         x = 0
         for color in gradient:
