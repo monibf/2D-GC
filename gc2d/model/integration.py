@@ -16,18 +16,23 @@ class Integration:
         self.id = key
         self.selector = selector
         self.mask = None
+        self.pos = None # track position of bounding box
+        self.show = False
         self.mean = None
         self.sum = None
 
-    def update(self, mask=None, label=None):
+
+    def update(self, region=None, label=None):
         """
         updates the mask + integration value and/or the label
         :param mask: an updated mask
         :param label: an new label
         :return: None
         """
-        if mask is not None:
+        if region is not None:
+            mask = region[1]
             self.mask = mask
+            self.pos = region[0].topLeft()
             self.sum = np.sum(mask)
             if self.sum > 0.0:
                 self.mean = self.sum / np.count_nonzero(mask)
@@ -38,5 +43,17 @@ class Integration:
         if label is not None:
             self.label = label
 
-    
+    def get_state(self):
+        """ return state values to be serialized """
+        handles, pos = self.selector.get_handles()
+        return (self.label, 
+                [(handle[1].x(), handle[1].y()) for handle in handles], 
+                (pos.x(), pos.y()))
+      
+    def toggle_show(self):
+        """
+        toggle the show parameter between True and False, used for highlighting in 3d view
+        :return: None
+        """
+        self.show = not self.show
 

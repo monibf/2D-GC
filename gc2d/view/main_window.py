@@ -3,8 +3,15 @@ from pyqtgraph.dockarea import Dock, DockArea
 
 from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
+from gc2d.controller.action.import_data_action import ImportDataAction
 from gc2d.controller.action.open_file_action import OpenFileAction
+from gc2d.controller.action.save_action import SaveAction
+from gc2d.controller.action.save_integrations_action import SaveIntegrationsAction
+from gc2d.controller.action.save_prefs_action import SavePrefsAction
+from gc2d.controller.action.save_as_action import SaveAsAction
 from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
+from gc2d.controller.action.open_convolution_picker_action import OpenConvolutionPickerAction
+from gc2d.controller.action.toggle_convolution_action import ToggleConvolutionAction
 from gc2d.view.integration_list import IntegrationList
 from gc2d.view.plot_1d_widget import Plot1DWidget
 from gc2d.view.plot_2d_widget import Plot2DWidget
@@ -33,21 +40,28 @@ class Window(QMainWindow):
         self.setWindowTitle('GCxGC')
 
         self.open_file_action = OpenFileAction(self, self.model_wrapper)
+        self.save_action = SaveAction(self, self.model_wrapper)
+        self.save_as_action = SaveAsAction(self, self.model_wrapper, self.save_action)
+        self.save_integrations_action = SaveIntegrationsAction(self, self.model_wrapper)
+        self.save_prefs_action = SavePrefsAction(self, self.model_wrapper)
+        self.import_data_action = ImportDataAction(self, self.model_wrapper)
         self.exit_action = ExitAction(self)
         self.draw_action = DrawAction(self, self.model_wrapper)
         self.open_palette_chooser_action = OpenChoosePaletteAction(self, self.model_wrapper)
+        self.open_convolution_picker_action = OpenConvolutionPickerAction(self, self.model_wrapper)
+        self.toggle_convolution_action = ToggleConvolutionAction(self, self.model_wrapper)
 
         self.plot_1d = None
         self.plot_2d = None
         self.plot_3d = None
 
+        status_bar = self.statusBar()
+
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
-        self.create_graph_views()  # Create 2D and 3D dock tabs.
+        self.create_toolbar()
+        self.create_graph_views(status_bar)  # Create 2D and 3D dock tabs.
 
-        # TODO status bar.
-        status_bar = self.statusBar()
-        status_bar.addWidget(QLabel("Some status"))
 
         self.show()  # Show the window.
 
@@ -64,7 +78,11 @@ class Window(QMainWindow):
         file_menu = main_menu.addMenu('File')
 
         file_menu.addAction(self.open_file_action)
-
+        file_menu.addAction(self.import_data_action)
+        file_menu.addAction(self.save_action)
+        file_menu.addAction(self.save_as_action)
+        file_menu.addAction(self.save_integrations_action)
+        file_menu.addAction(self.save_prefs_action)
         file_menu.addAction(self.exit_action)
 
         edit_menu = main_menu.addMenu('Edit')
@@ -73,15 +91,25 @@ class Window(QMainWindow):
         view_menu = main_menu.addMenu('View')
 
         view_menu.addAction(self.open_palette_chooser_action)
+        view_menu.addAction(self.toggle_convolution_action)
 
         tools_menu = main_menu.addMenu('Tools')
+        tools_menu.addAction(self.open_convolution_picker_action)
         # TODO
 
         help_menu = main_menu.addMenu('Help')
         # TODO
+    
+    def create_toolbar(self):
+        
+        self.toolbar = self.addToolBar("toolbar")
+        self.toolbar.addAction(self.toggle_convolution_action)
+        self.toolbar.addAction(self.open_convolution_picker_action)
+        self.toolbar.addAction(self.open_palette_chooser_action)
+        self.toolbar.addAction(self.draw_action)
 
     # noinspection PyArgumentList
-    def create_graph_views(self):
+    def create_graph_views(self, status_bar):
         """
         Creates the window containing the graph views.
         :return: None. Later it should return a QWidget containing the views.
@@ -92,22 +120,37 @@ class Window(QMainWindow):
         dock_3d = Dock('3D')
         dock_area.addDock(dock_3d)
 
+        dock_1d = Dock('1D')
+        dock_area.addDock(dock_1d, 'above', dock_3d)
+
         dock_2d = Dock('2D')
         dock_area.addDock(dock_2d, 'above', dock_3d)
-
-        dock_1d = Dock('1D')
-        dock_area.addDock(dock_1d, 'bottom', dock_2d)
 
         self.plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
         dock_3d.addWidget(self.plot_3d)
 
-        self.plot_2d = Plot2DWidget(self.model_wrapper, dock_2d)
+        self.plot_2d = Plot2DWidget(self.model_wrapper, status_bar, dock_2d)
         dock_2d.addWidget(self.plot_2d)
 
-        self.plot_1d = Plot1DWidget(self.model_wrapper, dock_1d)
+        self.plot_1d = Plot1DWidget(self.model_wrapper, status_bar, dock_1d)
         dock_1d.addWidget(self.plot_1d)
 
         # TODO: move away from this function
         dock_list = Dock('integration')
         dock_area.addDock(dock_list)
         dock_list.addWidget(IntegrationList(self.model_wrapper, dock_list))
+
+    def addDialog(self, dialog):
+        for d in self.dialogs:
+            if isinstance(d, type(dialog)):
+                d.show()
+                d.raise_()
+                d.activateWindow()
+                d.showNormal()
+                return
+
+        dialog.show()
+        dialog.raise_()
+        dialog.activateWindow()
+        dialog.showNormal()
+        self.dialogs.append(dialog)

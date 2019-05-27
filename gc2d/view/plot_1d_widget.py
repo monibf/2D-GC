@@ -6,15 +6,16 @@ from gc2d.controller.listener.plot_1d_listener import Plot1DListener
 
 class Plot1DWidget(PlotWidget):
 
-    def __init__(self, model_wrapper, parent=None):
+    def __init__(self, model_wrapper, statusbar, parent=None):
         """
-        The Plot2DWidget is responsible for rendering the 2D chromatogram data.
+        The Plot1DWidget is responsible for rendering the 1D chromatogram data.
+        The data is represented as a curve plot of the integrated data over the x axis. 
         :param model_wrapper: the wrapper of the model.
         :param parent: the parent of this Widget.
         """
         super().__init__(parent=parent)
 
-        self.listener = Plot1DListener(self, model_wrapper)
+        self.listener = Plot1DListener(self, model_wrapper, statusbar)
         """ The listener for the 1D plot """
         self.curve = self.plot(pen='y')
         """ The curve drawn on the 1D plot """
@@ -23,7 +24,8 @@ class Plot1DWidget(PlotWidget):
         model_wrapper.add_observer(self, self.notify)
 
         # call notify to draw the model.
-        self.notify('model', model_wrapper.model)
+        if model_wrapper.model is not None: 
+            self.notify('model', model_wrapper.model)
 
     def notify(self, name, value):
         """
@@ -34,7 +36,7 @@ class Plot1DWidget(PlotWidget):
         """
 
         if name == 'model':
-            if value is None:
+            if value is None or value.get_2d_chromatogram_data() is None:
                 # Then Draw nothing.
                 self.curve.setData([])
             else:
