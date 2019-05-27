@@ -22,7 +22,7 @@ class Palette(ColorMap):
                 Palette.palettes[i] = self
                 return
         Palette.palettes.append(self)
-        Palette.palettes.sort(key=Palette.get_name)
+        Palette.palettes.sort(key=(lambda palette: palette.name))
 
     def __call__(self, *args):
         """
@@ -41,45 +41,6 @@ class Palette(ColorMap):
                 img.setPixel(x, y, qRgb(color[0], color[1], color[2]))
             x += 1
         return img
-
-
-    @staticmethod
-    def load_custom_palette(path):
-        loaded = []
-        if not os.path.exists(path):
-            return loaded
-
-        if os.path.isdir(path):
-            return loaded
-
-        if os.path.isfile(path) and path.endswith(".palette"):
-            data = []
-            with open(path) as sourcefile:
-                for line in sourcefile:
-                    row = [int(val.strip()) for val in line.split(",") if val.strip()]
-                    data.append(row)
-            Palette(os.path.basename(path).split(".")[0], data)
-            loaded.append(path)
-        return loaded
-
-    @staticmethod
-    def load_custom_palettes(path):
-        loaded = []
-        if not os.path.exists(path):
-            return loaded
-
-        if not os.path.isdir(path):
-            loaded.extend(Palette.load_custom_palette(path))
-        else:
-            for file in os.listdir(path):
-                p = os.path.join(path, file)
-                if os.path.isfile(p):
-                    loaded.extend(Palette.load_custom_palette(p))
-        return loaded
-
-    @staticmethod
-    def get_name(palette):
-        return palette.name
 
 
 jet = Palette(
@@ -116,3 +77,37 @@ viridis = Palette(
         (255, 231, 37)
     ]
 )
+
+
+def load_custom_palette(path):
+    loaded = []
+    if not os.path.exists(path):
+        return loaded
+
+    if os.path.isdir(path):
+        return loaded
+
+    if os.path.isfile(path) and path.endswith(".palette"):
+        data = []
+        with open(path) as sourcefile:
+            for line in sourcefile:
+                row = [int(val.strip()) for val in line.split(",") if val.strip()]
+                data.append(row)
+        Palette(os.path.basename(path).split(".")[0], data)
+        loaded.append(path)
+    return loaded
+
+
+def load_custom_palettes(path):
+    loaded = []
+    if not os.path.exists(path):
+        return loaded
+
+    if not os.path.isdir(path):
+        loaded.extend(load_custom_palette(path))
+    else:
+        for file in os.listdir(path):
+            p = os.path.join(path, file)
+            if os.path.isfile(p):
+                loaded.extend(load_custom_palette(p))
+    return loaded
