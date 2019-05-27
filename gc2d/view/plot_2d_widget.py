@@ -26,10 +26,10 @@ class Plot2DWidget(PlotWidget):
         # Disable right click context menu.
         self.getPlotItem().setMenuEnabled(False)
 
-        # Register this widget as an observer of the model_wrapper.
         model_wrapper.add_observer(self, self.notify)
 
-        # call notify to draw the model.
+        # call notify to draw the model. NOTE: The if statement isn't nesessary, it checks in notify if there is
+        # a model or not.
         self.notify('model', model_wrapper.model)
 
     def notify(self, name, value):
@@ -37,7 +37,7 @@ class Plot2DWidget(PlotWidget):
         Updates the image rendered to match the model.
         :return: None
         """
-        
+
         if name == 'newIntegration':
             self.addItem(value.selector.roi)
             value.selector.set_viewport(self.img)

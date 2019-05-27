@@ -23,7 +23,6 @@ class OpenChoosePaletteAction(QAction):
         Show the Choose Palette dialog.
         :return: None
         """
-        self.parent().addDialog(PaletteChooser(self.on_select))
-
-    def on_select(self, palette):
-        self.model_wrapper.set_palette(palette)
+        i = -1
+        while i == -1:
+            i = PaletteChooser(self.parent(), self.model_wrapper)

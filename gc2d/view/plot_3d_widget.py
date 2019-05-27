@@ -29,18 +29,16 @@ class Plot3DWidget(GLViewWidget):
         # move the camera back a bit
         self.setCameraPosition(distance=400)
 
-        # Translate the mesh so that it is centered in the view.
-        self.translation_x = -len(model_wrapper.model.get_2d_chromatogram_data()) / 2
-        self.translation_y = -len(model_wrapper.model.get_2d_chromatogram_data()[0]) / 2
-        self.surface.translate(self.translation_x, self.translation_y, 0)
-
         # Scale down the height of the mesh.
         self.surface.scale(1, 1, 0.00001)  # TODO This will need to be done dynamically later.
+        
+        #TODO What is this?
+        self.translation_x, self.translation_y = 0, 0
 
         # Register this widget as an observer of the model_wrapper.
         model_wrapper.add_observer(self, self.notify)
 
-        # call notify to draw the model.
+        # call notify to draw the model. NOTE: again, if statement not  required as notify already checks if   model is None.
         self.notify('model', model_wrapper.model)
 
     def notify(self, name, value):
@@ -63,7 +61,7 @@ class Plot3DWidget(GLViewWidget):
             else:
                 self.removeItem(self.integrations[value.id]) 
 
-        if name == "removeIntegration":
+        if name == "removeIntegration" and value.id in self.integrations:
             self.removeItem(self.integrations[value.id])            
                     
         if name == 'model':
@@ -71,9 +69,12 @@ class Plot3DWidget(GLViewWidget):
                 self.setVisible(False)
             else:
                 if not self.isVisible():
+                    prev_x, prev_y = self.translation_x, self.translation_y
+                    self.translation_x = -len(value.get_2d_chromatogram_data()) / 2
+                    self.translation_y = -len(value.get_2d_chromatogram_data()[0]) / 2
+                    self.surface.translate(self.translation_x - prev_x, self.translation_y - prev_y, 0)
+                    self.surface.setData(z=value.get_2d_chromatogram_data())
                     self.setVisible(True)
-
-                self.surface.setData(z=value.get_2d_chromatogram_data())
                 self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))
                 self.lower_bound = value.lower_bound
                 self.upper_bound = value.upper_bound
