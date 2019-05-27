@@ -52,9 +52,12 @@ class Plot3DWidget(GLViewWidget):
                 self.set_highlight(value)
                 self.integrations[value.id].scale(1, 1, 0.00001)
             else:
-                self.removeItem(self.integrations[value.id]) 
+                self.removeItem(self.integrations[value.id])
+                self.integrations.pop(value.id)
 
         if name == "removeIntegration" and value.id in self.integrations:
+            print (self.integrations)
+            print(value.id, "hey")
             self.removeItem(self.integrations[value.id])            
                     
         if name == 'model':

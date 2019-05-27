@@ -32,6 +32,9 @@ class IntegrationList(QTableWidget):
         
         self.cellChanged.connect(self.change_label)
 
+        self.previous_selection = []
+        self.itemSelectionChanged.connect(self.select)
+
         self.precision = 5 #amount of decimals displayed
 
         self.setColumnCount(len(Col))
@@ -74,7 +77,7 @@ class IntegrationList(QTableWidget):
         self.setCellWidget(row, Col.clear.value, clear_button)
 
         show_toggle = QCheckBox()
-        show_toggle.stateChanged.connect(lambda: self.select(integration.id))
+        show_toggle.stateChanged.connect(self.select)
         self.setCellWidget(row, Col.show.value, show_toggle)
         
         self.showing.append(integration.id)
@@ -102,10 +105,16 @@ class IntegrationList(QTableWidget):
         self.setItem(row, Col.integration.value, sum_item)
         self.blockSignals(False)
     
-
-    def select(self, key):
-        # in progress
-        self.handler.toggle_show(key)
+    def select(self):
+        current_selection = [selected.row() for selected in self.selectedIndexes()]
+        for previous in self.previous_selection:
+            if previous not in current_selection:
+                self.handler.hide(self.showing[previous])
+                self.previous_selection.remove(previous)
+        for current in current_selection:
+            if current not in self.previous_selection:
+                self.handler.show(self.showing[current])
+                self.previous_selection.append(current)
       
     def change_label(self):
         """

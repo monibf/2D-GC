@@ -56,4 +56,9 @@ class Integration:
         :return: None
         """
         self.show = not self.show
+        if not self.show:
+            self.selector.set_alpha(125)
+            print(self.label, " turned off")
+        else:
+            self.selector.set_alpha(255)
 
