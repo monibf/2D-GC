@@ -20,14 +20,16 @@ class Model:
         self.palette = palette.viridis
         """The palette to color the data with """
       
+        
         self.lowest = self.__chromatogram_data.min()
         """The lowest value in the chromatogram """
         self.highest = self.__chromatogram_data.max()
         """The highest value in the chromatogram """
 
-        self.lower_bound = self.lowest
+        #TODO: do not hardcode this!
+        self.lower_bound = self.lowest/100
         """ The lower bound of the intensity scale """
-        self.upper_bound = self.highest
+        self.upper_bound = self.highest/100
         """ The upper bound of the intensity scale """
 
         self.period = period
