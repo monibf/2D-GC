@@ -1,4 +1,5 @@
 import numpy as np
+from scipy import ndimage
 
 from gc2d.model.integration import Integration
 from gc2d.model.model import Model
@@ -65,6 +66,25 @@ class ModelWrapper(Observable):
 
         self.notify('model', self.model)  # Notify all observers
 
+    def filter_gaussian(self, sigma):
+        """
+        Applies a Gaussian filter to the model and puts it in the convolution data.
+        :param sigma: The standard deviation of the Gaussian filter.
+        :return: None
+        """
+
+        self.model.set_convolved_data(ndimage.gaussian_filter(self.model.get_raw_data(), sigma, mode='constant'))
+        self.notify('model', self.model)
+
+    def toggle_convolved(self, convolved):
+        """
+        Toggle whether to show convolved data.
+        :param convolved: A boolean signifying whether to show convolved data or not.
+        :return: None
+        """
+        self.model.toggle_convolved(convolved)
+        self.notify('model', self.model)
+
     def add_integration(self, selector, key):
         """
         Appends a new integration data object to the self.integrations, with generated label
@@ -96,8 +116,13 @@ class ModelWrapper(Observable):
         self.notify('integrationUpdate', self.integrations[key])
     
     def toggle_show(self, key):
-        #still in progress, should show integration in view
-        self.notify('toggleIntegration', self.integrations[key])
+        """ 
+        Toggle whether an integration is highlighted/showing in the 3D visualization
+        :param key: the key of the toggled integration
+        :return: None
+        """
+        self.integrations[key].toggle_show()
+        self.notify('showIntegration', self.integrations[key])
 
     def clear_integration(self, key):
         """
