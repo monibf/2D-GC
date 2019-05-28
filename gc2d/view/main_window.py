@@ -1,9 +1,10 @@
-from PyQt5.QtWidgets import QLabel, QMainWindow
+from PyQt5.QtWidgets import QMainWindow
 from pyqtgraph.dockarea import Dock, DockArea
 
 from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
 from gc2d.controller.action.import_data_action import ImportDataAction
+from gc2d.controller.action.open_all_preferences_action import OpenAllPreferencesAction
 from gc2d.controller.action.open_file_action import OpenFileAction
 from gc2d.controller.action.save_action import SaveAction
 from gc2d.controller.action.save_integrations_action import SaveIntegrationsAction
@@ -47,6 +48,7 @@ class Window(QMainWindow):
         self.import_data_action = ImportDataAction(self, self.model_wrapper)
         self.exit_action = ExitAction(self)
         self.draw_action = DrawAction(self, self.model_wrapper)
+        self.open_all_preferences_action = OpenAllPreferencesAction(self, self.model_wrapper)
         self.open_palette_chooser_action = OpenChoosePaletteAction(self, self.model_wrapper)
         self.open_convolution_picker_action = OpenConvolutionPickerAction(self, self.model_wrapper)
         self.toggle_convolution_action = ToggleConvolutionAction(self, self.model_wrapper)
@@ -55,13 +57,12 @@ class Window(QMainWindow):
         self.plot_2d = None
         self.plot_3d = None
 
-        status_bar = self.statusBar()
+        self.toolbar = self.addToolBar("toolbar")
 
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
         self.create_toolbar()
-        self.create_graph_views(status_bar)  # Create 2D and 3D dock tabs.
-
+        self.create_graph_views()  # Create 2D and 3D dock tabs.
 
         self.show()  # Show the window.
 
@@ -87,6 +88,7 @@ class Window(QMainWindow):
 
         edit_menu = main_menu.addMenu('Edit')
         edit_menu.addAction(self.draw_action)
+        edit_menu.addAction(self.open_all_preferences_action)
 
         view_menu = main_menu.addMenu('View')
 
@@ -101,15 +103,17 @@ class Window(QMainWindow):
         # TODO
     
     def create_toolbar(self):
-        
-        self.toolbar = self.addToolBar("toolbar")
+        """
+        Add the actions to the toolbar.
+        :return: None
+        """
         self.toolbar.addAction(self.toggle_convolution_action)
         self.toolbar.addAction(self.open_convolution_picker_action)
         self.toolbar.addAction(self.open_palette_chooser_action)
         self.toolbar.addAction(self.draw_action)
 
     # noinspection PyArgumentList
-    def create_graph_views(self, status_bar):
+    def create_graph_views(self):
         """
         Creates the window containing the graph views.
         :return: None. Later it should return a QWidget containing the views.
@@ -129,10 +133,10 @@ class Window(QMainWindow):
         self.plot_3d = Plot3DWidget(self.model_wrapper, dock_3d)
         dock_3d.addWidget(self.plot_3d)
 
-        self.plot_2d = Plot2DWidget(self.model_wrapper, status_bar, dock_2d)
+        self.plot_2d = Plot2DWidget(self.model_wrapper, self.statusBar(), dock_2d)
         dock_2d.addWidget(self.plot_2d)
 
-        self.plot_1d = Plot1DWidget(self.model_wrapper, status_bar, dock_1d)
+        self.plot_1d = Plot1DWidget(self.model_wrapper, self.statusBar(), dock_1d)
         dock_1d.addWidget(self.plot_1d)
 
         # TODO: move away from this function
@@ -140,7 +144,12 @@ class Window(QMainWindow):
         dock_area.addDock(dock_list)
         dock_list.addWidget(IntegrationList(self.model_wrapper, dock_list))
 
-    def addDialog(self, dialog):
+    def add_dialog(self, dialog):
+        """
+        Adds a dialog to this view. If the dialog already exists, it brings it to the front/unminimises it.
+        :param dialog: The dialog to add.
+        :return: None
+        """
         for d in self.dialogs:
             if isinstance(d, type(dialog)):
                 d.show()
@@ -154,3 +163,13 @@ class Window(QMainWindow):
         dialog.activateWindow()
         dialog.showNormal()
         self.dialogs.append(dialog)
+
+    def closeEvent(self, event):
+        """
+        Closes all open dialogs too.
+        :param event: The close event.
+        :return: None
+        """
+        for dialog in self.dialogs:
+            dialog.close()
+        event.accept()
