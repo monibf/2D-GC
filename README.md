@@ -64,12 +64,14 @@ command line like any other program.
 ### Pip
 
 An alternative is to install the application with [Pip](https://pip.pypa.io/en/stable/)
-- Install python3 and pip for python3 if those aren't installed already.
-- Run `pip install --user 2D-GC/` (assuming that `2D-GC/` is the directory that contains setup.py).
-- to launch the project, run `python3 -m gc2d`
+- Install python3 and pip for python3 if those aren't installed already
+- On the command line, go to the project root directory (the directory where setup.py and requirements.txt are located)
+- Run `pip3 install --user -r requirements.txt`
+- Run `pip3 install --user 2D-GC/` (assuming that `2D-GC/` is the directory that contains setup.py)
+- To launch the project, run `python3 -m gc2d`
 
 **NOTE:** On mac OSX you need to install the latest pyqtgraph from github rather than from pip. There is a bug for retina displays that has been fixed in the later development versions but that is not yet included in the latest release.
-To install this from github run `pip install --user git+https://github.com/pyqtgraph/pyqtgraph` before running `pip install --user 2D-GC/`.
+To install this from github run `pip3 install --user git+https://github.com/pyqtgraph/pyqtgraph` before running `pip3 install --user 2D-GC/`.
 
 
 ## Uninstallation
@@ -93,7 +95,7 @@ User preferences can be found in `$HOME/.gc2d`, delete this folder to completely
 
 ### Pip
 
-Run `pip uninstall gc2d-rug`.
+Run `pip3 uninstall gc2d-rug`.
 This does not uninstall dependencies (pyqtgraph, numpy, etc.). To install dependencies use [pip-autoremove](https://github.com/invl/pip-autoremove).
 
 ## TODO

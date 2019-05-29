@@ -21,7 +21,8 @@ setuptools.setup(
         "PyOpenGL",
         "PyQt5",
         "PyQt5-sip",
-        "pyqtgraph"
+        "pyqtgraph",
+        "scipy"
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
