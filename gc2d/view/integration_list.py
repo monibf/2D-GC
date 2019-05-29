@@ -60,7 +60,7 @@ class IntegrationList(QTableWidget):
             self.clear_row(self.showing.index(value.id))
         elif name == 'model':
             if value is None:
-                self.clear()
+                self.setRowCount(0) 
 
     def new_row(self, integration):
         """
@@ -68,6 +68,7 @@ class IntegrationList(QTableWidget):
         :param integration: the new integration value
         """
         row = self.rowCount()
+        self.previous_selection = [row]
         self.insertRow(row)
 
         clear_button = QPushButton()
@@ -106,16 +107,18 @@ class IntegrationList(QTableWidget):
         self.blockSignals(False)
     
     def select(self):
-        current_selection = [selected.row() for selected in self.selectedIndexes()]
+        current_selection =[]
+        for selected in self.selectedIndexes():
+            row = selected.row()
+            if row not in current_selection:
+                self.handler.show(self.showing[row])
+                current_selection.append(row)
+                if row in self.previous_selection:
+                    self.previous_selection.remove(row)
         for previous in self.previous_selection:
-            if previous not in current_selection:
-                self.handler.hide(self.showing[previous])
-                self.previous_selection.remove(previous)
-        for current in current_selection:
-            if current not in self.previous_selection:
-                self.handler.show(self.showing[current])
-                self.previous_selection.append(current)
-      
+            self.handler.hide(self.showing[previous])
+        self.previous_selection = current_selection  
+        
     def change_label(self):
         """
         Takes an edited label and hands this to the handler, with the key of the appropriate integration and the edited text
@@ -138,6 +141,13 @@ class IntegrationList(QTableWidget):
         """
         self.removeRow(row)
         del self.showing[row]
+        print(self.previous_selection)
+        
+        for ix, selected in enumerate(self.previous_selection):
+            if selected > row:
+                self.previous_selection[ix] -= 1
+        # self.previous_selection = [select - 1 for select in self.previous_selection if select > row] 
+        print(self.previous_selection)
         
            
         

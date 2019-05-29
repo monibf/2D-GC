@@ -53,9 +53,7 @@ class Selector(QObject):
         new_color.setAlpha(alpha)
         new_pen.setColor(new_color)
         self.roi.setPen(new_pen)
-        
-        print(self.roi.pen.color().alpha(), alpha)
-
+    
     def set_viewport(self, plot):
         """
         sets a pyqtgraph imageItem to find the viewport of the screen, so the current array region can be found

@@ -50,15 +50,14 @@ class Integration:
                 [(handle[1].x(), handle[1].y()) for handle in handles], 
                 (pos.x(), pos.y()))
       
-    def toggle_show(self):
+    def set_show(self, mode):
         """
         toggle the show parameter between True and False, used for highlighting in 3d view
         :return: None
         """
-        self.show = not self.show
-        if not self.show:
-            self.selector.set_alpha(125)
-            print(self.label, " turned off")
-        else:
+        if mode == 'show':
+            self.show = True
             self.selector.set_alpha(255)
-
+        elif mode == 'hide':
+            self.show = False
+            self.selector.set_alpha(125)

@@ -95,8 +95,11 @@ class ModelWrapper(Observable):
         :param selector: Selector object, drawing a region of interest in a plot2d
         :return index: the index of this integration, to be used as identifier
         """
+        for other in self.integrations:
+            self.set_show(other, 'hide')
         self.integrations[key] = Integration(key, selector)
         self.notify('newIntegration', self.integrations[key])
+        
     
     def get_new_key(self):
         """
@@ -117,13 +120,13 @@ class ModelWrapper(Observable):
         self.integrations[key].update(mask, label)
         self.notify('integrationUpdate', self.integrations[key])
     
-    def toggle_show(self, key):
+    def set_show(self, key, mode):
         """ 
         Toggle whether an integration is highlighted/showing in the 3D visualization
         :param key: the key of the toggled integration
         :return: None
         """
-        self.integrations[key].toggle_show()
+        self.integrations[key].set_show(mode)
         self.notify('showIntegration', self.integrations[key])
 
     def clear_integration(self, key):

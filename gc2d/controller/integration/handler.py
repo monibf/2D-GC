@@ -32,12 +32,12 @@ class Handler():
         :param key: the key of the integration to be toggled
         :return: None
         """
-        self.model_wrapper.show(key)
+        self.model_wrapper.set_show(key, 'show')
     
-    def show(self, key):
+    def hide(self, key):
         """
         Toggle whether an integration is highlighted in 3D view
         :param key: the key of the integration to be toggled
         :return: None
         """
-        self.model_wrapper.hide(key)
+        self.model_wrapper.set_show(key, 'hide')
