@@ -57,7 +57,7 @@ class Plot3DWidget(GLViewWidget):
         if name == "removeIntegration":
             self.removeItem(self.integrations[value.id])            
                     
-        if name == 'model':
+        if name in {'model', 'model.viewTransformed'}:
             if value is None or value.get_2d_chromatogram_data() is None:
                 self.setVisible(False)
             else:

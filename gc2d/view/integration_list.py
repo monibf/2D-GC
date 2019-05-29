@@ -53,7 +53,7 @@ class IntegrationList(QTableWidget):
             self.redraw_row(value)
         elif name == 'newIntegration':
             self.new_row(value)
-        elif name == 'model':
+        elif name in {'model', 'model.viewTransformed'}:
             if value is None:
                 self.clear()
 

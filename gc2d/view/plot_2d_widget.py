@@ -33,7 +33,7 @@ class Plot2DWidget(PlotWidget):
             value.selector.set_viewport(self.img)
         elif name == 'removeIntegration':
             self.removeItem(value.selector.roi)
-        elif name == 'model':
+        elif name in {'model', 'model.viewTransformed'}:
             if value is None or value.get_2d_chromatogram_data() is None:
                 self.img.clear()
             else:

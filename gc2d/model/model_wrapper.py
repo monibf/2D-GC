@@ -81,7 +81,7 @@ class ModelWrapper(Observable):
         :return: None
         """
         self.model.toggle_convolved(convolved)
-        self.notify('model', self.model)
+        self.notify('model.viewTransformed', self.model)
 
     def add_integration(self, selector, key):
         """
