@@ -37,41 +37,6 @@ class Plot1DListener(WidgetListener):
         # Do the default stuff.
         super().mouse_move_event(event)
 
-    def mouse_scroll_event(self, event):
-        """
-        TODO Currently this is a template to show the potential of this.
-        :param event: The scroll_event.
-        :return: None? Check the returns of the default events. This might be a requirement.
-        """
-
-        mods = event.modifiers()
-
-        # Strip modifiers.
-        ctrl = mods & Qt.ControlModifier
-        shift = mods & Qt.ShiftModifier
-        alt = mods & Qt.AltModifier
-
-        # Every combination of them.
-        if ctrl and shift and alt:
-            print("Ctrl + Shift + Alt")
-        elif ctrl and shift:
-            print("Ctrl + Shift")
-        elif ctrl and alt:
-            print("Ctrl + Alt")
-        elif shift and alt:
-            print("Shift + Alt")
-        elif ctrl:
-            print("Ctrl")
-        elif shift:
-            print("Shift")
-        elif alt:
-            print("Alt")
-        else:
-            print("none")
-
-        # Do the default stuff.
-        super().mouse_scroll_event(event)
-
     def mouse_leave_event(self, event):
         self.statusbar.clearMessage()
         super().mouse_leave_event(event)

@@ -5,5 +5,7 @@ time_keeping_2dgc
 *.spec
 *.lnk
 python-installer.exe
+.python-version
+2D-GC
 build
 dist
