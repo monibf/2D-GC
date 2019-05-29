@@ -58,6 +58,9 @@ class IntegrationList(QTableWidget):
             self.new_row(value)
         elif name == 'removeIntegration' and value.id in self.showing:
             self.clear_row(self.showing.index(value.id))
+        elif name == 'showIntegration':
+            if self.showing.index(value.id) not in self.previous_selection and value.show is True:
+                self.set_selected_row(self.showing.index(value.id))
         elif name == 'model':
             if value is None:
                 self.setRowCount(0) 
@@ -83,6 +86,7 @@ class IntegrationList(QTableWidget):
         
         self.showing.append(integration.id)
         self.redraw_row(integration)
+        self.set_selected_row(self.showing.index(row))
 
     def redraw_row(self, integration):
         """
@@ -115,9 +119,12 @@ class IntegrationList(QTableWidget):
                 current_selection.append(row)
                 if row in self.previous_selection:
                     self.previous_selection.remove(row)
-        for previous in self.previous_selection:
-            self.handler.hide(self.showing[previous])
+        to_hide = self.previous_selection
         self.previous_selection = current_selection  
+        print(self.previous_selection)
+        for previous in to_hide:
+            self.handler.hide(self.showing[previous])
+        
         
     def change_label(self):
         """
@@ -134,6 +141,15 @@ class IntegrationList(QTableWidget):
         self.clear_row(self.showing.index(key))
         self.handler.clear_value(key)
 
+    def set_selected_row(self, row):
+        self.blockSignals(True)
+        self.clearSelection()
+        self.setCurrentCell(row, Col.label.value)
+        print(self.previous_selection)
+        self.previous_selection = [row]
+        print(self.previous_selection)
+        self.blockSignals(False)
+
     def clear_row(self, row):
         """
         Removes row the corresponding integration from local data
@@ -141,13 +157,9 @@ class IntegrationList(QTableWidget):
         """
         self.removeRow(row)
         del self.showing[row]
-        print(self.previous_selection)
-        
         for ix, selected in enumerate(self.previous_selection):
             if selected > row:
                 self.previous_selection[ix] -= 1
-        # self.previous_selection = [select - 1 for select in self.previous_selection if select > row] 
-        print(self.previous_selection)
         
            
         

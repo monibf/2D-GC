@@ -32,7 +32,7 @@ class Handler():
         :param key: the key of the integration to be toggled
         :return: None
         """
-        self.model_wrapper.set_show(key, 'show')
+        self.model_wrapper.set_show(key, True)
     
     def hide(self, key):
         """
@@ -40,4 +40,4 @@ class Handler():
         :param key: the key of the integration to be toggled
         :return: None
         """
-        self.model_wrapper.set_show(key, 'hide')
+        self.model_wrapper.set_show(key, False)

@@ -62,6 +62,7 @@ class Selector(QObject):
         """
         self.viewport = plot
         self.roi.sigRegionChangeFinished.connect(self.update_mask)
+        self.roi.sigRegionChangeStarted.connect(lambda: self.model_wrapper.set_current(self.id))
         self.update_mask()
         if self.label != None: self.model_wrapper.update_integration(self.id, label=self.label)
 

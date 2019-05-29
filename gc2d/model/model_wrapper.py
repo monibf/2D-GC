@@ -95,11 +95,16 @@ class ModelWrapper(Observable):
         :param selector: Selector object, drawing a region of interest in a plot2d
         :return index: the index of this integration, to be used as identifier
         """
-        for other in self.integrations:
-            self.set_show(other, 'hide')
         self.integrations[key] = Integration(key, selector)
         self.notify('newIntegration', self.integrations[key])
-        
+        self.set_current(key)
+
+    def set_current(self, key):
+        for curr_key in self.integrations:
+            if curr_key == key:
+                self.set_show(curr_key, True)
+            else:
+                self.set_show(curr_key, False)
     
     def get_new_key(self):
         """
@@ -126,8 +131,9 @@ class ModelWrapper(Observable):
         :param key: the key of the toggled integration
         :return: None
         """
-        self.integrations[key].set_show(mode)
-        self.notify('showIntegration', self.integrations[key])
+        changed = self.integrations[key].set_show(mode)
+        if changed:
+            self.notify('showIntegration', self.integrations[key])
 
     def clear_integration(self, key):
         """

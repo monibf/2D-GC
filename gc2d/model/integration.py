@@ -55,9 +55,11 @@ class Integration:
         toggle the show parameter between True and False, used for highlighting in 3d view
         :return: None
         """
-        if mode == 'show':
-            self.show = True
+        if self.show == mode:
+            return False
+        self.show = mode
+        if mode:
             self.selector.set_alpha(255)
-        elif mode == 'hide':
-            self.show = False
+        else:
             self.selector.set_alpha(125)
+        return True
