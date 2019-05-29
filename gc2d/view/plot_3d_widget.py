@@ -17,22 +17,29 @@ class Plot3DWidget(GLViewWidget):
         """
         super().__init__(parent=parent)
         self.listener = Plot3DListener(self, model_wrapper)
-        self.setCameraPosition(distance=400)
-        
+        """The listener for the 3D plot"""
         self.integrations = {}
-
+        """The integrations array"""
         self.surface = gl.GLSurfacePlotItem(computeNormals=False)
+        """The surface to render the chromatogram"""
 
-        # This will need to be done dynamically later. TODO
-        self.surface.scale(1, 1, 0.00001)
+        # add the surface to the plot
         self.addItem(self.surface)
 
-        self.translation_x, self.translation_y = 0, 0
-        
-        if model_wrapper.model is not None: 
-            self.notify('model', model_wrapper.model)
+        # move the camera back a bit
+        self.setCameraPosition(distance=400)
 
+        # Scale down the height of the mesh.
+        self.surface.scale(1, 1, 0.00001)  # TODO This will need to be done dynamically later.
+        
+        #TODO What is this?
+        self.translation_x, self.translation_y = 0, 0
+
+        # Register this widget as an observer of the model_wrapper.
         model_wrapper.add_observer(self, self.notify)
+
+        # call notify to draw the model. NOTE: again, if statement not  required as notify already checks if   model is None.
+        self.notify('model', model_wrapper.model)
 
     def notify(self, name, value):
         """

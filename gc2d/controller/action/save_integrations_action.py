@@ -28,8 +28,8 @@ class SaveIntegrationsAction(QAction):
         """
         path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC integrations', filter='GCxGC file (*.gcgc);; All files (*.*)')[0]
         if path is not '':
-            state = self.model_wrapper.get_state()
+            _model, integrations, _preferences = self.model_wrapper.get_state()
             with open(path, 'w') as save_fd:
-                json.dump({"integrations" : state[1]}, 
+                json.dump({"integrations" : integrations}, 
                            save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
             

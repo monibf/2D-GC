@@ -19,20 +19,31 @@ class ModelWrapper(Observable):
         self.integrate_id = 0
         self.preferences = Preferences()
 
+    def get_palette(self):
+        """
+        :return: The palette of the model, or none if there is no model.
+        """
+        if self.model is not None:
+            return self.model.palette
+
+        return None
+
     def set_palette(self, palette):
         """
-        :param palette:
-        :return:
+        :param palette: the color palette to set.
+        :return: None
         """
-        self.model.palette = palette
-        self.notify('model.palette', self.model)
+        if self.model is not None:
+            self.model.palette = palette
+            self.notify('model.palette', self.model)
 
     def get_state(self):
         """ returns an array with the model data and the integration data for storage """
-        return [self.model.get_2d_chromatogram_data(), 
-                [self.integrations[key].get_state() for key in self.integrations],
-                self.preferences.get_state_as_list()
-               ]
+        return (
+            self.model.get_2d_chromatogram_data(), 
+            [integration.get_state() for integration in self.integrations.values()],
+            self.preferences.get_state()
+        )
 
     def set_model(self, arr):
         """
