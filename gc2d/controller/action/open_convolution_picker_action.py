@@ -21,8 +21,6 @@ class OpenConvolutionPickerAction(QAction):
         Shows the convolution picking dialog.
         :return: None
         """
-
-       
         self.parent().addDialog(ConvolutionPicker(self.on_select))
 
     def on_select(self, is_gaussian, gaussian_sigma=None):

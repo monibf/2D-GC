@@ -1,8 +1,10 @@
+import sys
 from shutil import copy
 
+import numpy
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QHBoxLayout, QLabel, QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QWidget, \
-    QFileDialog, QSizePolicy, QDialog
+    QFileDialog, QSizePolicy, QDialog, QSpinBox
 
 import gc2d.main as main
 from gc2d.view.palette.palette import palettes, load_custom_palettes
@@ -34,6 +36,35 @@ class PaletteChooser(QDialog):
         self.list.setSelectionMode(1)
         vlayout.addWidget(self.list)
 
+        options = QWidget()
+        opts_layout = QVBoxLayout()
+        options.setLayout(opts_layout)
+        vlayout.addWidget(options)
+
+        ubox = QWidget()
+        ulayout = QHBoxLayout()
+        ubox.setLayout(ulayout)
+        vlayout.addWidget(ubox)
+
+        ulayout.addWidget(QLabel("upper bound:"))
+        self.upperBoundField = QSpinBox()
+        self.upperBoundField.setRange(-2147483648, 2147483647)
+        self.upperBoundField.setValue(modelwrapper.model.upper_bound)
+        self.upperBoundField.setSingleStep((modelwrapper.model.highest-modelwrapper.model.lowest)/1000)
+        ulayout.addWidget(self.upperBoundField)
+
+        lbox = QWidget()
+        llayout = QHBoxLayout()
+        lbox.setLayout(llayout)
+        vlayout.addWidget(lbox)
+
+        llayout.addWidget(QLabel("lower bound:"))
+        self.lowerBoundField = QSpinBox()
+        self.lowerBoundField.setRange(-2147483648, 2147483647)
+        self.lowerBoundField.setValue(modelwrapper.model.lower_bound)
+        self.lowerBoundField.setSingleStep(1)
+        llayout.addWidget(self.lowerBoundField)
+
         # add a button bar at the bottom.
         button_bar = QWidget()
         button_bar_layout = QHBoxLayout()
@@ -50,10 +81,15 @@ class PaletteChooser(QDialog):
         import_button.clicked.connect(self.import_palette)
         button_bar_layout.addWidget(import_button)
 
-        # add a select button.
-        select_button = QPushButton('Confirm')
-        select_button.clicked.connect(self.select)
-        button_bar_layout.addWidget(select_button)
+        # add apply button.
+        apply_button = QPushButton('Apply')
+        apply_button.clicked.connect(self.apply)
+        button_bar_layout.addWidget(apply_button)
+
+        # add a ok button.
+        ok_button = QPushButton('OK')
+        ok_button.clicked.connect(self.ok)
+        button_bar_layout.addWidget(ok_button)
 
         self.gen_palette_list()
 
@@ -100,12 +136,15 @@ class PaletteChooser(QDialog):
         self.close()
         PaletteChooser(self.parent(), self.modelwrapper)
 
-    def select(self):
-        index = self.list.currentRow()
-        self.modelwrapper.set_palette(
-            palettes[index]
-        )
+    def ok(self):
+        self.apply()
         self.close()
+
+    def apply(self):
+        index = self.list.currentRow()
+        self.modelwrapper.set_palette(palettes[index])
+        self.modelwrapper.set_lower_bound(self.lowerBoundField.value())
+        self.modelwrapper.set_upper_bound(self.upperBoundField.value())
 
     # TODO is this function still necessary?
     def closeEvent(self, event):

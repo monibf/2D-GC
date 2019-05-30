@@ -72,7 +72,7 @@ class Plot3DWidget(GLViewWidget):
                 self.lower_bound = value.lower_bound
                 self.upper_bound = value.upper_bound
                 self.offset = self.upper_bound
-        if name == 'model.palette':
+        if name == 'model.palette' or name == 'model.lower_bound' or name == 'model.upper_bound':
             self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))
 
     def set_highlight(self, integration):
