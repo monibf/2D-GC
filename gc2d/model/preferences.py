@@ -35,19 +35,9 @@ class Preferences:
         self.pen[PenEnum.STYLE] = 1
         self.pen[PenEnum.WIDTH] = 4
         self.pen[PenEnum.COLOR] = "red"
-
-    def get_state_as_list(self):
-        """
-        returns a list of all specified preferences in text form for saving
-        :return: a list of preferences in text form
-        """
-        return [("SAVE_FILE", self.get_save_file()),
-                ("PEN", [(enum.name, self.pen[enum]) for enum in PenEnum])
-               ]
     
     def get_state(self):
         return {
-            "SAVE_FILE": self.get_save_file(),
             "PEN": {enum.name: self.pen[enum] for enum in PenEnum}
         }
 
