@@ -37,14 +37,14 @@ class OpenFileAction(QAction):
             if "preferences" in loaded:
                 for pref, val in loaded["preferences"].items():
                     # runs through list of preferences
-                    if pref == "SAVE_FILE":
-                        self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, val)
-                    elif pref == "PEN":
+                    if pref == "PEN":
                         # construct pen dictionary to overwrite defaults; not all fields of PenEnum need to be specified
                         pen_dict = {}
                         for property_type, value in val.items():
                            pen_dict[PenEnum[property_type]] = value
                         self.model_wrapper.set_preference(PreferenceEnum.PEN, pen_dict)
+            
+            self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, file_name)
 
             if "model" in loaded:
                 self.model_wrapper.set_model(np.array(loaded["model"]))
