@@ -55,7 +55,7 @@ class IntegrationList(QTableWidget):
             self.new_row(value)
         elif name == 'removeIntegration' and value.id in self.showing:
             self.clear_row(self.showing.index(value.id))
-        elif name == 'model':
+        elif name in {'model', 'model.viewTransformed'}:
             if value is None:
                 self.clear()
 

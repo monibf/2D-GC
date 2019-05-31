@@ -11,7 +11,7 @@ class OpenConvolutionPickerAction(QAction):
         :param parent: The parent widget
         :param model_wrapper: The model wrapper
         """
-        super().__init__('Set Convolution', parent)
+        super().__init__('Set Transformation', parent)
         self.model_wrapper = model_wrapper
         self.dialog = None
         self.triggered.connect(self.show_dialog)
@@ -25,7 +25,6 @@ class OpenConvolutionPickerAction(QAction):
        
         self.parent().addDialog(ConvolutionPicker(self.on_select))
 
-    def on_select(self, is_gaussian, gaussian_sigma=None):
-        if is_gaussian:
-            self.model_wrapper.filter_gaussian(gaussian_sigma)
+    def on_select(self, transform):
+        self.model_wrapper.set_transform(transform)
 

@@ -36,7 +36,7 @@ class Model:
         """The period of the second GC. """
 
     def get_2d_chromatogram_data(self):
-        if self.show_convolved:
+        if self.show_convolved and self.convolved_data is not None:
             return self.convolved_data
         return self.__chromatogram_data
 

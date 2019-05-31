@@ -38,7 +38,7 @@ class Plot1DWidget(PlotWidget):
         :return: None
         """
 
-        if name == 'model':
+        if name in {'model', 'model.viewTransformed'}:
             if value is None or value.get_2d_chromatogram_data() is None:
                 # Then Draw nothing.
                 self.curve.setData([])

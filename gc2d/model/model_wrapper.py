@@ -1,5 +1,4 @@
 import numpy as np
-from scipy import ndimage
 
 from gc2d.model.preferences import Preferences, PreferenceEnum
 from gc2d.model.integration import Integration
@@ -79,14 +78,13 @@ class ModelWrapper(Observable):
             self.integrate_id = 0
             
 
-    def filter_gaussian(self, sigma):
+    def set_transform(self, transform):
         """
-        Applies a Gaussian filter to the model and puts it in the convolution data.
-        :param sigma: The standard deviation of the Gaussian filter.
+        Applies a transform to the model and puts it in the convolution data.
+        :param transform: a Transform object (that has a transform method that takes and returns a 2d numpy array)
         :return: None
         """
-
-        self.model.set_convolved_data(ndimage.gaussian_filter(self.model.get_raw_data(), sigma, mode='constant'))
+        self.model.set_convolved_data(transform.transform(self.model.get_raw_data()))
         self.notify('model', self.model)
 
     def toggle_convolved(self, convolved):
@@ -96,7 +94,7 @@ class ModelWrapper(Observable):
         :return: None
         """
         self.model.toggle_convolved(convolved)
-        self.notify('model', self.model)
+        self.notify('model.viewTransformed', self.model)
 
     def add_integration(self, selector, key):
         """
