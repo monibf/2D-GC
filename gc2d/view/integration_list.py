@@ -121,7 +121,6 @@ class IntegrationList(QTableWidget):
                     self.previous_selection.remove(row)
         to_hide = self.previous_selection
         self.previous_selection = current_selection  
-        print(self.previous_selection)
         for previous in to_hide:
             self.handler.hide(self.showing[previous])
         
@@ -145,9 +144,8 @@ class IntegrationList(QTableWidget):
         self.blockSignals(True)
         self.clearSelection()
         self.setCurrentCell(row, Col.label.value)
-        print(self.previous_selection)
+        self.select()
         self.previous_selection = [row]
-        print(self.previous_selection)
         self.blockSignals(False)
 
     def clear_row(self, row):
