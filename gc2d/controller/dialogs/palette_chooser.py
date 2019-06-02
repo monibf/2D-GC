@@ -1,4 +1,5 @@
 import sys
+from os import path
 from shutil import copy
 
 import numpy
@@ -62,7 +63,7 @@ class PaletteChooser(QDialog):
         self.lowerBoundField = QSpinBox()
         self.lowerBoundField.setRange(-2147483648, 2147483647)
         self.lowerBoundField.setValue(modelwrapper.model.lower_bound)
-        self.upperBoundField.setSingleStep((modelwrapper.model.highest-modelwrapper.model.lowest)/1000)
+        self.lowerBoundField.setSingleStep((modelwrapper.model.highest-modelwrapper.model.lowest)/1000)
         llayout.addWidget(self.lowerBoundField)
 
         # add a button bar at the bottom.
@@ -132,8 +133,10 @@ class PaletteChooser(QDialog):
         self.gen_palette_list()
 
         for file in loaded:
-            copy(file, main.CUSTOM_PALETTE_PATH)
+            if not path.samefile(file, path.join(main.CUSTOM_PALETTE_PATH, path.basename(file))):
+                copy(file, main.CUSTOM_PALETTE_PATH)
         self.close()
+
         PaletteChooser(self.parent(), self.modelwrapper)
 
     def ok(self):
