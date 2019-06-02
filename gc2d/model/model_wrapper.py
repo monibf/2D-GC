@@ -104,6 +104,7 @@ class ModelWrapper(Observable):
         """
         self.model.set_convolved_data(transform.transform(self.model.get_raw_data()))
         self.notify('model', self.model)
+        self.recompute_integrations()
 
     def toggle_convolved(self, convolved):
         """
@@ -113,6 +114,7 @@ class ModelWrapper(Observable):
         """
         self.model.toggle_convolved(convolved)
         self.notify('model.viewTransformed', self.model)
+        self.recompute_integrations()
 
     def add_integration(self, selector, key):
         """
@@ -143,6 +145,11 @@ class ModelWrapper(Observable):
         """
         self.integrations[key].update(mask, label)
         self.notify('integrationUpdate', self.integrations[key])
+    
+    def recompute_integrations(self):
+        for integration in self.integrations.values():
+            integration.recompute()
+        
     
     def toggle_show(self, key):
         """ 
