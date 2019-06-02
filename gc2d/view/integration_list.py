@@ -5,11 +5,10 @@ from decimal import Decimal
 from gc2d.controller.integration.handler import Handler
 
 class Col(Enum):
-    show = 0
-    label = 1
-    mean = 2
-    integration = 3
-    clear = 4
+    label = 0
+    mean = 1
+    integration = 2
+    clear = 3
 
 
 class IntegrationList(QTableWidget):
@@ -38,9 +37,8 @@ class IntegrationList(QTableWidget):
         self.precision = 5 #amount of decimals displayed
 
         self.setColumnCount(len(Col))
-        self.setHorizontalHeaderLabels((' ', 'Label', 'Mean Count', 'Sum', ' '))
+        self.setHorizontalHeaderLabels(('Label', 'Mean Count', 'Sum', ' '))
         self.horizontalHeader().setDefaultSectionSize(130)
-        self.horizontalHeader().setSectionResizeMode(Col.show.value, QHeaderView.ResizeToContents)
         self.horizontalHeader().setSectionResizeMode(Col.label.value, QHeaderView.Interactive)
         self.horizontalHeader().setSectionResizeMode(Col.mean.value, QHeaderView.Interactive)
         self.horizontalHeader().setSectionResizeMode(Col.integration.value, QHeaderView.Interactive)
@@ -79,10 +77,6 @@ class IntegrationList(QTableWidget):
         clear_button.setMinimumWidth(2)
         clear_button.pressed.connect(lambda: self.clear_value(integration.id))
         self.setCellWidget(row, Col.clear.value, clear_button)
-
-        show_toggle = QCheckBox()
-        show_toggle.stateChanged.connect(self.select)
-        self.setCellWidget(row, Col.show.value, show_toggle)
         
         self.showing.append(integration.id)
         self.redraw_row(integration)
