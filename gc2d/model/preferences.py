@@ -44,6 +44,12 @@ class Preferences:
         return [("SAVE_FILE", self.get_save_file()),
                 ("PEN", [(enum.name, self.pen[enum]) for enum in PenEnum])
                ]
+    
+    def get_state(self):
+        return {
+            "SAVE_FILE": self.get_save_file(),
+            "PEN": {enum.name: self.pen[enum] for enum in PenEnum}
+        }
 
     def get(self, which):
         """
