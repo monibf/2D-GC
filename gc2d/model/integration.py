@@ -61,5 +61,5 @@ class Integration:
         if mode:
             self.selector.set_alpha(255)
         else:
-            self.selector.set_alpha(125)
+            self.selector.set_alpha(175)
         return True

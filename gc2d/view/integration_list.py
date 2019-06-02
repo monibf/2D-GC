@@ -50,6 +50,7 @@ class IntegrationList(QTableWidget):
         Clears list if no chromatogram is opened
         :return: None
         """
+        self.blockSignals(True)
         if name == 'integrationUpdate':
             self.redraw_row(value)
         elif name == 'newIntegration':
@@ -62,6 +63,7 @@ class IntegrationList(QTableWidget):
         elif name == 'model':
             if value is None:
                 self.setRowCount(0) 
+        self.blockSignals(False)
 
     def new_row(self, integration):
         """
@@ -80,7 +82,7 @@ class IntegrationList(QTableWidget):
         
         self.showing.append(integration.id)
         self.redraw_row(integration)
-        self.set_selected_row(self.showing.index(row))
+        self.set_selected_row(self.showing[row])
 
     def redraw_row(self, integration):
         """
@@ -113,7 +115,7 @@ class IntegrationList(QTableWidget):
                 current_selection.append(row)
                 if row in self.previous_selection:
                     self.previous_selection.remove(row)
-        to_hide = self.previous_selection
+        to_hide = [previous for previous in self.previous_selection if previous < len(self.showing)]
         self.previous_selection = current_selection  
         for previous in to_hide:
             self.handler.hide(self.showing[previous])
