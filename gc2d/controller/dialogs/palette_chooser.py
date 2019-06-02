@@ -62,7 +62,7 @@ class PaletteChooser(QDialog):
         self.lowerBoundField = QSpinBox()
         self.lowerBoundField.setRange(-2147483648, 2147483647)
         self.lowerBoundField.setValue(modelwrapper.model.lower_bound)
-        self.lowerBoundField.setSingleStep(1)
+        self.upperBoundField.setSingleStep((modelwrapper.model.highest-modelwrapper.model.lowest)/1000)
         llayout.addWidget(self.lowerBoundField)
 
         # add a button bar at the bottom.
