@@ -37,6 +37,24 @@ class ModelWrapper(Observable):
             self.model.palette = palette
             self.notify('model.palette', self.model)
 
+    def set_upper_bound(self, upper_bound):
+        """
+        :param upper_bound: The upper bound of the palette
+        :return: The lower bound of the palette
+        """
+        if self.model is not None:
+            self.model.upper_bound = upper_bound
+            self.notify('model.upper_bound', self.model)
+
+    def set_lower_bound(self, lower_bound):
+        """
+        :param lower_bound: The lower bound of the palette
+        :return: The lower bound of the palette
+        """
+        if self.model is not None:
+            self.model.lower_bound = lower_bound
+            self.notify('model.lower_bound', self.model)
+
     def get_state(self):
         """ returns an array with the model data and the integration data for storage """
         return (
