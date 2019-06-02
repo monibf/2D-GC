@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioBu
 
 from gc2d.view.palette.palette import Palette
 
-from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff
+from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D
 from gc2d.model.transformations.dynamiccutoff import CutoffMode
 
 class ConvolutionPicker(QDialog):
@@ -54,6 +54,8 @@ class ConvolutionPicker(QDialog):
 
         # Gaussian Convolution
         self.add_button(Gaussian, "Gaussian Convolution", [_ParamDouble("Sigma: ")])
+
+        self.add_button(Min1D, "Min 1D Convolution", [_ParamDouble("Size: ")])
 
         cancel_select = QWidget()
         vlayout.addWidget(cancel_select)
