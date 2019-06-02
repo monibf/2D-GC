@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QLabel, QDoubleSpinBox, \
-    QPushButton, QComboBox
+    QPushButton, QComboBox, QTextEdit
 
 from gc2d.view.palette.palette import Palette
 
@@ -8,7 +8,7 @@ from gc2d.model.transformations.dynamiccutoff import CutoffMode
 
 class ConvolutionPicker(QDialog):
     
-    def __init__(self, on_select):
+    def __init__(self, model_wrapper):
         """
         This window will open a convolution picker to let users select a convolution.
         :param on_select: A callback function that is called when a convolution is selected.
@@ -19,7 +19,7 @@ class ConvolutionPicker(QDialog):
         
         super().__init__(parent=None)
         
-        self.on_select = on_select
+        self.model_wrapper = model_wrapper
         
         self.setWindowTitle("Transform data")
 
@@ -37,23 +37,27 @@ class ConvolutionPicker(QDialog):
         self.buttons = []
         
         # No transform
-        self.add_button(Transform, "No Transform", [], checked=True)
+        self.add_button(Transform, "No Transform", "No transformation is linked under 'show transformed data' with this option", [] ,checked=True)
         
         # Static cut-off
-        self.add_button(StaticCutoff, "Static cut-off", [_ParamDouble("cut-off value: ")])
+        self.add_button(StaticCutoff, "Static cut-off", "From each point in the graph, the given value is subtracted", [_ParamDouble("cut-off value: ")])
         
         # Dynamic cut-off
         self.add_button(
             DynamicCutoff,
-            "Dynamic cut-off",
+            "Dynamic cut-off", 
+            '''The dynamic cut-off transformation subtracts values from the data, depending on the slice over the y axis.
+            The aim is to counteract base-line shift by only taking the lowest points along each slice, and subtract their value from the whole slice.
+            \n The accounted percentage is how much of the lowest datapoints are taken into account when defining the cutoff point. There are two modes:
+            The 'Mean' mode subtracts the mean of the lowest peaks of all points, the 'Max' mode subtracts the maximum value in the lowest points. ''',
             [
-                _ParamDouble("base percentile: ", 0, 100),
-                _ParamOption("cut-off point", [(CutoffMode.MEAN, "mean of percentile"), (CutoffMode.QUANTILE, "percentile")])
+                _ParamDouble("Accounted percentage of the data: ", 0, 100),
+                _ParamOption("Mode", [(CutoffMode.MEAN, "Mean"), (CutoffMode.QUANTILE, "Max")])
             ]
         )
 
         # Gaussian Convolution
-        self.add_button(Gaussian, "Gaussian Convolution", [_ParamDouble("Sigma: ")])
+        self.add_button(Gaussian, "Gaussian Convolution", "Convolves the data with a gaussian kernel" , [_ParamDouble("Sigma: ")])
 
         cancel_select = QWidget()
         vlayout.addWidget(cancel_select)
@@ -68,7 +72,7 @@ class ConvolutionPicker(QDialog):
         select_button.clicked.connect(self.select)
         cancel_select_layout.addWidget(select_button)
     
-    def add_button(self, transform_type, label, parameters, checked=False):
+    def add_button(self, transform_type, label, info, parameters, checked=False):
         
         radio_button = QRadioButton(label, self.radio_buttons)
         if checked:
@@ -81,6 +85,10 @@ class ConvolutionPicker(QDialog):
         param_area.setLayout(params_layout)
         self.vlayout.addWidget(param_area)
         param_area.setVisible(False)
+
+        info_label = QTextEdit(info) 
+        info_label.setReadOnly(True)
+        params_layout.addWidget(info_label)
 
         for param in parameters:
             label = QLabel(param.label)
@@ -106,7 +114,7 @@ class ConvolutionPicker(QDialog):
             if button.radio_button.isChecked():
                 parameters = [param.get_value() for param in button.parameters]
                 transform = button.transform_type(*parameters)
-                self.on_select(transform)
+                self.model_wrapper.set_transform(transform)
                 
         self.close()
 
@@ -152,4 +160,5 @@ class _ParamOption:
     
     def get_value(self):
         return self.text_to_value[self.selector.currentText()]
+
 
