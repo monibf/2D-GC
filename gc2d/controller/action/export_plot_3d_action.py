@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QAction
+from PyQt5.QtWidgets import QAction, QFileDialog
 
 
 class ExportPlot3DAction(QAction):
@@ -21,14 +21,21 @@ class ExportPlot3DAction(QAction):
 
     def export_plot(self):
         """
-        Export the 2D plot to a png file
-        :return: None
+        Export the 3D plot to a png file
+        :return: bool if file was successfully exported
         """
 
         # Check if a plot is loaded
         if self.window.plot_3d is not None:
-            # x = self.plot.grabWindow()
-            print('Exported 3D plot')
+            plot = self.window.plot_3d
+            path = QFileDialog.getSaveFileName(self.window, 'Export 3D plot',
+                                               filter='png files(*.png);; All files (*.*)')[0]
+            if path is '':
+                print("invalid path")
+                return False
+
+            # Save the plot
+            plot.grabFrameBuffer().save(path)
             return True
 
         # Otherwise, no data was loaded.
