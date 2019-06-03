@@ -38,4 +38,3 @@ class ExportPlot3DAction(QAction):
     def notified(self, name, model):
         if name == 'model':
             self.setEnabled(model is not None)
-            self.setDisabled(False)
