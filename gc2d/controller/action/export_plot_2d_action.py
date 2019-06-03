@@ -21,8 +21,8 @@ class ExportPlot2DAction(QAction):
 
     def export_plot(self):
         """
-        Export the 2D plot to a png file
-        :return: None
+        Export the 2D plot
+        :return: bool if file was successfully exported
         """
 
         # Check if a plot is loaded
@@ -32,7 +32,7 @@ class ExportPlot2DAction(QAction):
                                                filter='png files(*.png);; All files (*.*)')[0]
             if path is '':
                 print("invalid path")
-                return
+                return False
 
             # Save the plot
             plot.grab().save(path)
