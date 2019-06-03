@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QAction
+from PyQt5.QtWidgets import QAction, QFileDialog
 
 
 class ExportPlot2DAction(QAction):
@@ -27,8 +27,16 @@ class ExportPlot2DAction(QAction):
 
         # Check if a plot is loaded
         if self.window.plot_2d is not None:
-            # x = self.plot.grabWindow()
-            print('Exported 2D plot')
+            plot = self.window.plot_2d
+            path = QFileDialog.getSaveFileName(self.window, 'Export 2D plot',
+                                               filter='png files(*.png);; All files (*.*)')[0]
+            if path is '':
+                print("invalid path")
+                return
+
+            # Save the plot
+            plot.grab().save(path)
+
             return True
 
         # Otherwise, no data was loaded.
