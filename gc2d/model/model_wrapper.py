@@ -1,5 +1,4 @@
 import numpy as np
-from scipy import ndimage
 
 from gc2d.model.preferences import Preferences, PreferenceEnum
 from gc2d.model.integration import Integration
@@ -20,20 +19,49 @@ class ModelWrapper(Observable):
         self.integrate_id = 0
         self.preferences = Preferences()
 
+    def get_palette(self):
+        """
+        :return: The palette of the model, or none if there is no model.
+        """
+        if self.model is not None:
+            return self.model.palette
+
+        return None
+
     def set_palette(self, palette):
         """
-        :param palette:
-        :return:
+        :param palette: the color palette to set.
+        :return: None
         """
-        self.model.palette = palette
-        self.notify('model.palette', self.model)
+        if self.model is not None:
+            self.model.palette = palette
+            self.notify('model.palette', self.model)
+
+    def set_upper_bound(self, upper_bound):
+        """
+        :param upper_bound: The upper bound of the palette
+        :return: The lower bound of the palette
+        """
+        if self.model is not None:
+            self.model.upper_bound = upper_bound
+            self.notify('model.upper_bound', self.model)
+
+    def set_lower_bound(self, lower_bound):
+        """
+        :param lower_bound: The lower bound of the palette
+        :return: The lower bound of the palette
+        """
+        if self.model is not None:
+            self.model.lower_bound = lower_bound
+            self.notify('model.lower_bound', self.model)
 
     def get_state(self):
         """ returns an array with the model data and the integration data for storage """
-        return [self.model.get_2d_chromatogram_data(), 
-                [self.integrations[key].get_state() for key in self.integrations],
-                self.preferences.get_state_as_list()
-               ]
+        return (
+            self.model.get_2d_chromatogram_data(), 
+            [integration.get_state() for integration in self.integrations.values()],
+            self.preferences.get_state()
+        )
 
     def set_model(self, arr):
         """
@@ -68,15 +96,15 @@ class ModelWrapper(Observable):
             self.integrate_id = 0
             
 
-    def filter_gaussian(self, sigma):
+    def set_transform(self, transform):
         """
-        Applies a Gaussian filter to the model and puts it in the convolution data.
-        :param sigma: The standard deviation of the Gaussian filter.
+        Applies a transform to the model and puts it in the convolution data.
+        :param transform: a Transform object (that has a transform method that takes and returns a 2d numpy array)
         :return: None
         """
-
-        self.model.set_convolved_data(ndimage.gaussian_filter(self.model.get_raw_data(), sigma, mode='constant'))
+        self.model.set_convolved_data(transform.transform(self.model.get_raw_data()))
         self.notify('model', self.model)
+        self.recompute_integrations()
 
     def toggle_convolved(self, convolved):
         """
@@ -85,7 +113,8 @@ class ModelWrapper(Observable):
         :return: None
         """
         self.model.toggle_convolved(convolved)
-        self.notify('model', self.model)
+        self.notify('model.viewTransformed', self.model)
+        self.recompute_integrations()
 
     def add_integration(self, selector, key):
         """
@@ -124,7 +153,11 @@ class ModelWrapper(Observable):
         """
         self.integrations[key].update(mask, label)
         self.notify('integrationUpdate', self.integrations[key])
-    
+   
+    def recompute_integrations(self):
+        for integration in self.integrations.values():
+            integration.recompute()
+       
     def set_show(self, key, mode):
         """ 
         Toggle whether an integration is highlighted/showing in the 3D visualization

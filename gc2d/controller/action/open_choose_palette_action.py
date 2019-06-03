@@ -3,7 +3,6 @@ from PyQt5.QtWidgets import QAction
 
 from gc2d.controller.dialogs.palette_chooser import PaletteChooser
 
-
 class OpenChoosePaletteAction(QAction):
 
     def __init__(self, parent, model_wrapper):
@@ -15,6 +14,8 @@ class OpenChoosePaletteAction(QAction):
         self.model_wrapper = model_wrapper
         self.setShortcut('Ctrl+Shift+C')
         self.setStatusTip('Opens the Choose Palette Dialog')
+        self.setEnabled(self.model_wrapper.model is not None)
+        self.model_wrapper.add_observer(self, self.notify)
         self.triggered.connect(self.show_dialog)
 
     # noinspection PyArgumentList
@@ -23,7 +24,10 @@ class OpenChoosePaletteAction(QAction):
         Show the Choose Palette dialog.
         :return: None
         """
-        self.parent().addDialog(PaletteChooser(self.on_select))
+        i = -1
+        while i == -1:
+            i = PaletteChooser(self.parent(), self.model_wrapper)
 
-    def on_select(self, palette):
-        self.model_wrapper.set_palette(palette)
+    def notify(self, name, value):
+        if name == 'model':
+            self.setEnabled(value is not None)

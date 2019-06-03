@@ -15,11 +15,14 @@ class Plot2DListener(WidgetListener):
         self.statusbar = statusbar
 
     def mouse_move_event(self, event):
+        if self.model_wrapper.model is None:
+            self.statusbar.showMessage("No data")
+            return
         mouse_point = self.widget.plotItem.vb.mapSceneToView(event.localPos())
         mouse_x = math.floor(mouse_point.x())
         mouse_y = math.floor(mouse_point.y())
 
-        z_data = self.widget.plotItem.items[0].image
+        z_data = self.model_wrapper.model.get_2d_chromatogram_data()
         if 0 <= mouse_x < len(z_data) and 0 <= mouse_y < len(z_data[mouse_x]):
             z_value = int(z_data[mouse_x][mouse_y])
         else:

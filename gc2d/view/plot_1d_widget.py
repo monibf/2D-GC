@@ -20,6 +20,9 @@ class Plot1DWidget(PlotWidget):
         self.curve = self.plot(pen='y')
         """ The curve drawn on the 1D plot """
 
+        # Disable right click context menu.
+        self.getPlotItem().setMenuEnabled(False)
+
         # Register this widget as an observer of the model_wrapper.
         model_wrapper.add_observer(self, self.notify)
 
@@ -35,7 +38,7 @@ class Plot1DWidget(PlotWidget):
         :return: None
         """
 
-        if name == 'model':
+        if name in {'model', 'model.viewTransformed'}:
             if value is None or value.get_2d_chromatogram_data() is None:
                 # Then Draw nothing.
                 self.curve.setData([])

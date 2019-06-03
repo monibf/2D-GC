@@ -35,8 +35,9 @@ class SaveAction(QAction):
                 return
             self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)
         state = self.model_wrapper.get_state()
+        model, integrations, preferences = state
         with open(path, 'w') as save_fd:
-            json.dump({"model" : state[0].tolist(),
-                       "integrations" : state[1],
-                       "preferences" : state[2]},
+            json.dump({"model" : model.tolist(),
+                       "integrations" : integrations,
+                       "preferences" : preferences},
                        save_fd, separators=(',', ':'), sort_keys=True, indent=4) 

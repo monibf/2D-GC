@@ -60,7 +60,7 @@ class IntegrationList(QTableWidget):
         elif name == 'showIntegration':
             if self.showing.index(value.id) not in self.previous_selection and value.show is True:
                 self.set_selected_row(self.showing.index(value.id))
-        elif name == 'model':
+        elif name in {'model', 'model.viewTransformed'}:
             if value is None:
                 self.setRowCount(0) 
         self.blockSignals(False)

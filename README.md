@@ -78,9 +78,9 @@ Run `OSX_INSTALL.command`, either by starting it in a terminal, or by double cli
 
 GC2D will now be installed as an App in your user Applications directory and it should be visible in launcher. 
 
-### Linux/Other
+### Linux/Other
 **NOTE:** This may or may not work for you. We have found that praying to the mighty God of Linux, Linus Torvalds, will
-increase the chance of success.
+increase the chance of success. If you are familiar with pip, you may prefer the pip installation below.
 
 For Linux and all other systems with a bash interpreter:
 - Install python3 if it isn't installed already. Please refer to your distribution help documentation for how to do 
@@ -93,6 +93,18 @@ terminal.
 
 The `2D-GC` link is dependent on the current location of the 2D-GC source folder. If you move or delete this folder, the
 link will no longer work.
+
+### Pip
+
+An alternative is to install the application with [Pip](https://pip.pypa.io/en/stable/)
+- Install python3 and pip for python3 if those aren't installed already
+- On the command line, go to the project root directory (the directory where setup.py and requirements.txt are located)
+- Run `pip3 install --user -r requirements.txt`
+- Run `pip3 install --user .` (assuming that you're still in the same directory as setup.py)
+- To launch the project, run `python3 -m gc2d`
+
+**NOTE:** On mac OSX you need to install the latest pyqtgraph from github rather than from pip. There is a bug for HDPI screens that has been fixed in the later development versions but that is not yet included in the latest release.
+If you install it in the order show here everything should work correctly, but if not you may need to uninstall pyqtgraph (`pip3 uninstall pyqtgraph` if it was installed through pip) and `pip3 install --user -r requirements.txt` again.
 
 ## Uninstallation
 
@@ -113,6 +125,33 @@ User preferences will not be removed. To also remove these delete the `$HOME/.gc
 Remove the `2D-GC` link from your path.
 User preferences can be found in `$HOME/.gc2d`, delete this folder to completely uninstall.
 
-## TODO
+### Pip
 
+Run `pip3 uninstall gc2d-rug`.
+This does not uninstall dependencies (pyqtgraph, numpy, etc.). To install dependencies use [pip-autoremove](https://github.com/invl/pip-autoremove).
+
+
+## Custom Color Palettes
+User defined color palettes can be imported from the `choose palette` dialog. Imported palettes are saved into
+`~/.GC-2D/palettes`. Custom Palettes can be defined in a plain text file ending with `.palette`, with each line 
+containing the comma separated rgb values defining a color, each component can have a value from 0-255. 
+The first line is the color for the lowest value, the last line is the color for the highest value.
+
+For example, the common color palette jet can be defined like so:
+
+### jet.palette:
+```
+  0,   0, 127
+  0,   0, 255
+  0, 127, 255
+  0, 255, 255
+127, 255, 127
+255, 255,   0
+255, 127,   0
+255,   0,   0
+127,   0,   0
+```
+**NOTE:** Spaces and leading zeros are ignored. `0 ,   001,000 == 0,1,0`
+
+# TODO
 - Uninstaller asks if user preferences/configurations should be deleted (100% removal).

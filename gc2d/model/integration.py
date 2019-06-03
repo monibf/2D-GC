@@ -42,6 +42,9 @@ class Integration:
                 self.mean = np.nan
         if label is not None:
             self.label = label
+    
+    def recompute(self):
+        self.selector.update_mask()
 
     def get_state(self):
         """ return state values to be serialized """
