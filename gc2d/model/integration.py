@@ -55,14 +55,11 @@ class Integration:
       
     def set_show(self, mode):
         """
-        toggle the show parameter between True and False, used for highlighting in 3d view
-        :return: None
+        setthe show parameter between True and False, used for highlighting in 3d view
+        :return: Bool whether the setting has been changed (to reduce traffic)
         """
         if self.show == mode:
             return False
+        self.selector.set_current(mode)
         self.show = mode
-        if mode:
-            self.selector.set_alpha(255)
-        else:
-            self.selector.set_alpha(175)
         return True

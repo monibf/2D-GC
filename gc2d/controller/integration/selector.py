@@ -48,10 +48,15 @@ class Selector(QObject):
             return
         self.model_wrapper.update_integration(self.id, mask=self.get_region())
 
-    def set_alpha(self, alpha):
+    def set_current(self, set_to):
         new_pen = self.roi.pen
         new_color = self.roi.pen.color()
-        new_color.setAlpha(alpha)
+        if set_to:
+            new_color.setAlpha(255)
+            new_pen.setStyle(1)
+        else:
+            new_color.setAlpha(150)
+            new_pen.setStyle(3)
         new_pen.setColor(new_color)
         self.roi.setPen(new_pen)
     
