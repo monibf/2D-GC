@@ -38,8 +38,8 @@ class Integration:
                 self.mean = self.sum / np.count_nonzero(mask)
             else: 
                 # outside of graph
-                self.sum = np.nan
-                self.mean = np.nan
+                self.sum = 0
+                self.mean = 0
         if label is not None:
             self.label = label
     
