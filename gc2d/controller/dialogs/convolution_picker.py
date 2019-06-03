@@ -1,5 +1,7 @@
 from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QLabel, QDoubleSpinBox, \
-    QPushButton, QComboBox
+    QPushButton, QComboBox, QFileDialog
+
+import os.path
 
 from gc2d.view.palette.palette import Palette
 
@@ -56,6 +58,8 @@ class ConvolutionPicker(QDialog):
         self.add_button(Gaussian, "Gaussian Convolution", [_ParamDouble("Sigma: ")])
 
         self.add_button(Min1D, "Min 1D Convolution", [_ParamDouble("Size: ")])
+        
+        self.add_button(Gaussian, "Custom Convolution", [_ParamCSV("kernel file: ", "CSV Files (*.csv);;All Files(*)", "open kernel", "open convolution kernel CSV")])
 
         cancel_select = QWidget()
         vlayout.addWidget(cancel_select)
@@ -154,4 +158,24 @@ class _ParamOption:
     
     def get_value(self):
         return self.text_to_value[self.selector.currentText()]
+
+class _ParamCSV:
+    
+    def __init__(self, label, extension, buttontext, filedialogtext):
+        self.label = label
+        self.extension = extension
+        self.filedialogtext = filedialogtext
+        self.extionsion = extension
+        self.fnamebox = QLabel("")
+        self.selector = QPushButton(buttontext)
+        self.selector.clicked.connect(self.pick_file)
+        self.path = None
+    
+    def pick_file(self):
+        path, _ = QFileDialog.getOpenFileName(None, self.filedialogtext, "", self.extension)
+        fname = os.path.basename(path)
+        self.fnamebox.setText(fname)
+        self.path = path
+        print(fname, path)
+        
 
