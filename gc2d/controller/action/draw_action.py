@@ -16,6 +16,10 @@ class DrawAction(QAction):
         self.model_wrapper = model_wrapper
         self.setShortcut('Ctrl+D')
         self.setStatusTip('Select integration area')
+
+        self.setEnabled(self.model_wrapper.model is not None)
+        self.model_wrapper.add_observer(self, self.notify)
+
         self.triggered.connect(self.draw)
 
     def draw(self):
@@ -23,4 +27,9 @@ class DrawAction(QAction):
         Makes a new Selector object, which initializes itself in the model wrapper
         :return: None
         """
-        Selector(self.model_wrapper)
+        if self.model_wrapper.model is not None:
+            Selector(self.model_wrapper)
+
+    def notify(self, name, value):
+        if name == 'model':
+            self.setEnabled(value is not None)
