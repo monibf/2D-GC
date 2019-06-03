@@ -22,7 +22,7 @@ class Plot2DListener(WidgetListener):
         mouse_x = math.floor(mouse_point.x())
         mouse_y = math.floor(mouse_point.y())
 
-        z_data = self.widget.plotItem.items[0].image
+        z_data = self.model_wrapper.get_raw_data()
         if 0 <= mouse_x < len(z_data) and 0 <= mouse_y < len(z_data[mouse_x]):
             z_value = int(z_data[mouse_x][mouse_y])
         else:

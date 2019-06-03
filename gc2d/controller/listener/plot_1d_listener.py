@@ -24,9 +24,13 @@ class Plot1DListener(WidgetListener):
         mouse_x = math.floor(mouse_point.x())
 
         # Get the y value at x if it exists
-        y_data = self.widget.plotItem.dataItems[0].curve.yData
-        if 0 <= mouse_x < len(y_data):
-            y_value = int(y_data[mouse_x])
+        raw_data = self.model_wrapper.get_raw_data()
+        y_value = 0
+
+        if 0 <= mouse_x < len(raw_data[mouse_x]):
+            # Sum y values
+            for y in range(len(raw_data[mouse_x])):
+                y_value += int(raw_data[mouse_x][y])
 
         else:
             y_value = "no data"
