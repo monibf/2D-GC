@@ -184,4 +184,6 @@ class ModelWrapper(Observable):
         :return: None
         """
         self.preferences.set(which, value)
-        
+
+    def get_raw_data(self):
+        return self.model.get_raw_data()
