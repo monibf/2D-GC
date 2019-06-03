@@ -49,6 +49,11 @@ class Selector(QObject):
         self.model_wrapper.update_integration(self.id, mask=self.get_region())
 
     def set_current(self, set_to):
+        """
+        Sets the pen-style to highlight if True, or faded and dotted if False
+        :param set_to: the bool to set the pen to either highlighted/faded
+        :return: None
+        """
         new_pen = self.roi.pen
         new_color = self.roi.pen.color()
         if set_to:
@@ -74,7 +79,6 @@ class Selector(QObject):
 
     def get_region(self):
         """
-        TODO this is region not maks tuple!
         generates a mask for ROI region of the current chromatogram
         :return: The generated mask of the chromatogram 
         """

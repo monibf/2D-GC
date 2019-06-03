@@ -129,11 +129,13 @@ class ModelWrapper(Observable):
         self.set_current(key)
 
     def set_current(self, key):
+        """
+        If a single integration area is being edited, all are faded except the current, which is highlighted in view
+        :param key: the key of the current ROI
+        :return: None
+        """
         for curr_key in self.integrations:
-            if curr_key == key:
-                self.set_show(curr_key, True)
-            else:
-                self.set_show(curr_key, False)
+            self.set_show(curr_key, curr_key == key)
     
     def get_new_key(self):
         """
@@ -161,7 +163,9 @@ class ModelWrapper(Observable):
     def set_show(self, key, mode):
         """ 
         Toggle whether an integration is highlighted/showing in the 3D visualization
+        Only updates view if a the show has actually toggled
         :param key: the key of the toggled integration
+        :param mode: the bool value to set show to
         :return: None
         """
         changed = self.integrations[key].set_show(mode)

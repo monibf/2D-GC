@@ -96,7 +96,6 @@ class IntegrationList(QTableWidget):
         row = self.showing.index(integration.id)
         self.setItem(row, Col.label.value, QTableWidgetItem(integration.label))
 
-
         mean_item = QTableWidgetItem('{num:.{precision}E}'.format(num=Decimal(integration.mean), precision=self.precision))
         mean_item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         self.setItem(row, Col.mean.value, mean_item)
@@ -107,10 +106,15 @@ class IntegrationList(QTableWidget):
         self.blockSignals(False)
     
     def select(self):
+        """
+        Records which elements in the list are selected and deselected. 
+        The new selection is highlighted in the 2d/3d view, all that are deselected are faded out
+        :return: None
+        """
         current_selection =[]
         for selected in self.selectedIndexes():
             row = selected.row()
-            if row not in current_selection:
+            if row not in current_selection: # to counteract multiple columns registering as multiple indices
                 self.handler.show(self.showing[row])
                 current_selection.append(row)
                 if row in self.previous_selection:
@@ -137,6 +141,11 @@ class IntegrationList(QTableWidget):
         self.handler.clear_value(key)
 
     def set_selected_row(self, row):
+        """
+        Clears the selection, and selects the given row number
+        :param row: the row to select
+        :return: None
+        """
         self.blockSignals(True)
         self.clearSelection()
         self.setCurrentCell(row, Col.label.value)
