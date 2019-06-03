@@ -100,11 +100,11 @@ An alternative is to install the application with [Pip](https://pip.pypa.io/en/s
 - Install python3 and pip for python3 if those aren't installed already
 - On the command line, go to the project root directory (the directory where setup.py and requirements.txt are located)
 - Run `pip3 install --user -r requirements.txt`
-- Run `pip3 install --user 2D-GC/` (assuming that `2D-GC/` is the directory that contains setup.py)
+- Run `pip3 install --user .` (assuming that you're still in the same directory as setup.py)
 - To launch the project, run `python3 -m gc2d`
 
-**NOTE:** On mac OSX you need to install the latest pyqtgraph from github rather than from pip. There is a bug for retina displays that has been fixed in the later development versions but that is not yet included in the latest release.
-To install this from github run `pip3 install --user git+https://github.com/pyqtgraph/pyqtgraph` before running `pip3 install --user 2D-GC/`.
+**NOTE:** On mac OSX you need to install the latest pyqtgraph from github rather than from pip. There is a bug for HDPI screens that has been fixed in the later development versions but that is not yet included in the latest release.
+If you install it in the order show here everything should work correctly, but if not you may need to uninstall pyqtgraph (`pip3 uninstall pyqtgraph` if it was installed through pip) and `pip3 install --user -r requirements.txt` again.
 
 ## Uninstallation
 
