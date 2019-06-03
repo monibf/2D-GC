@@ -1,11 +1,13 @@
 from PyQt5.Qt import QColor, QPen
 from enum import Enum, auto
 from gc2d.model.transformations import Transform
+from gc2d.view.palette import palette
 
 class PreferenceEnum(Enum):
     SAVE_FILE = auto()
     PEN = auto()
     TRANSFORM = auto()
+    PALETTE = auto()
 
 class PenEnum(Enum):
     COLOR = auto()
@@ -24,15 +26,16 @@ class Preferences:
         self.save_file = None
         self.pen = {}
         self.transform = Transform()
+        self.palette = palette.viridis.getColors()
         self.getter_map = {
             PreferenceEnum.SAVE_FILE : self.get_save_file,
-            PreferenceEnum.PEN : self.get_pen,
-            PreferenceEnum.TRANSFORM : self.get_transform
+            PreferenceEnum.PEN : self.get_pen
         }
         self.setter_map = {
             PreferenceEnum.SAVE_FILE : self.set_save_file,
             PreferenceEnum.PEN : self.set_pen,
-            PreferenceEnum.TRANSFORM : self.set_transform
+            PreferenceEnum.TRANSFORM : self.set_transform,
+            PreferenceEnum.PALETTE : self.set_palette
         }
         self.set_defaults()
 
@@ -45,7 +48,8 @@ class Preferences:
     def get_state(self):
         return {
             "PEN": {enum.name: self.pen[enum] for enum in PenEnum},
-            "TRANSFORM" : self.transform.to_json()
+            "TRANSFORM" : self.transform.to_json(),
+            "PALETTE" : self.palette.tolist()
         }
 
     def get(self, which):
@@ -89,8 +93,8 @@ class Preferences:
         for key in pen_dict:
             self.pen[key] = pen_dict[key]
 
-    def get_transform(self):
-        return self.transform
-
     def set_transform(self, transform):
         self.transform = transform
+
+    def set_palette(self, colors):
+        self.palette = colors

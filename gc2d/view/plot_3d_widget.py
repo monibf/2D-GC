@@ -32,7 +32,9 @@ class Plot3DWidget(GLViewWidget):
         # Scale down the height of the mesh.
         self.surface.scale(1, 1, 0.00001)  # TODO This will need to be done dynamically later.
         
-        #TODO What is this?
+        #TODO What is this? -> To get the indices working, the plot is translated depending on how large the data is, 
+        # to get the integration highlights to know where to be, this needs to be recorded
+        # because the plot is called within self.notify() they are set in there, that they are here is mostly for clarity
         self.translation_x, self.translation_y = 0, 0
 
         # Register this widget as an observer of the model_wrapper.

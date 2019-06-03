@@ -34,6 +34,7 @@ class ModelWrapper(Observable):
         :return: None
         """
         if self.model is not None:
+            self.set_preference(PreferenceEnum.PALETTE, palette.getColors())
             self.model.palette = palette
             self.notify('model.palette', self.model)
 
