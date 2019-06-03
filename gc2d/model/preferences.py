@@ -1,14 +1,17 @@
 from PyQt5.Qt import QColor, QPen
 from enum import Enum, auto
+from gc2d.model.transformations import Transform
 
 class PreferenceEnum(Enum):
     SAVE_FILE = auto()
     PEN = auto()
+    TRANSFORM = auto()
 
 class PenEnum(Enum):
     COLOR = auto()
     WIDTH = auto()
     STYLE = auto()
+
 
 class Preferences:
 
@@ -20,13 +23,16 @@ class Preferences:
         """
         self.save_file = None
         self.pen = {}
+        self.transform = Transform()
         self.getter_map = {
             PreferenceEnum.SAVE_FILE : self.get_save_file,
-            PreferenceEnum.PEN : self.get_pen
+            PreferenceEnum.PEN : self.get_pen,
+            PreferenceEnum.TRANSFORM : self.get_transform
         }
         self.setter_map = {
             PreferenceEnum.SAVE_FILE : self.set_save_file,
-            PreferenceEnum.PEN : self.set_pen
+            PreferenceEnum.PEN : self.set_pen,
+            PreferenceEnum.TRANSFORM : self.set_transform
         }
         self.set_defaults()
 
@@ -38,7 +44,8 @@ class Preferences:
     
     def get_state(self):
         return {
-            "PEN": {enum.name: self.pen[enum] for enum in PenEnum}
+            "PEN": {enum.name: self.pen[enum] for enum in PenEnum},
+            "TRANSFORM" : self.transform.to_json()
         }
 
     def get(self, which):
@@ -65,7 +72,7 @@ class Preferences:
         """ sets the save file path """
         self.save_file = path
     
-    def get_pen(self, mode="pen"):
+    def get_pen(self):
         """ constructs and returns the set pen  """
         pen = QPen()
         pen.setWidth(self.pen[PenEnum.WIDTH])
@@ -82,4 +89,8 @@ class Preferences:
         for key in pen_dict:
             self.pen[key] = pen_dict[key]
 
-        
+    def get_transform(self):
+        return self.transform
+
+    def set_transform(self, transform):
+        self.transform = transform

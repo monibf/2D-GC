@@ -85,6 +85,7 @@ class ModelWrapper(Observable):
         :return: None
         """
         self.model.set_convolved_data(transform.transform(self.model.get_raw_data()))
+        self.set_preference(PreferenceEnum.TRANSFORM, transform)
         self.notify('model', self.model)
 
     def toggle_convolved(self, convolved):

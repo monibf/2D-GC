@@ -3,6 +3,9 @@ import os.path
 import numpy as np
 import json
 
+from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff
+from gc2d.model.transformations.dynamiccutoff import CutoffMode
+
 from gc2d.controller.integration.selector import Selector
 from gc2d.model.preferences import PreferenceEnum, PenEnum
 
@@ -35,16 +38,7 @@ class OpenFileAction(QAction):
                 loaded = json.load(file)
 
             if "preferences" in loaded:
-                for pref, val in loaded["preferences"].items():
-                    # runs through list of preferences
-                    if pref == "PEN":
-                        # construct pen dictionary to overwrite defaults; not all fields of PenEnum need to be specified
-                        pen_dict = {}
-                        for property_type, value in val.items():
-                           pen_dict[PenEnum[property_type]] = value
-                        self.model_wrapper.set_preference(PreferenceEnum.PEN, pen_dict)
-            
-            self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, file_name)
+                self.parse_preferences(loaded["preferences"].items())
 
             if "model" in loaded:
                 self.model_wrapper.set_model(np.array(loaded["model"]))
@@ -53,5 +47,23 @@ class OpenFileAction(QAction):
             if "integrations" in loaded and self.model_wrapper.model != None:
                 for label, handles, pos in loaded["integrations"]:
                     Selector(self.model_wrapper, label, handles, pos)
-            
+
                 
+    def parse_preferences(self, preference_json):
+        for pref, val in preference_json:   
+            if pref == "PEN":
+                # construct pen dictionary to overwrite defaults; not all fields of PenEnum need to be specified
+                pen_dict = {}
+                for property_type, value in val.items():
+                    pen_dict[PenEnum[property_type]] = value
+                self.model_wrapper.set_preference(PreferenceEnum.PEN, pen_dict)
+
+            if pref == "TRANSFORM":
+                if val["Type"] == "NONE":
+                    self.model_wrapper.set_transform(Transform())
+                elif val["Type"] == "STATIC":
+                    self.model_wrapper.set_transform(StaticCutoff(val["Data"]))
+                elif val["Type"] == "DYNAMIC":
+                    self.model_wrapper.set_transform(DynamicCutoff(val["Data"], CutoffMode[val["Mode"]]))
+                elif val["Type"] == "GAUSSIAN":
+                    self.model_wrapper.set_transform(Gaussian(val["Data"]))
