@@ -1,8 +1,5 @@
 import math
-import pyqtgraph as pg
-import pyqtgraph.exporters
 from gc2d.controller.listener.widget_listener import WidgetListener
-from PyQt5.QtCore import Qt
 
 
 class Plot2DListener(WidgetListener):
@@ -41,14 +38,3 @@ class Plot2DListener(WidgetListener):
     def mouse_leave_event(self, event):
         self.statusbar.clearMessage()
         super().mouse_leave_event(event)
-
-    def key_press_event(self, event):
-        mods = event.modifiers()
-        ctrl = mods & Qt.ControlModifier
-
-        if event.key() == Qt.Key_S and ctrl:
-            exporter = pg.exporters.ImageExporter(self.widget.plotItem)
-            exporter.export('fileName.png')
-            print('saved')
-
-        super().key_press_event(event)
