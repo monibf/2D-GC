@@ -2,10 +2,12 @@ from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioBu
     QPushButton, QComboBox, QFileDialog
 
 import os.path
+import csv
+import numpy
 
 from gc2d.view.palette.palette import Palette
 
-from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D
+from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D, Convolution
 from gc2d.model.transformations.dynamiccutoff import CutoffMode
 
 class ConvolutionPicker(QDialog):
@@ -59,7 +61,7 @@ class ConvolutionPicker(QDialog):
 
         self.add_button(Min1D, "Min 1D Convolution", [_ParamDouble("Size: ")])
         
-        self.add_button(Gaussian, "Custom Convolution", [_ParamCSV("kernel file: ", "CSV Files (*.csv);;All Files(*)", "open kernel", "open convolution kernel CSV")])
+        self.add_button(Convolution, "Custom Convolution", [_ParamCSV("kernel file: ", "CSV Files (*.csv);;All Files(*)", "open kernel", "open convolution kernel CSV")])
 
         cancel_select = QWidget()
         vlayout.addWidget(cancel_select)
@@ -166,16 +168,29 @@ class _ParamCSV:
         self.extension = extension
         self.filedialogtext = filedialogtext
         self.extionsion = extension
+        self.selector = QWidget()
+        layout = QHBoxLayout()
+        self.selector.setLayout(layout)
         self.fnamebox = QLabel("")
-        self.selector = QPushButton(buttontext)
-        self.selector.clicked.connect(self.pick_file)
+        layout.addWidget(self.fnamebox)
+        fileopenbutton = QPushButton(buttontext)
+        fileopenbutton.clicked.connect(self.pick_file)
+        layout.addWidget(fileopenbutton)
         self.path = None
+        self.matrix = None
     
     def pick_file(self):
         path, _ = QFileDialog.getOpenFileName(None, self.filedialogtext, "", self.extension)
         fname = os.path.basename(path)
         self.fnamebox.setText(fname)
         self.path = path
-        print(fname, path)
-        
+        matrix = []
+        with open(path, "r") as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                matrix.append([*map(float, row)])
+        self.matrix = numpy.array(matrix, dtype=numpy.double)
+    
+    def get_value(self):
+        return self.matrix
 

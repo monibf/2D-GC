@@ -9,7 +9,10 @@ class Convolution(Transform):
         self.matrix = matrix
     
     def transform(self, data):
-        return ndimage.convolve(data, mode='constant')
+        if self.matrix is not None:
+            return ndimage.convolve(data, weights=self.matrix, mode='constant')
+        else:
+            return data
     
     def to_json(self, data):
         return {
