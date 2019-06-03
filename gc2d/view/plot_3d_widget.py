@@ -68,18 +68,17 @@ class Plot3DWidget(GLViewWidget):
             if value is None or value.get_2d_chromatogram_data() is None:
                 self.setVisible(False)
             else:
-                if not self.isVisible():
-                    prev_x, prev_y = self.translation_x, self.translation_y
-                    self.translation_x = -len(value.get_2d_chromatogram_data()) / 2
-                    self.translation_y = -len(value.get_2d_chromatogram_data()[0]) / 2
-                    self.surface.translate(self.translation_x - prev_x, self.translation_y - prev_y, 0)
-                    self.surface.setData(z=value.get_2d_chromatogram_data())
-                    self.setVisible(True)
+                prev_x, prev_y = self.translation_x, self.translation_y
+                self.translation_x = -len(value.get_2d_chromatogram_data()) / 2
+                self.translation_y = -len(value.get_2d_chromatogram_data()[0]) / 2
+                self.surface.translate(self.translation_x - prev_x, self.translation_y - prev_y, 0)
+                self.surface.setData(z=value.get_2d_chromatogram_data())
+                self.setVisible(True)
                 self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))
                 self.lower_bound = value.lower_bound
                 self.upper_bound = value.upper_bound
                 self.offset = self.upper_bound
-        if name == 'model.palette':
+        if name == 'model.palette' or name == 'model.lower_bound' or name == 'model.upper_bound':
             self.surface.setShader(PaletteShader(value.lower_bound, value.upper_bound, value.palette))
 
     def set_highlight(self, integration):

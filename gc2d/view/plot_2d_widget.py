@@ -51,3 +51,6 @@ class Plot2DWidget(PlotWidget):
                                   lut=value.palette)
         elif name == 'model.palette':
             self.img.setLookupTable(value.palette)
+        elif name == 'model.lower_bound' or name == 'model.upper_bound':
+            self.img.setImage(value.get_2d_chromatogram_data().clip(value.lower_bound, value.upper_bound),
+                              lut=value.palette)

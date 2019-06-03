@@ -14,6 +14,8 @@ class OpenConvolutionPickerAction(QAction):
         super().__init__('Set Transformation', parent)
         self.model_wrapper = model_wrapper
         self.dialog = None
+        self.setEnabled(self.model_wrapper.model is not None)
+        self.model_wrapper.add_observer(self, self.notify)
         self.triggered.connect(self.show_dialog)
 
     def show_dialog(self):
@@ -21,6 +23,9 @@ class OpenConvolutionPickerAction(QAction):
         Shows the convolution picking dialog.
         :return: None
         """
+
         self.parent().addDialog(ConvolutionPicker(self.model_wrapper))
 
-
+    def notify(self, name, value):
+        if name == 'model':
+            self.setEnabled(value is not None)

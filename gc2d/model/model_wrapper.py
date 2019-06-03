@@ -37,6 +37,24 @@ class ModelWrapper(Observable):
             self.model.palette = palette
             self.notify('model.palette', self.model)
 
+    def set_upper_bound(self, upper_bound):
+        """
+        :param upper_bound: The upper bound of the palette
+        :return: The lower bound of the palette
+        """
+        if self.model is not None:
+            self.model.upper_bound = upper_bound
+            self.notify('model.upper_bound', self.model)
+
+    def set_lower_bound(self, lower_bound):
+        """
+        :param lower_bound: The lower bound of the palette
+        :return: The lower bound of the palette
+        """
+        if self.model is not None:
+            self.model.lower_bound = lower_bound
+            self.notify('model.lower_bound', self.model)
+
     def get_state(self):
         """ returns an array with the model data and the integration data for storage """
         return (
@@ -87,7 +105,7 @@ class ModelWrapper(Observable):
         self.model.set_convolved_data(transform.transform(self.model.get_raw_data()))
         self.set_preference(PreferenceEnum.TRANSFORM, transform)
         self.notify('model', self.model)
-        print(transform.to_json())
+        self.recompute_integrations()
 
     def toggle_convolved(self, convolved):
         """
@@ -97,6 +115,7 @@ class ModelWrapper(Observable):
         """
         self.model.toggle_convolved(convolved)
         self.notify('model.viewTransformed', self.model)
+        self.recompute_integrations()
 
     def add_integration(self, selector, key):
         """
@@ -127,6 +146,11 @@ class ModelWrapper(Observable):
         """
         self.integrations[key].update(mask, label)
         self.notify('integrationUpdate', self.integrations[key])
+    
+    def recompute_integrations(self):
+        for integration in self.integrations.values():
+            integration.recompute()
+        
     
     def toggle_show(self, key):
         """ 

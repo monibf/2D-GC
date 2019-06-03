@@ -31,6 +31,7 @@ class Selector(QObject):
         :return: None
         """
         pen = self.model_wrapper.get_preference(PreferenceEnum.PEN)
+        pen.setCosmetic(True)
         if handles == None:
             self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pos=(100,100), pen=pen, closed=True)
         else: 
