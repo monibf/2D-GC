@@ -59,7 +59,14 @@ class ConvolutionPicker(QDialog):
         # Gaussian Convolution
         self.add_button(Gaussian, "Gaussian Convolution", "Convolves the data with a gaussian kernel" , [_ParamDouble("Sigma: ")])
 
-        self.add_button(Min1D, "Min 1D Convolution", [_ParamDouble("Size: ")])
+        self.add_button(Min1D, "Min 1D Convolution", 
+                               """
+                               Slides a minimum filter of the specified size over the 1D chromatogram (summed 2D over the first dimension). 
+                               This means that for each point in the 1D graph the specified number of adjoining/connected datapoints are assayed, 
+                               and the minimum value between those points is subtracted from each point in the slice. Because the baseline is 
+                               practically the same within each slice, the second dimension is not taken into account.
+                               """,
+                               [_ParamDouble("Number of accounted slices: ")])
 
         cancel_select = QWidget()
         vlayout.addWidget(cancel_select)

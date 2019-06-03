@@ -14,4 +14,5 @@ class TransformEnum(Enum):
     DYNAMIC = auto()
     GAUSSIAN = auto()
     STATIC = auto()
+    MIN1D = auto()
     CUSTOM = auto()
