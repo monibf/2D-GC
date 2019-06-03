@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QLabel, QDoubleSpinBox, \
-    QPushButton, QComboBox, QFileDialog
+    QPushButton, QComboBox, QFileDialog, QSpinBox
 
 import os.path
 import csv
@@ -59,7 +59,7 @@ class ConvolutionPicker(QDialog):
         # Gaussian Convolution
         self.add_button(Gaussian, "Gaussian Convolution", [_ParamDouble("Sigma: ")])
 
-        self.add_button(Min1D, "Min 1D Convolution", [_ParamDouble("Size: ")])
+        self.add_button(Min1D, "Min 1D Convolution", [_ParamInt("Size: ")])
         
         self.add_button(Convolution, "Custom Convolution", [_ParamCSV("kernel file: ", "CSV Files (*.csv);;All Files(*)", "open kernel", "open convolution kernel CSV")])
 
@@ -139,6 +139,17 @@ class _ParamDouble:
     def __init__(self, label, minimum=0, maximum=float('inf')):
         self.label = label
         self.selector = QDoubleSpinBox()
+        self.selector.setMinimum(minimum)
+        self.selector.setMaximum(maximum)
+    
+    def get_value(self):
+        return self.selector.value()
+
+class _ParamInt:
+    
+    def __init__(self, label, minimum=0, maximum=(2**31-1)):
+        self.label = label
+        self.selector = QSpinBox()
         self.selector.setMinimum(minimum)
         self.selector.setMaximum(maximum)
     
