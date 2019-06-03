@@ -3,7 +3,7 @@ import os.path
 import numpy as np
 import json
 
-from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff
+from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D
 from gc2d.model.transformations.dynamiccutoff import CutoffMode
 
 from gc2d.controller.integration.selector import Selector
@@ -69,3 +69,6 @@ class OpenFileAction(QAction):
             self.model_wrapper.set_transform(DynamicCutoff(val["Data"], CutoffMode[val["Mode"]]))
         elif val["Type"] == "GAUSSIAN":
             self.model_wrapper.set_transform(Gaussian(val["Data"]))
+        elif val["Type"] == "MIN1D":
+            self.model_wrapper.set_transform(Min1D(val["Data"]))
+        
