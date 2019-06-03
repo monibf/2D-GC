@@ -40,7 +40,7 @@ class ModelWrapper(Observable):
     def get_state(self):
         """ returns an array with the model data and the integration data for storage """
         return (
-            self.model.get_2d_chromatogram_data(), 
+            self.model.get_raw_data(), 
             [integration.get_state() for integration in self.integrations.values()],
             self.preferences.get_state()
         )
@@ -87,6 +87,7 @@ class ModelWrapper(Observable):
         self.model.set_convolved_data(transform.transform(self.model.get_raw_data()))
         self.set_preference(PreferenceEnum.TRANSFORM, transform)
         self.notify('model', self.model)
+        print(transform.to_json())
 
     def toggle_convolved(self, convolved):
         """

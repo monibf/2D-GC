@@ -37,8 +37,10 @@ class OpenFileAction(QAction):
             with open(file_name, 'r') as file:
                 loaded = json.load(file)
 
+            prefs_included = False
             if "preferences" in loaded:
-                self.parse_preferences(loaded["preferences"].items())
+                self.preload_prefs(loaded["preferences"])
+                prefs_included = True
 
             if "model" in loaded:
                 self.model_wrapper.set_model(np.array(loaded["model"]))
@@ -48,22 +50,22 @@ class OpenFileAction(QAction):
                 for label, handles, pos in loaded["integrations"]:
                     Selector(self.model_wrapper, label, handles, pos)
 
-                
-    def parse_preferences(self, preference_json):
-        for pref, val in preference_json:   
-            if pref == "PEN":
-                # construct pen dictionary to overwrite defaults; not all fields of PenEnum need to be specified
-                pen_dict = {}
-                for property_type, value in val.items():
-                    pen_dict[PenEnum[property_type]] = value
-                self.model_wrapper.set_preference(PreferenceEnum.PEN, pen_dict)
+            if prefs_included:
+                self.postload_prefs(loaded["preferences"])
 
-            if pref == "TRANSFORM":
-                if val["Type"] == "NONE":
-                    self.model_wrapper.set_transform(Transform())
-                elif val["Type"] == "STATIC":
-                    self.model_wrapper.set_transform(StaticCutoff(val["Data"]))
-                elif val["Type"] == "DYNAMIC":
-                    self.model_wrapper.set_transform(DynamicCutoff(val["Data"], CutoffMode[val["Mode"]]))
-                elif val["Type"] == "GAUSSIAN":
-                    self.model_wrapper.set_transform(Gaussian(val["Data"]))
+    def preload_prefs(self, preference_dict):
+        pen_dict = {}
+        for property_type, value in preference_dict["PEN"].items():
+            pen_dict[PenEnum[property_type]] = value
+        self.model_wrapper.set_preference(PreferenceEnum.PEN, pen_dict)
+                
+    def postload_prefs(self, preference_json):
+        val = preference_json["TRANSFORM"]
+        if val["Type"] == "NONE":
+            self.model_wrapper.set_transform(Transform())
+        elif val["Type"] == "STATIC":
+            self.model_wrapper.set_transform(StaticCutoff(val["Data"]))
+        elif val["Type"] == "DYNAMIC":
+            self.model_wrapper.set_transform(DynamicCutoff(val["Data"], CutoffMode[val["Mode"]]))
+        elif val["Type"] == "GAUSSIAN":
+            self.model_wrapper.set_transform(Gaussian(val["Data"]))
