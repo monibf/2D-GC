@@ -16,7 +16,7 @@ class Integration:
         self.id = key
         self.selector = selector
         self.mask = None
-        self.pos = None
+        self.pos = None # track position of bounding box
         self.show = False
         self.mean = None
         self.sum = None
@@ -38,11 +38,21 @@ class Integration:
                 self.mean = self.sum / np.count_nonzero(mask)
             else: 
                 # outside of graph
-                self.sum = np.nan
-                self.mean = np.nan
+                self.sum = 0
+                self.mean = 0
         if label is not None:
             self.label = label
+    
+    def recompute(self):
+        self.selector.update_mask()
 
+    def get_state(self):
+        """ return state values to be serialized """
+        handles, pos = self.selector.get_handles()
+        return (self.label, 
+                [(handle[1].x(), handle[1].y()) for handle in handles], 
+                (pos.x(), pos.y()))
+      
     def toggle_show(self):
         """
         toggle the show parameter between True and False, used for highlighting in 3d view

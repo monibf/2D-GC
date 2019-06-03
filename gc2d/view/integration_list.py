@@ -53,7 +53,9 @@ class IntegrationList(QTableWidget):
             self.redraw_row(value)
         elif name == 'newIntegration':
             self.new_row(value)
-        elif name == 'model':
+        elif name == 'removeIntegration' and value.id in self.showing:
+            self.clear_row(self.showing.index(value.id))
+        elif name in {'model', 'model.viewTransformed'}:
             if value is None:
                 self.clear()
 
@@ -117,8 +119,17 @@ class IntegrationList(QTableWidget):
         Removes row and signals to controller to remove the integration value from the model
         :param key: identifier of the row to be removed
         """
-        row = self.showing.index(key)
+        self.clear_row(self.showing.index(key))
+        self.handler.clear_value(key)
+
+    def clear_row(self, row):
+        """
+        Removes row the corresponding integration from local data
+        :param row: which row to remove
+        """
         self.removeRow(row)
-        self.handler.clear_value(key)   
         del self.showing[row]
+        
+           
+        
         
