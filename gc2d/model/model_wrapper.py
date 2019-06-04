@@ -19,21 +19,13 @@ class ModelWrapper(Observable):
         self.integrate_id = 0
         self.preferences = Preferences()
 
-    def get_palette(self):
-        """
-        :return: The palette of the model, or none if there is no model.
-        """
-        if self.model is not None:
-            return self.model.palette
-
-        return None
-
     def set_palette(self, palette):
         """
         :param palette: the color palette to set.
         :return: None
         """
         if self.model is not None:
+            self.set_preference(PreferenceEnum.PALETTE, palette)
             self.model.palette = palette
             self.notify('model.palette', self.model)
 
@@ -43,6 +35,7 @@ class ModelWrapper(Observable):
         :return: The lower bound of the palette
         """
         if self.model is not None:
+            self.set_preference(PreferenceEnum.UPPER_BOUND, upper_bound)
             self.model.upper_bound = upper_bound
             self.notify('model.upper_bound', self.model)
 
@@ -52,13 +45,14 @@ class ModelWrapper(Observable):
         :return: The lower bound of the palette
         """
         if self.model is not None:
+            self.set_preference(PreferenceEnum.LOWER_BOUND, lower_bound)
             self.model.lower_bound = lower_bound
             self.notify('model.lower_bound', self.model)
 
     def get_state(self):
         """ returns an array with the model data and the integration data for storage """
         return (
-            self.model.get_2d_chromatogram_data(), 
+            self.model.get_raw_data(), 
             [integration.get_state() for integration in self.integrations.values()],
             self.preferences.get_state()
         )
@@ -71,6 +65,8 @@ class ModelWrapper(Observable):
         """
         self.close_model()
         self.model = Model(arr, len(arr[0]))
+        self.set_lower_bound(self.model.lower_bound)
+        self.set_upper_bound(self.model.upper_bound)
         self.notify('model', self.model)  # Notify all observers.
 
     def import_model(self, file_name):
@@ -103,6 +99,7 @@ class ModelWrapper(Observable):
         :return: None
         """
         self.model.set_convolved_data(transform.transform(self.model.get_raw_data()))
+        self.set_preference(PreferenceEnum.TRANSFORM, transform)
         self.notify('model', self.model)
         self.recompute_integrations()
 
@@ -159,7 +156,7 @@ class ModelWrapper(Observable):
     def recompute_integrations(self):
         for integration in self.integrations.values():
             integration.recompute()
-       
+
     def set_show(self, key, mode):
         """ 
         Toggle whether an integration is highlighted/showing in the 3D visualization
