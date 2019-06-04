@@ -23,10 +23,8 @@ class OpenConvolutionPickerAction(QAction):
         Shows the convolution picking dialog.
         :return: None
         """
-        self.parent().addDialog(ConvolutionPicker(self.on_select))
 
-    def on_select(self, transform):
-        self.model_wrapper.set_transform(transform)
+        self.parent().addDialog(ConvolutionPicker(self.model_wrapper))
 
     def notify(self, name, value):
         if name == 'model':

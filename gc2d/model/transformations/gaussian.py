@@ -1,7 +1,7 @@
 
 from scipy import ndimage
 
-from .transform import Transform
+from .transform import Transform, TransformEnum
 
 class Gaussian(Transform):
     
@@ -10,3 +10,6 @@ class Gaussian(Transform):
     
     def transform(self, data):
         return ndimage.gaussian_filter(data, self.sigma, mode='constant')
+
+    def to_json(self):
+        return {"Type" : TransformEnum.GAUSSIAN.name, "Data" : self.sigma}
