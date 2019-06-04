@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QLabel, QDoubleSpinBox, \
-    QPushButton, QComboBox, QSpinBox
+    QPushButton, QComboBox, QSpinBox, QTextEdit
 
 from gc2d.view.palette.palette import Palette
 
