@@ -126,6 +126,16 @@ class ModelWrapper(Observable):
         """
         self.integrations[key] = Integration(key, selector)
         self.notify('newIntegration', self.integrations[key])
+        self.set_current(key)
+
+    def set_current(self, key):
+        """
+        If a single integration area is being edited, all are faded except the current, which is highlighted in view
+        :param key: the key of the current ROI
+        :return: None
+        """
+        for curr_key in self.integrations:
+            self.set_show(curr_key, curr_key == key)
     
     def get_new_key(self):
         """
@@ -145,20 +155,22 @@ class ModelWrapper(Observable):
         """
         self.integrations[key].update(mask, label)
         self.notify('integrationUpdate', self.integrations[key])
-    
+   
     def recompute_integrations(self):
         for integration in self.integrations.values():
             integration.recompute()
-        
-    
-    def toggle_show(self, key):
+       
+    def set_show(self, key, mode):
         """ 
         Toggle whether an integration is highlighted/showing in the 3D visualization
+        Only updates view if a the show has actually toggled
         :param key: the key of the toggled integration
+        :param mode: the bool value to set show to
         :return: None
         """
-        self.integrations[key].toggle_show()
-        self.notify('showIntegration', self.integrations[key])
+        changed = self.integrations[key].set_show(mode)
+        if changed:
+            self.notify('showIntegration', self.integrations[key])
 
     def clear_integration(self, key):
         """
