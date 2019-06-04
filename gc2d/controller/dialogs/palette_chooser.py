@@ -133,7 +133,8 @@ class PaletteChooser(QDialog):
         self.gen_palette_list()
 
         for file in loaded:
-            if not path.samefile(file, path.join(main.CUSTOM_PALETTE_PATH, path.basename(file))):
+            if not path.exists(path.join(main.CUSTOM_PALETTE_PATH, path.basename(file))) \
+                    or not path.samefile(file, path.join(main.CUSTOM_PALETTE_PATH, path.basename(file))):
                 copy(file, main.CUSTOM_PALETTE_PATH)
         self.close()
 
