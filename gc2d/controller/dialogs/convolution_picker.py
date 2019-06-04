@@ -66,8 +66,12 @@ class ConvolutionPicker(QDialog):
         cancel_button.clicked.connect(self.close)
         cancel_select_layout.addWidget(cancel_button)
 
-        select_button = QPushButton('Confirm')
+        select_button = QPushButton('Apply')
         select_button.clicked.connect(self.select)
+        cancel_select_layout.addWidget(select_button)
+
+        select_button = QPushButton('Confirm')
+        select_button.clicked.connect(self.select_and_close)
         cancel_select_layout.addWidget(select_button)
     
     def add_button(self, transform_type, label, parameters, checked=False):
@@ -109,7 +113,9 @@ class ConvolutionPicker(QDialog):
                 parameters = [param.get_value() for param in button.parameters]
                 transform = button.transform_type(*parameters)
                 self.on_select(transform)
-                
+    
+    def select_and_close(self):
+        self.select()
         self.close()
 
 
