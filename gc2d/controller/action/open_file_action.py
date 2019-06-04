@@ -6,7 +6,8 @@ import json
 
 from gc2d.model.transformations import transform_from_json
 from gc2d.controller.integration.selector import Selector
-from gc2d.model.preferences import PreferenceEnum, PenEnum
+from gc2d.model.time_unit import TimeUnit
+from gc2d.model.preferences import PreferenceEnum, PenEnum, ScaleEnum
 from gc2d.view.palette.palette import Palette
 
 class OpenFileAction(QAction):
@@ -70,6 +71,10 @@ class OpenFileAction(QAction):
             self.model_wrapper.set_lower_bound(preference_json["LOWER_BOUND"])
         if "UPPER_BOUND" in preference_json:
             self.model_wrapper.set_upper_bound(preference_json["UPPER_BOUND"])
+        if "AXES" in preference_json:
+            self.load_axes(preference_json["AXES"])
+            
+
 
     def load_transform(self, transform_dict):
         transform = transform_from_json(transform_dict)
@@ -77,3 +82,9 @@ class OpenFileAction(QAction):
             self.model_wrapper.set_transform(transform)
         
         
+    def load_axes(self, axes_dict):
+        for name in axes_dict:
+            if name in {"X_UNIT", "Y_UNIT"}:
+                self.model_wrapper.set_preference(ScaleEnum[name], TimeUnit[axes_dict[name]])
+            else:
+                self.model_wrapper.set_preference(ScaleEnum[name], axes_dict[name])
