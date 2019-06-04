@@ -34,7 +34,7 @@ class ModelWrapper(Observable):
         :return: None
         """
         if self.model is not None:
-            self.set_preference(PreferenceEnum.PALETTE, palette.getColors())
+            self.set_preference(PreferenceEnum.PALETTE, (palette.getColors(), palette.name))
             self.model.palette = palette
             self.notify('model.palette', self.model)
 
@@ -44,6 +44,7 @@ class ModelWrapper(Observable):
         :return: The lower bound of the palette
         """
         if self.model is not None:
+            self.set_preference(PreferenceEnum.UPPER_BOUND, upper_bound)
             self.model.upper_bound = upper_bound
             self.notify('model.upper_bound', self.model)
 
@@ -53,6 +54,7 @@ class ModelWrapper(Observable):
         :return: The lower bound of the palette
         """
         if self.model is not None:
+            self.set_preference(PreferenceEnum.LOWER_BOUND, lower_bound)
             self.model.lower_bound = lower_bound
             self.notify('model.lower_bound', self.model)
 
@@ -72,6 +74,8 @@ class ModelWrapper(Observable):
         """
         self.close_model()
         self.model = Model(arr, len(arr[0]))
+        self.set_lower_bound(self.model.lower_bound)
+        self.set_upper_bound(self.model.upper_bound)
         self.notify('model', self.model)  # Notify all observers.
 
     def import_model(self, file_name):
@@ -152,7 +156,6 @@ class ModelWrapper(Observable):
         for integration in self.integrations.values():
             integration.recompute()
         
-    
     def toggle_show(self, key):
         """ 
         Toggle whether an integration is highlighted/showing in the 3D visualization

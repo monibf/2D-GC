@@ -8,12 +8,13 @@ class PreferenceEnum(Enum):
     PEN = auto()
     TRANSFORM = auto()
     PALETTE = auto()
+    LOWER_BOUND = auto()
+    UPPER_BOUND = auto()
 
 class PenEnum(Enum):
     COLOR = auto()
     WIDTH = auto()
     STYLE = auto()
-
 
 class Preferences:
 
@@ -26,7 +27,11 @@ class Preferences:
         self.save_file = None
         self.pen = {}
         self.transform = Transform()
-        self.palette = palette.viridis.getColors()
+        self.palette = {"Colors" :palette.viridis.getColors().tolist(), "Name": "viridis"}
+        # bounds are written when a model is loaded
+        self.lower_bound = None
+        self.upper_bound = None
+
         self.getter_map = {
             PreferenceEnum.SAVE_FILE : self.get_save_file,
             PreferenceEnum.PEN : self.get_pen
@@ -35,7 +40,9 @@ class Preferences:
             PreferenceEnum.SAVE_FILE : self.set_save_file,
             PreferenceEnum.PEN : self.set_pen,
             PreferenceEnum.TRANSFORM : self.set_transform,
-            PreferenceEnum.PALETTE : self.set_palette
+            PreferenceEnum.PALETTE : self.set_palette,
+            PreferenceEnum.LOWER_BOUND : self.set_lower_bound,
+            PreferenceEnum.UPPER_BOUND : self.set_upper_bound
         }
         self.set_defaults()
 
@@ -46,10 +53,13 @@ class Preferences:
         self.pen[PenEnum.COLOR] = "red"
     
     def get_state(self):
+        """ return a json serializable preferences state """
         return {
             "PEN": {enum.name: self.pen[enum] for enum in PenEnum},
             "TRANSFORM" : self.transform.to_json(),
-            "PALETTE" : self.palette.tolist()
+            "PALETTE" : self.palette,
+            "UPPER_BOUND" : self.upper_bound,
+            "LOWER_BOUND" : self.lower_bound
         }
 
     def get(self, which):
@@ -96,5 +106,12 @@ class Preferences:
     def set_transform(self, transform):
         self.transform = transform
 
-    def set_palette(self, colors):
-        self.palette = colors
+    def set_palette(self, palettedata):
+        colors, name = palettedata
+        self.palette = {"Colors" : colors.tolist(), "Name": name}
+
+    def set_lower_bound(self, lower_bound):
+        self.lower_bound = lower_bound
+    
+    def set_upper_bound(self, upper_bound):
+        self.upper_bound = upper_bound
