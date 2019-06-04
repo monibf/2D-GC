@@ -3,11 +3,12 @@ import os.path
 import numpy as np
 import json
 
+
 from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D
 from gc2d.model.transformations.dynamiccutoff import CutoffMode
-
 from gc2d.controller.integration.selector import Selector
 from gc2d.model.preferences import PreferenceEnum, PenEnum
+from gc2d.view.palette.palette import Palette
 
 class OpenFileAction(QAction):
 
@@ -60,15 +61,22 @@ class OpenFileAction(QAction):
         self.model_wrapper.set_preference(PreferenceEnum.PEN, pen_dict)
                 
     def postload_prefs(self, preference_json):
-        val = preference_json["TRANSFORM"]
-        if val["Type"] == "NONE":
+        self.load_transform(preference_json["TRANSFORM"])
+        self.model_wrapper.set_palette(Palette(preference_json["PALETTE"]["Name"], preference_json["PALETTE"]["Colors"]))
+        self.model_wrapper.set_lower_bound(preference_json["LOWER_BOUND"])
+        self.model_wrapper.set_upper_bound(preference_json["UPPER_BOUND"])
+
+    def load_transform(self, transform_dict):
+        type = transform_dict["Type"]
+        if type == "NONE":
             self.model_wrapper.set_transform(Transform())
-        elif val["Type"] == "STATIC":
-            self.model_wrapper.set_transform(StaticCutoff(val["Data"]))
-        elif val["Type"] == "DYNAMIC":
-            self.model_wrapper.set_transform(DynamicCutoff(val["Data"], CutoffMode[val["Mode"]]))
-        elif val["Type"] == "GAUSSIAN":
-            self.model_wrapper.set_transform(Gaussian(val["Data"]))
-        elif val["Type"] == "MIN1D":
-            self.model_wrapper.set_transform(Min1D(val["Data"]))
+        elif type == "STATIC":
+            self.model_wrapper.set_transform(StaticCutoff(transform_dict["Data"]))
+        elif type == "DYNAMIC":
+            self.model_wrapper.set_transform(DynamicCutoff(transform_dict["Data"], CutoffMode[transform_dict["Mode"]]))
+        elif type == "GAUSSIAN":
+            self.model_wrapper.set_transform(Gaussian(transform_dict["Data"]))
+        elif type == "MIN1D":
+            self.model_wrapper.set_transform(Min1D(transform_dict["Data"]))
+
         

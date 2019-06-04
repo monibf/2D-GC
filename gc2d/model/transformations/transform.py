@@ -16,3 +16,4 @@ class TransformEnum(Enum):
     STATIC = auto()
     MIN1D = auto()
     CUSTOM = auto()
+

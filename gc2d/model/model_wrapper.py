@@ -19,22 +19,13 @@ class ModelWrapper(Observable):
         self.integrate_id = 0
         self.preferences = Preferences()
 
-    def get_palette(self):
-        """
-        :return: The palette of the model, or none if there is no model.
-        """
-        if self.model is not None:
-            return self.model.palette
-
-        return None
-
     def set_palette(self, palette):
         """
         :param palette: the color palette to set.
         :return: None
         """
         if self.model is not None:
-            self.set_preference(PreferenceEnum.PALETTE, (palette.getColors(), palette.name))
+            self.set_preference(PreferenceEnum.PALETTE, palette)
             self.model.palette = palette
             self.notify('model.palette', self.model)
 

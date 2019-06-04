@@ -34,7 +34,8 @@ class Preferences:
 
         self.getter_map = {
             PreferenceEnum.SAVE_FILE : self.get_save_file,
-            PreferenceEnum.PEN : self.get_pen
+            PreferenceEnum.PEN : self.get_pen,
+            PreferenceEnum.PALETTE : self.get_palette
         }
         self.setter_map = {
             PreferenceEnum.SAVE_FILE : self.set_save_file,
@@ -57,7 +58,7 @@ class Preferences:
         return {
             "PEN": {enum.name: self.pen[enum] for enum in PenEnum},
             "TRANSFORM" : self.transform.to_json(),
-            "PALETTE" : self.palette,
+            "PALETTE" :  {"Colors" : self.palette.getColors().tolist(), "Name": self.palette.name},
             "UPPER_BOUND" : self.upper_bound,
             "LOWER_BOUND" : self.lower_bound
         }
@@ -106,10 +107,12 @@ class Preferences:
     def set_transform(self, transform):
         self.transform = transform
 
-    def set_palette(self, palettedata):
-        colors, name = palettedata
-        self.palette = {"Colors" : colors.tolist(), "Name": name}
-
+    def set_palette(self, palette):
+        self.palette = palette
+    
+    def get_palette(self):
+        return self.palette
+        
     def set_lower_bound(self, lower_bound):
         self.lower_bound = lower_bound
     
