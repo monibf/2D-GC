@@ -29,10 +29,14 @@ class ExportPlot3DAction(QAction):
         if self.window.plot_3d is not None:
             plot = self.window.plot_3d
             path = QFileDialog.getSaveFileName(self.window, 'Export 3D plot',
-                                               filter='png files(*.png);; All files (*.*)')[0]
+                                               filter='png files(*.png)')[0]
             if path is '':
                 print("invalid path")
                 return False
+
+            # Check if the png file extension was added
+            elif not path.endswith(".png"):
+                path = path + ".png"
 
             # Save the plot
             plot.grabFrameBuffer().save(path)
