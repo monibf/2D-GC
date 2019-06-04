@@ -14,7 +14,7 @@ class ExportPlot2DAction(QAction):
 
         self.setShortcut('Ctrl+E')
         self.setStatusTip('Export 2D plot')
-        self.setDisabled(True)
+        self.setEnabled(model_wrapper.model is not None)
         self.triggered.connect(self.export_plot)
 
         self.model_wrapper.add_observer(self, self.notified)

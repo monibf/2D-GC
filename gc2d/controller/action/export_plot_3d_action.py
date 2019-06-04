@@ -14,7 +14,7 @@ class ExportPlot3DAction(QAction):
 
         self.setShortcut('Ctrl+R')
         self.setStatusTip('Export 3D plot')
-        self.setDisabled(True)
+        self.setEnabled(model_wrapper.model is not None)
         self.triggered.connect(self.export_plot)
 
         self.model_wrapper.add_observer(self, self.notified)
