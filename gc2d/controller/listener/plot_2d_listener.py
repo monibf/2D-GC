@@ -22,6 +22,7 @@ class Plot2DListener(WidgetListener):
         mouse_x = math.floor(mouse_point.x())
         mouse_y = math.floor(mouse_point.y())
 
+        # TODO: Does the complete chromatogram get transferred every time the mouse is moved??
         z_data = self.model_wrapper.model.get_2d_chromatogram_data()
         if 0 <= mouse_x < len(z_data) and 0 <= mouse_y < len(z_data[mouse_x]):
             z_value = int(z_data[mouse_x][mouse_y])
