@@ -35,7 +35,7 @@ class ExportPlot3DAction(QAction):
                 return False
 
             # Check if the png file extension was added
-            elif not path.endswith(".png"):
+            elif not path.lower().endswith(".png"):
                 path = path + ".png"
 
             # Save the plot
