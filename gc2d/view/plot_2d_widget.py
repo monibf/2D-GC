@@ -1,6 +1,7 @@
 from pyqtgraph import ImageItem, PlotWidget
 
 from gc2d.controller.listener.plot_2d_listener import Plot2DListener
+from gc2d.model.preferences import ScaleEnum
 
 
 class Plot2DWidget(PlotWidget):
@@ -25,6 +26,8 @@ class Plot2DWidget(PlotWidget):
 
         # Disable right click context menu.
         self.getPlotItem().setMenuEnabled(False)
+        self.getPlotItem().getAxis('bottom').enableAutoSIPrefix(False)
+        self.getPlotItem().getAxis('left').enableAutoSIPrefix(False)
 
         model_wrapper.add_observer(self, self.notify)
 
@@ -49,6 +52,14 @@ class Plot2DWidget(PlotWidget):
             else:
                 self.img.setImage(value.get_2d_chromatogram_data().clip(value.lower_bound, value.upper_bound),
                                   lut=value.palette)
+                self.getPlotItem().getAxis('bottom')\
+                    .setScale(self.wrapper_temp.get_preference(ScaleEnum.X_PERIOD)/value.get_width())
+                self.getPlotItem().getAxis('bottom')\
+                    .setLabel(units=self.wrapper_temp.get_preference(ScaleEnum.X_UNIT).name.lower())
+                self.getPlotItem().getAxis('left') \
+                    .setScale(self.wrapper_temp.get_preference(ScaleEnum.Y_PERIOD)/value.get_height())
+                self.getPlotItem().getAxis('left')\
+                    .setLabel(units=self.wrapper_temp.get_preference(ScaleEnum.Y_UNIT).name.lower())
         elif name == 'model.palette':
             self.img.setLookupTable(value.palette)
         elif name == 'model.lower_bound' or name == 'model.upper_bound':

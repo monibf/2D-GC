@@ -2,7 +2,7 @@ from enum import Enum, auto
 
 
 class TimeUnit(Enum):
-    MILLISECONDS: auto()
-    SECONDS: auto()
-    MINUTES: auto()
-    HOURS: auto()
+    MILLISECONDS = 1
+    SECONDS = 1000
+    MINUTES = 60
+    HOURS = 60
