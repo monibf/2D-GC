@@ -40,7 +40,7 @@ class ConvolutionPicker(QDialog):
         self.add_button(Transform, "No Transform", "No transformation is linked under 'show transformed data' with this option.", [] ,checked=True)
         
         # Static cut-off
-        self.add_button(StaticCutoff, "Static cut-off", "From each point in the graph, the given value is subtracted. The written value is one tenth of the upper bound of the color palette.", [_ParamDouble("cut-off value: ", value=self.model_wrapper.model.upper_bound/10)])
+        self.add_button(StaticCutoff, "Static cut-off", "From each point in the graph, the given value is subtracted.", [_ParamDouble("cut-off value: ", value=self.model_wrapper.model.upper_bound/10)])
         
         # Dynamic cut-off
         self.add_button(
