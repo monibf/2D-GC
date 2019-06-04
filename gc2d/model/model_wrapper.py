@@ -1,6 +1,6 @@
 import numpy as np
 
-from gc2d.model.preferences import Preferences
+from gc2d.model.preferences import Preferences, PreferenceEnum
 from gc2d.model.integration import Integration
 from gc2d.model.model import Model
 from gc2d.observable import Observable
