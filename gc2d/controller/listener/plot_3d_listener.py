@@ -11,3 +11,4 @@ class Plot3DListener(WidgetListener):
         """
         super().__init__(plot3d)
         self.model_wrapper = model_wrapper
+
