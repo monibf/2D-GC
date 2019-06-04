@@ -12,7 +12,7 @@ class ExportPlot2DAction(QAction):
         self.window = parent
         self.model_wrapper = model_wrapper
 
-        self.setShortcut('Ctrl+E')
+        self.setShortcut('Ctrl+R')
         self.setStatusTip('Export 2D plot')
         self.setEnabled(model_wrapper.model is not None)
         self.triggered.connect(self.export_plot)

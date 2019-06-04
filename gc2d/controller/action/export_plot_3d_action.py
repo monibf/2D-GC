@@ -12,7 +12,7 @@ class ExportPlot3DAction(QAction):
         self.window = parent
         self.model_wrapper = model_wrapper
 
-        self.setShortcut('Ctrl+R')
+        self.setShortcut('Ctrl+T')
         self.setStatusTip('Export 3D plot')
         self.setEnabled(model_wrapper.model is not None)
         self.triggered.connect(self.export_plot)

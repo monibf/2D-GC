@@ -11,6 +11,7 @@ from gc2d.controller.action.save_integrations_action import SaveIntegrationsActi
 from gc2d.controller.action.save_prefs_action import SavePrefsAction
 from gc2d.controller.action.save_as_action import SaveAsAction
 
+from gc2d.controller.action.export_action import ExportAction
 from gc2d.controller.action.export_plot_2d_action import ExportPlot2DAction
 from gc2d.controller.action.export_plot_3d_action import ExportPlot3DAction
 
@@ -56,6 +57,7 @@ class Window(QMainWindow):
         self.save_prefs_action = SavePrefsAction(self, self.model_wrapper)
         self.import_data_action = ImportDataAction(self, self.model_wrapper)
 
+        self.export_action = ExportAction(self, self.model_wrapper)
         self.export_plot_2d_action = ExportPlot2DAction(self, self.model_wrapper)
         self.export_plot_3d_action = ExportPlot3DAction(self, self.model_wrapper)
 
@@ -119,6 +121,7 @@ class Window(QMainWindow):
         self.toolbar.addAction(self.open_convolution_picker_action)
         self.toolbar.addAction(self.open_palette_chooser_action)
         self.toolbar.addAction(self.draw_action)
+        self.toolbar.addAction(self.export_action)
 
     # noinspection PyArgumentList
     def create_graph_views(self, status_bar):
