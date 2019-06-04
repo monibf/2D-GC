@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QLabel, QDoubleSpinBox, \
-    QPushButton, QComboBox, QTextEdit
+    QPushButton, QComboBox, QSpinBox
 
 from gc2d.view.palette.palette import Palette
 
@@ -66,7 +66,8 @@ class ConvolutionPicker(QDialog):
                                and the minimum value between those points is subtracted from each point in the slice. Because the baseline is 
                                practically the same within each slice, the second dimension is not taken into account.
                                """,
-                               [_ParamDouble("Number of accounted slices: ")])
+                               [_ParamInt("Number of accounted slices: ")])
+
 
         cancel_select = QWidget()
         vlayout.addWidget(cancel_select)
@@ -151,6 +152,17 @@ class _ParamDouble:
         self.selector.setMinimum(minimum)
         self.selector.setMaximum(maximum)
         self.selector.setValue(value)
+    
+    def get_value(self):
+        return self.selector.value()
+
+class _ParamInt:
+    
+    def __init__(self, label, minimum=0, maximum=(2**31-1)):
+        self.label = label
+        self.selector = QSpinBox()
+        self.selector.setMinimum(minimum)
+        self.selector.setMaximum(maximum)
     
     def get_value(self):
         return self.selector.value()
