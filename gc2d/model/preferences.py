@@ -48,7 +48,7 @@ class Preferences:
         self.y_period = 0
         
         self.transform = Transform()
-        self.palette = {"Colors" :palette.viridis.getColors().tolist(), "Name": "viridis"}
+        self.palette = palette.viridis
         # bounds are written when a model is loaded
         self.lower_bound = None
         self.upper_bound = None
