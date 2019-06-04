@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QLabel, QMainWindow
 from pyqtgraph.dockarea import Dock, DockArea
+import os.path
 
 from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
@@ -13,6 +14,7 @@ from gc2d.controller.action.save_as_action import SaveAsAction
 from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
 from gc2d.controller.action.open_convolution_picker_action import OpenConvolutionPickerAction
 from gc2d.controller.action.toggle_convolution_action import ToggleConvolutionAction
+from gc2d.model.preferences import Preferences, PreferenceEnum
 from gc2d.view.integration_list import IntegrationList
 from gc2d.view.plot_1d_widget import Plot1DWidget
 from gc2d.view.plot_2d_widget import Plot2DWidget
@@ -33,6 +35,7 @@ class Window(QMainWindow):
 
         self.model_wrapper = model_wrapper
         """The model wrapper."""
+        model_wrapper.add_observer(self, self.notify)
 
         self.dialogs = []
 
@@ -156,3 +159,7 @@ class Window(QMainWindow):
         dialog.activateWindow()
         dialog.showNormal()
         self.dialogs.append(dialog)
+
+    def notify(self, name, value):
+        if name == PreferenceEnum.SAVE_FILE.name:
+            self.setWindowTitle(os.path.basename(value).split(".")[0])
