@@ -37,8 +37,8 @@ class Preferences:
         self.x_unit = TimeUnit.MINUTES
         self.y_unit = TimeUnit.SECONDS
         self.y_unit_1d = 'ppm'
-        self.x_period = 75
-        self.y_period = 6
+        self.x_period = 0
+        self.y_period = 0
 
         self.getter_map = {
             PreferenceEnum.SAVE_FILE : self.get_save_file,
@@ -138,7 +138,7 @@ class Preferences:
         :param unit: The unit the should be y axis
         :return: None
         """
-        self.set_y_unit(unit)
+        self.y_unit = unit
 
     def get_y_unit_1d(self):
         """
@@ -152,7 +152,7 @@ class Preferences:
         :param unit: The unit the should be y axis
         :return: None
         """
-        self.set_y_unit_1d(unit)
+        self.y_unit_1d = unit
 
     def get_x_period(self):
         """

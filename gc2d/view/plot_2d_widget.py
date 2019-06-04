@@ -2,6 +2,7 @@ from pyqtgraph import ImageItem, PlotWidget
 
 from gc2d.controller.listener.plot_2d_listener import Plot2DListener
 from gc2d.model.preferences import ScaleEnum
+from gc2d.model.time_unit import TimeUnit
 
 
 class Plot2DWidget(PlotWidget):
@@ -35,6 +36,30 @@ class Plot2DWidget(PlotWidget):
         # a model or not.
         self.notify('model', model_wrapper.model)
 
+    def refresh_x_period(self, x_period):
+        if x_period == 0:
+            self.getPlotItem().getAxis('bottom').setScale(1)
+        else:
+            self.getPlotItem().getAxis('bottom').setScale(x_period / self.wrapper_temp.model.get_width())
+
+    def refresh_y_period(self, y_period):
+        if y_period == 0:
+            self.getPlotItem().getAxis('left').setScale(1)
+        else:
+            self.getPlotItem().getAxis('left').setScale(y_period / self.wrapper_temp.model.get_height())
+
+    def refresh_x_unit(self, x_unit):
+        if x_unit is TimeUnit.NONE:
+            self.getPlotItem().getAxis('bottom').setLabel(units="")
+        else:
+            self.getPlotItem().getAxis('bottom').setLabel(units=x_unit.name.lower())
+
+    def refresh_y_unit(self, y_unit):
+        if y_unit is TimeUnit.NONE:
+            self.getPlotItem().getAxis('left').setLabel(units="")
+        else:
+            self.getPlotItem().getAxis('left').setLabel(units=y_unit.name.lower())
+
     def notify(self, name, value):
         """
         Updates the image rendered to match the model.
@@ -52,16 +77,21 @@ class Plot2DWidget(PlotWidget):
             else:
                 self.img.setImage(value.get_2d_chromatogram_data().clip(value.lower_bound, value.upper_bound),
                                   lut=value.palette)
-                self.getPlotItem().getAxis('bottom')\
-                    .setScale(self.wrapper_temp.get_preference(ScaleEnum.X_PERIOD)/value.get_width())
-                self.getPlotItem().getAxis('bottom')\
-                    .setLabel(units=self.wrapper_temp.get_preference(ScaleEnum.X_UNIT).name.lower())
-                self.getPlotItem().getAxis('left') \
-                    .setScale(self.wrapper_temp.get_preference(ScaleEnum.Y_PERIOD)/value.get_height())
-                self.getPlotItem().getAxis('left')\
-                    .setLabel(units=self.wrapper_temp.get_preference(ScaleEnum.Y_UNIT).name.lower())
+
+                self.refresh_x_period(self.wrapper_temp.get_preference(ScaleEnum.X_PERIOD))
+                self.refresh_y_period(self.wrapper_temp.get_preference(ScaleEnum.Y_PERIOD))
+                self.refresh_x_unit(self.wrapper_temp.get_preference(ScaleEnum.X_UNIT))
+                self.refresh_y_unit(self.wrapper_temp.get_preference(ScaleEnum.Y_UNIT))
         elif name == 'model.palette':
             self.img.setLookupTable(value.palette)
         elif name == 'model.lower_bound' or name == 'model.upper_bound':
             self.img.setImage(value.get_2d_chromatogram_data().clip(value.lower_bound, value.upper_bound),
                               lut=value.palette)
+        elif name == ScaleEnum.X_UNIT.name:
+            self.refresh_x_unit(value)
+        elif name == ScaleEnum.Y_UNIT.name:
+            self.refresh_y_unit(value)
+        elif name == ScaleEnum.X_PERIOD.name:
+            self.refresh_x_period(value)
+        elif name == ScaleEnum.Y_PERIOD.name:
+            self.refresh_y_period(value)

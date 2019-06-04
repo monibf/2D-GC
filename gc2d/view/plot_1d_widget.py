@@ -3,6 +3,7 @@ from pyqtgraph import PlotWidget
 
 from gc2d.controller.listener.plot_1d_listener import Plot1DListener
 from gc2d.model.preferences import ScaleEnum
+from gc2d.model.time_unit import TimeUnit
 
 
 class Plot1DWidget(PlotWidget):
@@ -33,6 +34,24 @@ class Plot1DWidget(PlotWidget):
         if model_wrapper.model is not None: 
             self.notify('model', model_wrapper.model)
 
+    def refresh_x_period(self, x_period):
+        if x_period== 0:
+            self.getPlotItem().getAxis('bottom').setScale(1)
+        else:
+            self.getPlotItem().getAxis('bottom').setScale(x_period / self.model_wrapper.model.get_width())
+
+    def refresh_x_unit(self, x_unit):
+        if x_unit is TimeUnit.NONE:
+            self.getPlotItem().getAxis('bottom').setLabel(units="")
+        else:
+            self.getPlotItem().getAxis('bottom').setLabel(units=x_unit.name.lower())
+
+    def refresh_y_unit(self, y_unit):
+        if y_unit is None:
+            self.getPlotItem().getAxis('left').setLabel(units="")
+        else:
+            self.getPlotItem().getAxis('left').setLabel(units=y_unit)
+
     def notify(self, name, value):
         """
         Updates the image rendered to match the model.
@@ -49,9 +68,12 @@ class Plot1DWidget(PlotWidget):
                 # Draw the 2D chromatogram data as a 1D plot. This reversal of GCxGC is simply the integration over each
                 # Column. Thanks to the nature of GC data, this is simply the sum of each column.
                 self.curve.setData(np.sum(a=value.get_2d_chromatogram_data(), axis=1))
-                self.getPlotItem().getAxis('bottom')\
-                    .setScale(self.model_wrapper.get_preference(ScaleEnum.X_PERIOD)/value.get_width())
-                self.getPlotItem().getAxis('bottom')\
-                    .setLabel(units=self.model_wrapper.get_preference(ScaleEnum.X_UNIT).name.lower())
-                self.getPlotItem().getAxis('left')\
-                    .setLabel(units=self.model_wrapper.get_preference(ScaleEnum.Y_UNIT_1D).lower())
+                self.refresh_x_period(self.model_wrapper.get_preference(ScaleEnum.X_PERIOD))
+                self.refresh_x_unit(self.model_wrapper.get_preference(ScaleEnum.X_UNIT))
+                self.refresh_y_unit(self.model_wrapper.get_preference(ScaleEnum.Y_UNIT_1D))
+        elif name == ScaleEnum.X_UNIT.name:
+            self.refresh_x_unit(value)
+        elif name == ScaleEnum.Y_UNIT_1D.name:
+            self.refresh_y_unit(value)
+        elif name == ScaleEnum.X_PERIOD.name:
+            self.refresh_x_period(value)
