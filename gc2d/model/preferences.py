@@ -18,6 +18,7 @@ class PenEnum(Enum):
 class ScaleEnum(Enum):
     X_UNIT = auto()
     Y_UNIT = auto()
+    Y_UNIT_1D = auto()
     X_PERIOD = auto()
     Y_PERIOD = auto()
 
@@ -35,6 +36,7 @@ class Preferences:
 
         self.x_unit = TimeUnit.MINUTES
         self.y_unit = TimeUnit.SECONDS
+        self.y_unit_1d = 'ppm'
         self.x_period = 75
         self.y_period = 6
 
@@ -43,6 +45,7 @@ class Preferences:
             PreferenceEnum.PEN : self.get_pen,
             ScaleEnum.X_UNIT: self.get_x_unit,
             ScaleEnum.Y_UNIT: self.get_y_unit,
+            ScaleEnum.Y_UNIT_1D: self.get_y_unit_1d,
             ScaleEnum.X_PERIOD: self.get_x_period,
             ScaleEnum.Y_PERIOD: self.get_y_period
         }
@@ -51,6 +54,7 @@ class Preferences:
             PreferenceEnum.PEN : self.set_pen,
             ScaleEnum.X_UNIT: self.set_x_unit,
             ScaleEnum.Y_UNIT: self.set_y_unit,
+            ScaleEnum.Y_UNIT_1D: self.set_y_unit_1d,
             ScaleEnum.X_PERIOD: self.set_x_period,
             ScaleEnum.Y_PERIOD: self.set_y_period
         }
@@ -135,6 +139,20 @@ class Preferences:
         :return: None
         """
         self.set_y_unit(unit)
+
+    def get_y_unit_1d(self):
+        """
+        :return: the unit of the y axis in 1d
+        """
+        return self.y_unit_1d
+
+    def set_y_unit_1d(self, unit):
+        """
+        Sets the unit of the y axis in 1d
+        :param unit: The unit the should be y axis
+        :return: None
+        """
+        self.set_y_unit_1d(unit)
 
     def get_x_period(self):
         """

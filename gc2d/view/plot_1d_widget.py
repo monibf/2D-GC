@@ -2,6 +2,7 @@ import numpy as np
 from pyqtgraph import PlotWidget
 
 from gc2d.controller.listener.plot_1d_listener import Plot1DListener
+from gc2d.model.preferences import ScaleEnum
 
 
 class Plot1DWidget(PlotWidget):
@@ -19,9 +20,11 @@ class Plot1DWidget(PlotWidget):
         """ The listener for the 1D plot """
         self.curve = self.plot(pen='y')
         """ The curve drawn on the 1D plot """
+        self.model_wrapper = model_wrapper
 
         # Disable right click context menu.
         self.getPlotItem().setMenuEnabled(False)
+        self.getPlotItem().getAxis('bottom').enableAutoSIPrefix(False)
 
         # Register this widget as an observer of the model_wrapper.
         model_wrapper.add_observer(self, self.notify)
@@ -46,3 +49,9 @@ class Plot1DWidget(PlotWidget):
                 # Draw the 2D chromatogram data as a 1D plot. This reversal of GCxGC is simply the integration over each
                 # Column. Thanks to the nature of GC data, this is simply the sum of each column.
                 self.curve.setData(np.sum(a=value.get_2d_chromatogram_data(), axis=1))
+                self.getPlotItem().getAxis('bottom')\
+                    .setScale(self.model_wrapper.get_preference(ScaleEnum.X_PERIOD)/value.get_width())
+                self.getPlotItem().getAxis('bottom')\
+                    .setLabel(units=self.model_wrapper.get_preference(ScaleEnum.X_UNIT).name.lower())
+                self.getPlotItem().getAxis('left')\
+                    .setLabel(units=self.model_wrapper.get_preference(ScaleEnum.Y_UNIT_1D).lower())
