@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioBu
 import os.path
 import csv
 import numpy
+import sys
 
 from gc2d.view.palette.palette import Palette
 
@@ -195,11 +196,16 @@ class _ParamCSV:
         if path == "" or not isinstance(path, str):
             return
         matrix = []
-        with open(path, "r") as csvfile:
-            reader = csv.reader(csvfile)
-            for row in reader:
-                matrix.append([*map(float, row)])
-        self.matrix = numpy.array(matrix, dtype=numpy.double)
+        try:
+            with open(path, "r") as csvfile:
+                reader = csv.reader(csvfile)
+                for row in reader:
+                    matrix.append(list(map(float, row)))
+            npmatrix = numpy.array(matrix, dtype=numpy.double)
+        except Exception as e:
+            print(e, file=sys.stderr)
+            return
+        self.matrix = npmatrix
         self.fnamebox.setText(os.path.basename(path))
         self.path = path
     
