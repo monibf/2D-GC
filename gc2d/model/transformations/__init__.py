@@ -9,8 +9,6 @@ from .min1d import Min1D
 import numpy
 
 
-
-
 def transform_from_json(json_dict):
     if "Type" not in json_dict:
         return None
