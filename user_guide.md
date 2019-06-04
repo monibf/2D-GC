@@ -143,6 +143,11 @@ By default the GCGC program has it's 3 view docks in the same location within th
 #### Editing user interface
 The relative position of the 1D view, 2D view, 3D view and the integration list can be changed within the main view if the user so desires. The view docks can be moved by clickking the blue-bar named either 1D, 2D or 3D and drag and dropping it somewhere within the main window which will move the view to this position. Similarly the intregation list can be moved by dragging and dropping the vertical bar name 'integration'. Each individual element can also be taken outside the main window to create a seperate window on it's own by double clicking it's corresponding blue bar, whenever this specific window is then closed it's element is moved back into the main window.
 
+#### Navigating 1D and 2D view
+Within the view the user can use drag and drop commands using the left mouse button to navigate through the view. In order to uniformly scale the plot, the user can use scroll commands while the cursor is inside the plot. Additionally the user can nonuniformly scale the graph by using scroll commmands while the cursor is outside the plot. In case the cursor is placed left of the y-axis, the y-axis is scaled and similarly in cas the cursor is placed under the x-axis, the x-axis is scaled.
+
+#### Navigating 3D view
+In the 3D the user can use drag and drop command using the left mouse button to pan around a certain point. The point which is panned around can be changed using drag and drop command using the middle mouse button. Additionally the user can use scroll command in order to zoom in the 3D view.
 
 ### File menu
 The file menu allows for the opening and saving of files, saving preferences and quitting the program. It can be opened by clicking 'file' in the menu bar in the top-left corner.
@@ -172,7 +177,7 @@ Using the 'export 2D plot' option in the file menu, the user can save the curren
 Using the 'export 3D plot' option in the file menu, the user can save the current 3D view as a .png file
 
 #### Quitting GCGC
-Using the 'quit' option (CTRL + Q) in the file menu, the user can terminate the program
+Using the 'quit' option (CTRL + Q) in the file menu, the user can terminate the program, this action can also be called by clicking the cross in the right-top corner of the main window.
 
 
 ### Setting transformations
@@ -190,7 +195,7 @@ The dynamic cut off transformation of the data transforms the data such that ove
 The Gaussian convolution is a transformation of the data based on the process of Gaussian smoothing for which a sigma can be selected.
 
 ### Min 1D convolution
-
+The Min 1D convolution is a transformation of the data based on minimum z-values taken across an entire axis
 
 ### Setting color pallet
 Using the 'choose pallet' option in the tooblar or in the view menu (CTRL + SHIFT + C), the user can switch collor pallet which shades the 2D and 3D graphs. By default the GCGC program comes with 3 premade collor pallets to choose from: jet, red-green-blue and viridis. The pallet picker also allows the user to select a an upper and lower bound to the pallet, enabling the user to set the point from which z-value a peak is assigned the minimum or maximum color. The pallet picker als enables the user the import a custom made color pallet from a .pallette file. Imported palettes are saved into
