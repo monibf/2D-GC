@@ -60,7 +60,7 @@ class Preferences:
             ScaleEnum.Y_UNIT: self.get_y_unit,
             ScaleEnum.Y_UNIT_1D: self.get_y_unit_1d,
             ScaleEnum.X_PERIOD: self.get_x_period,
-            ScaleEnum.Y_PERIOD: self.get_y_period
+            ScaleEnum.Y_PERIOD: self.get_y_period,
             PreferenceEnum.PALETTE : self.get_palette
         }
         self.setter_map = {
@@ -70,7 +70,7 @@ class Preferences:
             ScaleEnum.Y_UNIT: self.set_y_unit,
             ScaleEnum.Y_UNIT_1D: self.set_y_unit_1d,
             ScaleEnum.X_PERIOD: self.set_x_period,
-            ScaleEnum.Y_PERIOD: self.set_y_period
+            ScaleEnum.Y_PERIOD: self.set_y_period,
             PreferenceEnum.TRANSFORM : self.set_transform,
             PreferenceEnum.PALETTE : self.set_palette,
             PreferenceEnum.LOWER_BOUND : self.set_lower_bound,
