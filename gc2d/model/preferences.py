@@ -1,20 +1,26 @@
 from PyQt5.Qt import QColor, QPen
 from enum import Enum, auto
 
+from gc2d.model.time_unit import TimeUnit
+
+
 class PreferenceEnum(Enum):
     SAVE_FILE = auto()
     PEN = auto()
+
 
 class PenEnum(Enum):
     COLOR = auto()
     WIDTH = auto()
     STYLE = auto()
 
+
 class ScaleEnum(Enum):
     X_UNIT = auto()
     Y_UNIT = auto()
     X_PERIOD = auto()
     Y_PERIOD = auto()
+
 
 class Preferences:
 
@@ -26,14 +32,27 @@ class Preferences:
         """
         self.save_file = None
         self.pen = {}
-        self.x_unit = None
+
+        self.x_unit = TimeUnit.MINUTES
+        self.y_unit = TimeUnit.SECONDS
+        self.x_period = 75
+        self.y_period = 6
+
         self.getter_map = {
             PreferenceEnum.SAVE_FILE : self.get_save_file,
-            PreferenceEnum.PEN : self.get_pen
+            PreferenceEnum.PEN : self.get_pen,
+            ScaleEnum.X_UNIT: self.get_x_unit,
+            ScaleEnum.Y_UNIT: self.get_y_unit,
+            ScaleEnum.X_PERIOD: self.get_x_period,
+            ScaleEnum.Y_PERIOD: self.get_y_period
         }
         self.setter_map = {
             PreferenceEnum.SAVE_FILE : self.set_save_file,
-            PreferenceEnum.PEN : self.set_pen
+            PreferenceEnum.PEN : self.set_pen,
+            ScaleEnum.X_UNIT: self.set_x_unit,
+            ScaleEnum.Y_UNIT: self.set_y_unit,
+            ScaleEnum.X_PERIOD: self.set_x_period,
+            ScaleEnum.Y_PERIOD: self.set_y_period
         }
         self.set_defaults()
 
@@ -89,4 +108,58 @@ class Preferences:
         for key in pen_dict:
             self.pen[key] = pen_dict[key]
 
-        
+    def get_x_unit(self):
+        """
+        :return: the unit of the x axis
+        """
+        return self.x_unit
+
+    def set_x_unit(self, unit):
+        """
+        Sets the unit of the x axis
+        :param unit: The unit the should be x axis
+        :return: None
+        """
+        self.x_unit = unit
+
+    def get_y_unit(self):
+        """
+        :return: the unit of the y axis
+        """
+        return self.y_unit
+
+    def set_y_unit(self, unit):
+        """
+        Sets the unit of the y axis
+        :param unit: The unit the should be y axis
+        :return: None
+        """
+        self.set_y_unit(unit)
+
+    def get_x_period(self):
+        """
+        :return: the period of the x axis
+        """
+        return self.x_period
+
+    def set_x_period(self, period):
+        """
+        Sets the period of the x axis
+        :param period: The period the should be x axis
+        :return: None
+        """
+        self.x_period = period
+
+    def get_y_period(self):
+        """
+        :return: the period of the y axis
+        """
+        return self.y_period
+
+    def set_y_period(self, period):
+        """
+        Sets the period of the y axis
+        :param period: The period the should be y axis
+        :return: None
+        """
+        self.y_period = period
