@@ -55,28 +55,35 @@ class OpenFileAction(QAction):
                 self.postload_prefs(loaded["preferences"])
 
     def preload_prefs(self, preference_dict):
+        if "PEN" not in preference_dict:
+            return
         pen_dict = {}
         for property_type, value in preference_dict["PEN"].items():
             pen_dict[PenEnum[property_type]] = value
         self.model_wrapper.set_preference(PreferenceEnum.PEN, pen_dict)
                 
     def postload_prefs(self, preference_json):
-        self.load_transform(preference_json["TRANSFORM"])
-        self.model_wrapper.set_palette(Palette(preference_json["PALETTE"]["Name"], preference_json["PALETTE"]["Colors"]))
-        self.model_wrapper.set_lower_bound(preference_json["LOWER_BOUND"])
-        self.model_wrapper.set_upper_bound(preference_json["UPPER_BOUND"])
+        if "TRANSFORM" in preference_json:
+            self.load_transform(preference_json["TRANSFORM"])
+        if "PALETTE" in preference_json:
+            self.model_wrapper.set_palette(Palette(preference_json["PALETTE"]["Name"], preference_json["PALETTE"]["Colors"]))
+        if "LOWER_BOUND" in preference_json:
+            self.model_wrapper.set_lower_bound(preference_json["LOWER_BOUND"])
+        if "UPPER_BOUND" in preference_json:
+            self.model_wrapper.set_upper_bound(preference_json["UPPER_BOUND"])
 
     def load_transform(self, transform_dict):
+        if "Type" not in transform_dict:
+            return
         type = transform_dict["Type"]
-        if type == "NONE":
+        if type == "NONE" or "Data" not in transform_dict:
             self.model_wrapper.set_transform(Transform())
         elif type == "STATIC":
             self.model_wrapper.set_transform(StaticCutoff(transform_dict["Data"]))
-        elif type == "DYNAMIC":
-            self.model_wrapper.set_transform(DynamicCutoff(transform_dict["Data"], CutoffMode[transform_dict["Mode"]]))
         elif type == "GAUSSIAN":
             self.model_wrapper.set_transform(Gaussian(transform_dict["Data"]))
         elif type == "MIN1D":
             self.model_wrapper.set_transform(Min1D(transform_dict["Data"]))
-
+        elif type == "DYNAMIC" and "Mode" in transform_dict:
+            self.model_wrapper.set_transform(DynamicCutoff(transform_dict["Data"], CutoffMode[transform_dict["Mode"]]))
         
