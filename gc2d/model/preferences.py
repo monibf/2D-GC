@@ -10,6 +10,12 @@ class PenEnum(Enum):
     WIDTH = auto()
     STYLE = auto()
 
+class ScaleEnum(Enum):
+    X_UNIT = auto()
+    Y_UNIT = auto()
+    X_PERIOD = auto()
+    Y_PERIOD = auto()
+
 class Preferences:
 
     def __init__(self):
@@ -20,6 +26,7 @@ class Preferences:
         """
         self.save_file = None
         self.pen = {}
+        self.x_unit = None
         self.getter_map = {
             PreferenceEnum.SAVE_FILE : self.get_save_file,
             PreferenceEnum.PEN : self.get_pen

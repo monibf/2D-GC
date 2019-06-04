@@ -48,3 +48,9 @@ class Model:
 
     def toggle_convolved(self, b):
         self.show_convolved = b
+
+    def get_width(self):
+        return self.get_2d_chromatogram_data().shape()[0]
+
+    def get_height(self):
+        return self.get_2d_chromatogram_data().shape()[1]
