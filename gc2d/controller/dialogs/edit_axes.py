@@ -33,7 +33,6 @@ class EditAxes(QDialog):
         # vertical layout as central panel.
         vlayout = QVBoxLayout()
         self.setLayout(vlayout)
-        self.setFixedSize(300, 400)
 
         options = QWidget()
         opts_layout = QVBoxLayout()
