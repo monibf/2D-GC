@@ -4,7 +4,7 @@ import numpy as np
 import json
 
 
-from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D
+from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D, Convolution
 from gc2d.model.transformations.dynamiccutoff import CutoffMode
 from gc2d.controller.integration.selector import Selector
 from gc2d.model.preferences import PreferenceEnum, PenEnum
@@ -86,4 +86,6 @@ class OpenFileAction(QAction):
             self.model_wrapper.set_transform(Min1D(transform_dict["Data"]))
         elif type == "DYNAMIC" and "Mode" in transform_dict:
             self.model_wrapper.set_transform(DynamicCutoff(transform_dict["Data"], CutoffMode[transform_dict["Mode"]]))
+        elif type == "CUSTOM":
+            self.model_wrapper.set_transform(Convolution(np.array(transform_dict["Data"])))
         

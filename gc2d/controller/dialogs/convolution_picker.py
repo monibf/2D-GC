@@ -1,9 +1,14 @@
 from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QLabel, QDoubleSpinBox, \
-    QPushButton, QComboBox, QSpinBox, QTextEdit
+    QPushButton, QComboBox, QFileDialog, QSpinBox, QTextEdit
+
+import os.path
+import csv
+import numpy
+import sys
 
 from gc2d.view.palette.palette import Palette
 
-from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D
+from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D, Convolution
 from gc2d.model.transformations.dynamiccutoff import CutoffMode
 
 class ConvolutionPicker(QDialog):
@@ -67,7 +72,13 @@ class ConvolutionPicker(QDialog):
                                practically the same within each slice, the second dimension is not taken into account.
                                """,
                                [_ParamInt("Number of accounted slices: ")])
-
+        
+        self.add_button(
+            Convolution,
+            "Custom Convolution",
+            "Convolutes the data with a custom convolution kernel that is loaded from a CSV file",
+            [_ParamCSV("kernel file: ", "CSV Files (*.csv);;All Files(*)", "open kernel", "open convolution kernel CSV")]
+        )
 
         cancel_select = QWidget()
         vlayout.addWidget(cancel_select)
@@ -190,4 +201,42 @@ class _ParamOption:
     def get_value(self):
         return self.text_to_value[self.selector.currentText()]
 
+class _ParamCSV:
+    
+    def __init__(self, label, extension, buttontext, filedialogtext):
+        self.label = label
+        self.extension = extension
+        self.filedialogtext = filedialogtext
+        self.extionsion = extension
+        self.selector = QWidget()
+        layout = QHBoxLayout()
+        self.selector.setLayout(layout)
+        self.fnamebox = QLabel("")
+        layout.addWidget(self.fnamebox)
+        fileopenbutton = QPushButton(buttontext)
+        fileopenbutton.clicked.connect(self.pick_file)
+        layout.addWidget(fileopenbutton)
+        self.path = None
+        self.matrix = None
+    
+    def pick_file(self):
+        path, _ = QFileDialog.getOpenFileName(None, self.filedialogtext, "", self.extension)
+        if path == "" or not isinstance(path, str):
+            return
+        matrix = []
+        try:
+            with open(path, "r") as csvfile:
+                reader = csv.reader(csvfile)
+                for row in reader:
+                    matrix.append(list(map(float, row)))
+            npmatrix = numpy.array(matrix, dtype=numpy.double)
+        except Exception as e:
+            print(e, file=sys.stderr)
+            return
+        self.matrix = npmatrix
+        self.fnamebox.setText(os.path.basename(path))
+        self.path = path
+    
+    def get_value(self):
+        return self.matrix
 
