@@ -4,6 +4,7 @@ from pyqtgraph.dockarea import Dock, DockArea
 from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
 from gc2d.controller.action.import_data_action import ImportDataAction
+from gc2d.controller.action.open_edit_axes_action import OpenEditAxesAction
 from gc2d.controller.action.open_file_action import OpenFileAction
 from gc2d.controller.action.save_action import SaveAction
 from gc2d.controller.action.save_integrations_action import SaveIntegrationsAction
@@ -47,6 +48,7 @@ class Window(QMainWindow):
         self.import_data_action = ImportDataAction(self, self.model_wrapper)
         self.exit_action = ExitAction(self)
         self.draw_action = DrawAction(self, self.model_wrapper)
+        self.open_edit_axes_action = OpenEditAxesAction(self, self.model_wrapper)
         self.open_palette_chooser_action = OpenChoosePaletteAction(self, self.model_wrapper)
         self.open_convolution_picker_action = OpenConvolutionPickerAction(self, self.model_wrapper)
         self.toggle_convolution_action = ToggleConvolutionAction(self, self.model_wrapper)
@@ -87,9 +89,9 @@ class Window(QMainWindow):
 
         edit_menu = main_menu.addMenu('Edit')
         edit_menu.addAction(self.draw_action)
+        edit_menu.addAction(self.open_edit_axes_action)
 
         view_menu = main_menu.addMenu('View')
-
         view_menu.addAction(self.open_palette_chooser_action)
         view_menu.addAction(self.toggle_convolution_action)
 

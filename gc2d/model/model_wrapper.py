@@ -1,6 +1,6 @@
 import numpy as np
 
-from gc2d.model.preferences import Preferences, PreferenceEnum
+from gc2d.model.preferences import Preferences
 from gc2d.model.integration import Integration
 from gc2d.model.model import Model
 from gc2d.observable import Observable
@@ -83,14 +83,13 @@ class ModelWrapper(Observable):
         Sets the model to None, effectively closing the chromatogram without closing the program.
         :return: None
         """
-        if (self.model is not None):
+        if self.model is not None:
             self.model = None
             self.notify('model', self.model)  # Notify all observers
             keys = [key for key in self.integrations]
             for key in keys:
                 self.clear_integration(key)
             self.integrate_id = 0
-            
 
     def set_transform(self, transform):
         """
@@ -117,8 +116,8 @@ class ModelWrapper(Observable):
         """
         Appends a new integration data object to the self.integrations, with generated label
         Notifies the view that integration values have changed
-        :param mask: a selection mask of the chromatogram
         :param selector: Selector object, drawing a region of interest in a plot2d
+        :param key: TODO What is this?
         :return index: the index of this integration, to be used as identifier
         """
         self.integrations[key] = Integration(key, selector)
@@ -193,4 +192,4 @@ class ModelWrapper(Observable):
         :return: None
         """
         self.preferences.set(which, value)
-        
+        self.notify(which.name, value)
