@@ -34,8 +34,9 @@ class Preferences:
         self.save_file = None
         self.pen = {}
 
-        self.x_unit = TimeUnit.MINUTES
-        self.y_unit = TimeUnit.SECONDS
+        self.x_unit = None
+        self.y_unit = None
+
         self.y_unit_1d = 'ppm'
         self.x_period = 0
         self.y_period = 0
