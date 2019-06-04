@@ -50,19 +50,25 @@ class Plot3DWidget(GLViewWidget):
         if name == 'integrationUpdate' and value.show is True:
                 self.set_highlight(value)
 
+        if name == "newIntegration":
+            highlight = gl.GLSurfacePlotItem(computeNormals=False)
+            self.addItem(highlight)
+            highlight.setShader(PaletteShader(self.lower_bound + self.offset, self.upper_bound +self.offset, palette.jet))
+            highlight.scale(1, 1, 0.00001)
+            self.integrations[value.id] = highlight
+            
+            
         if name == "showIntegration":
             if value.show is True:
-                highlight = gl.GLSurfacePlotItem(computeNormals=False)
-                self.addItem(highlight)
-                highlight.setShader(PaletteShader(self.lower_bound + self.offset, self.upper_bound +self.offset, palette.jet))
-                self.integrations[value.id] = highlight
                 self.set_highlight(value)
-                self.integrations[value.id].scale(1, 1, 0.00001)
+                self.integrations[value.id].setVisible(True)
             else:
-                self.removeItem(self.integrations[value.id]) 
+                self.integrations[value.id].setVisible(False)
+                
 
-        if name == "removeIntegration" and value.id in self.integrations:
-            self.removeItem(self.integrations[value.id])            
+        if name == "removeIntegration":
+            self.removeItem(self.integrations[value.id])
+            self.integrations.pop(value.id)         
                     
         if name in {'model', 'model.viewTransformed'}:
             if value is None or value.get_2d_chromatogram_data() is None:

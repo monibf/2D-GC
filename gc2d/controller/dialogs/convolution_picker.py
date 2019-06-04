@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QLabel, QDoubleSpinBox, \
-    QPushButton, QComboBox
+    QPushButton, QComboBox, QSpinBox
 
 from gc2d.view.palette.palette import Palette
 
@@ -55,7 +55,7 @@ class ConvolutionPicker(QDialog):
         # Gaussian Convolution
         self.add_button(Gaussian, "Gaussian Convolution", [_ParamDouble("Sigma: ")])
 
-        self.add_button(Min1D, "Min 1D Convolution", [_ParamDouble("Size: ")])
+        self.add_button(Min1D, "Min 1D Convolution", [_ParamInt("Size: ")])
 
         cancel_select = QWidget()
         vlayout.addWidget(cancel_select)
@@ -65,9 +65,13 @@ class ConvolutionPicker(QDialog):
         cancel_button = QPushButton('Cancel')
         cancel_button.clicked.connect(self.close)
         cancel_select_layout.addWidget(cancel_button)
+        
+        select_button = QPushButton('Apply')
+        select_button.clicked.connect(self.select)
+        cancel_select_layout.addWidget(select_button)
 
         select_button = QPushButton('Confirm')
-        select_button.clicked.connect(self.select)
+        select_button.clicked.connect(self.select_and_close)
         cancel_select_layout.addWidget(select_button)
     
     def add_button(self, transform_type, label, parameters, checked=False):
@@ -103,13 +107,16 @@ class ConvolutionPicker(QDialog):
         for button in self.buttons:
             button.param_area.setVisible(button.radio_button.isChecked())
         
+        
     def select(self):
         for button in self.buttons:
             if button.radio_button.isChecked():
                 parameters = [param.get_value() for param in button.parameters]
                 transform = button.transform_type(*parameters)
                 self.on_select(transform)
-                
+    
+    def select_and_close(self):
+        self.select()
         self.close()
 
 
@@ -133,6 +140,17 @@ class _ParamDouble:
     def __init__(self, label, minimum=0, maximum=float('inf')):
         self.label = label
         self.selector = QDoubleSpinBox()
+        self.selector.setMinimum(minimum)
+        self.selector.setMaximum(maximum)
+    
+    def get_value(self):
+        return self.selector.value()
+
+class _ParamInt:
+    
+    def __init__(self, label, minimum=0, maximum=(2**31-1)):
+        self.label = label
+        self.selector = QSpinBox()
         self.selector.setMinimum(minimum)
         self.selector.setMaximum(maximum)
     
