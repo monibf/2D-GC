@@ -192,15 +192,16 @@ class _ParamCSV:
     
     def pick_file(self):
         path, _ = QFileDialog.getOpenFileName(None, self.filedialogtext, "", self.extension)
-        fname = os.path.basename(path)
-        self.fnamebox.setText(fname)
-        self.path = path
+        if path == "" or not isinstance(path, str):
+            return
         matrix = []
         with open(path, "r") as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
                 matrix.append([*map(float, row)])
         self.matrix = numpy.array(matrix, dtype=numpy.double)
+        self.fnamebox.setText(os.path.basename(path))
+        self.path = path
     
     def get_value(self):
         return self.matrix
