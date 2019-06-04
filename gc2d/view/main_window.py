@@ -161,5 +161,5 @@ class Window(QMainWindow):
         self.dialogs.append(dialog)
 
     def notify(self, name, value):
-        if name == PreferenceEnum.SAVE_FILE.name:
+        if name == PreferenceEnum.SAVE_FILE.name and value is not None:
             self.setWindowTitle(os.path.basename(value).split(".")[0])
