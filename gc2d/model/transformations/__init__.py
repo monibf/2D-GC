@@ -1,5 +1,5 @@
 
-from .transform import Transform
+from .transform import Transform, TransformEnum
 from .gaussian import Gaussian
 from .convolution import Convolution
 from .staticcutoff import StaticCutoff
