@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QHBoxLayout, QLabel, QListWidget, QListWidgetItem, Q
     QFileDialog, QSizePolicy, QDialog, QSpinBox
 
 import gc2d.main as main
+from gc2d.model.preferences import PreferenceEnum
 from gc2d.view.palette.palette import palettes, load_custom_palettes
 
 
@@ -120,7 +121,7 @@ class PaletteChooser(QDialog):
             widg.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.MinimumExpanding)
 
             item.setSizeHint(widg.sizeHint())
-            if self.modelwrapper.get_palette() is palt:
+            if self.modelwrapper.get_preference(PreferenceEnum.PALETTE) is palt:
                 self.list.setCurrentRow(i)
 
     def import_palette(self):
@@ -133,7 +134,8 @@ class PaletteChooser(QDialog):
         self.gen_palette_list()
 
         for file in loaded:
-            if not path.samefile(file, path.join(main.CUSTOM_PALETTE_PATH, path.basename(file))):
+            if not path.exists(path.join(main.CUSTOM_PALETTE_PATH, path.basename(file))) \
+                    or not path.samefile(file, path.join(main.CUSTOM_PALETTE_PATH, path.basename(file))):
                 copy(file, main.CUSTOM_PALETTE_PATH)
         self.close()
 

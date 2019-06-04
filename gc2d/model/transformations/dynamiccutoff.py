@@ -1,7 +1,7 @@
 
 import numpy as np
 
-from .transform import Transform
+from .transform import Transform, TransformEnum
 
 from enum import Enum
 
@@ -29,3 +29,5 @@ class DynamicCutoff:
             raise ValueError("unknown cut-off mode '{}'".format(mode))
         return np.clip((data.transpose() - cutoffs).transpose(), 0, None)
         
+    def to_json(self):
+        return {"Type" : TransformEnum.DYNAMIC.name, "Mode" : self.mode.name, "Data" : self.quantile * 100}
