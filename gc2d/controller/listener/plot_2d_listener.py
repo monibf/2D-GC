@@ -28,9 +28,7 @@ class Plot2DListener(WidgetListener):
         else:
             z_value = "no data"
 
-        self.statusbar.showMessage("x, y, z: " + str(mouse_x) +
-                                   ", " + str(mouse_y) +
-                                   ", " + str(z_value))
+        self.statusbar.showMessage("x: %s, y: %s, z: %s" % (str(mouse_x), str(mouse_y), str(z_value)))
 
         # Do the default stuff.
         super().mouse_move_event(event)

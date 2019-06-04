@@ -7,7 +7,8 @@ import json
 from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D, Convolution
 from gc2d.model.transformations.dynamiccutoff import CutoffMode
 from gc2d.controller.integration.selector import Selector
-from gc2d.model.preferences import PreferenceEnum, PenEnum
+from gc2d.model.time_unit import TimeUnit
+from gc2d.model.preferences import PreferenceEnum, PenEnum, ScaleEnum
 from gc2d.view.palette.palette import Palette
 
 class OpenFileAction(QAction):
@@ -71,6 +72,10 @@ class OpenFileAction(QAction):
             self.model_wrapper.set_lower_bound(preference_json["LOWER_BOUND"])
         if "UPPER_BOUND" in preference_json:
             self.model_wrapper.set_upper_bound(preference_json["UPPER_BOUND"])
+        if "AXES" in preference_json:
+            self.load_axes(preference_json["AXES"])
+            
+
 
     def load_transform(self, transform_dict):
         if "Type" not in transform_dict:
@@ -89,3 +94,9 @@ class OpenFileAction(QAction):
         elif type == "CUSTOM":
             self.model_wrapper.set_transform(Convolution(np.array(transform_dict["Data"])))
         
+    def load_axes(self, axes_dict):
+        for name in axes_dict:
+            if name in {"X_UNIT", "Y_UNIT"}:
+                self.model_wrapper.set_preference(ScaleEnum[name], TimeUnit[axes_dict[name]])
+            else:
+                self.model_wrapper.set_preference(ScaleEnum[name], axes_dict[name])

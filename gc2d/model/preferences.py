@@ -48,7 +48,7 @@ class Preferences:
         self.y_period = 0
         
         self.transform = Transform()
-        self.palette = {"Colors" :palette.viridis.getColors().tolist(), "Name": "viridis"}
+        self.palette = palette.viridis
         # bounds are written when a model is loaded
         self.lower_bound = None
         self.upper_bound = None
@@ -86,13 +86,16 @@ class Preferences:
     
     def get_state(self):
         """ return a json serializable preferences state """
-        return {
-            "PEN": {enum.name: self.pen[enum] for enum in PenEnum},
-            "TRANSFORM" : self.transform.to_json(),
-            "PALETTE" :  {"Colors" : self.palette.getColors().tolist(), "Name": self.palette.name},
-            "UPPER_BOUND" : self.upper_bound,
-            "LOWER_BOUND" : self.lower_bound
-        }
+        state = {}
+        state["PEN"] = {enum.name: self.pen[enum] for enum in PenEnum}
+        state["TRANSFORM"] = self.transform.to_json()
+        state["PALETTE"] = {"Colors" : self.palette.getColors().tolist(), "Name": self.palette.name}
+        state["AXES"] = {enum.name : self.get(enum) for enum in ScaleEnum if enum not in {ScaleEnum.X_UNIT, ScaleEnum.Y_UNIT}}
+        state["AXES"]["X_UNIT"] = self.get_x_unit().name
+        state["AXES"]["Y_UNIT"] = self.get_y_unit().name
+        state["UPPER_BOUND"] = self.upper_bound
+        state["LOWER_BOUND"] = self.lower_bound
+        return state
 
     def get(self, which):
         """
