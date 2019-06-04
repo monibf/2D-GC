@@ -4,7 +4,7 @@ import numpy as np
 import json
 
 
-from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D, Convolution
+from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D, Convolution, TransformEnum
 from gc2d.model.transformations.dynamiccutoff import CutoffMode
 from gc2d.controller.integration.selector import Selector
 from gc2d.model.preferences import PreferenceEnum, PenEnum
@@ -76,16 +76,16 @@ class OpenFileAction(QAction):
         if "Type" not in transform_dict:
             return
         type = transform_dict["Type"]
-        if type == "NONE" or "Data" not in transform_dict:
+        if type == TransformEnum.NONE.name or "Data" not in transform_dict:
             self.model_wrapper.set_transform(Transform())
-        elif type == "STATIC":
+        elif type == TransformEnum.STATIC.name:
             self.model_wrapper.set_transform(StaticCutoff(transform_dict["Data"]))
-        elif type == "GAUSSIAN":
+        elif type == TransformEnum.GAUSSIAN.name:
             self.model_wrapper.set_transform(Gaussian(transform_dict["Data"]))
-        elif type == "MIN1D":
+        elif type == TransformEnum.MIN1D.name:
             self.model_wrapper.set_transform(Min1D(transform_dict["Data"]))
-        elif type == "DYNAMIC" and "Mode" in transform_dict:
+        elif type == TransformEnum.DYNAMIC.name and "Mode" in transform_dict:
             self.model_wrapper.set_transform(DynamicCutoff(transform_dict["Data"], CutoffMode[transform_dict["Mode"]]))
-        elif type == "CUSTOM":
+        elif type == TransformEnum.CUSTOM.name:
             self.model_wrapper.set_transform(Convolution(np.array(transform_dict["Data"])))
         
