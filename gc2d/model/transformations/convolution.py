@@ -1,7 +1,7 @@
 
 from scipy import ndimage
 
-from .transform import Transform
+from .transform import Transform, TransformEnum
 
 class Convolution(Transform):
     
@@ -14,8 +14,8 @@ class Convolution(Transform):
         else:
             return data
     
-    def to_json(self, data):
+    def to_json(self):
         return {
-            "Type": "Convolution", # todo: update from enum once Oane's PR is merged
-            "Matrix": self.matrix.tolist()
+            "Type": TransformEnum.CUSTOM.name,
+            "Data": self.matrix.tolist()
         }
