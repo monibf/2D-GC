@@ -131,6 +131,10 @@ class Window(QMainWindow):
         # TODO
     
     def create_toolbar(self):
+        """
+        Creates the toolbar.
+        :return: None
+        """
         self.toolbar.addAction(ToggleConvolutionAction(self, self.model_wrapper))
         self.toolbar.addAction(OpenConvolutionPickerAction(self, self.model_wrapper))
         self.toolbar.addAction(OpenChoosePaletteAction(self, self.model_wrapper))
@@ -141,10 +145,10 @@ class Window(QMainWindow):
     def create_graph_views(self):
         """
         Creates the window containing the graph views.
-        :return: None. Later it should return a QWidget containing the views.
+        :return: None
         """
         dock_area = DockArea()
-        self.setCentralWidget(dock_area)  # This is temporary
+        self.setCentralWidget(dock_area)
 
         dock_3d = Dock('3D')
         dock_area.addDock(dock_3d)
@@ -170,6 +174,13 @@ class Window(QMainWindow):
         dock_list.addWidget(IntegrationList(self.model_wrapper, dock_list))
 
     def add_dialog(self, dialog):
+        """
+        Adds a dialog to the view. This is so they don't get destroyed by QT's dumb garbage collector.
+        Rather than allowing multiple dialogs to be opened, if a dialog of a specific type is already open it
+        will focus that dialog and forget about the new one.
+        :param dialog: The dialog to add (or focus)
+        :return: None
+        """
         for d in self.dialogs:
             if isinstance(d, type(dialog)):
                 d.show()
@@ -178,12 +189,13 @@ class Window(QMainWindow):
                 d.showNormal()
                 return
 
-        dialog.show()
-        dialog.raise_()
-        dialog.activateWindow()
-        dialog.showNormal()
+        dialog.show()  # Make the dialog visible.
+        dialog.raise_()  # Raise it above all other windows.
+        dialog.activateWindow()  # Give it focus.
+        dialog.showNormal()  # Unminimise it.
         self.dialogs.append(dialog)
 
     def notify(self, name, value):
+        """Called when the model updates. Used to set the window name."""
         if name == PreferenceEnum.SAVE_FILE.name and value is not None:
             self.setWindowTitle(os.path.basename(value).split(".")[0])
