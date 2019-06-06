@@ -5,18 +5,23 @@ from gc2d.view.dialogs.palette_chooser import PaletteChooser
 
 class OpenChoosePaletteAction(QAction):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, parent, model_wrapper, shortcut=None):
         """
         A ChoosePaletteAction is a QAction that will open the choose palette dialog when opened.
         :param parent: the parent widget
         """
         super().__init__('Choose Palette', parent)
         self.model_wrapper = model_wrapper
-        self.setShortcut('Ctrl+Shift+C')
+
         self.setStatusTip('Opens the Choose Palette Dialog')
         self.setEnabled(self.model_wrapper.model is not None)
-        self.model_wrapper.add_observer(self, self.notify)
+
+        if shortcut is not None:
+            self.setShortcut(shortcut)
+
         self.triggered.connect(self.show_dialog)
+
+        self.model_wrapper.add_observer(self, self.notify)
 
     # noinspection PyArgumentList
     def show_dialog(self):

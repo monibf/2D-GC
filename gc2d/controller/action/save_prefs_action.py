@@ -6,7 +6,7 @@ from gc2d.model.preferences import PreferenceEnum
 
 class SavePrefsAction(QAction):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, parent, model_wrapper, shortcut=None):
         """
         A SavePrefsAction is a QAction that when triggered, saves the program preferences.
         It will open a file dialog to ask for a path, and save the preferences in *gcgc files in json format
@@ -16,6 +16,8 @@ class SavePrefsAction(QAction):
         super().__init__('Save preferences', parent)
         self.window = parent
         self.model_wrapper = model_wrapper
+        if shortcut is not None:
+            self.setShortcut(shortcut)
         self.setStatusTip('Save preferences')
         self.triggered.connect(self.save)
 

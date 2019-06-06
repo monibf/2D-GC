@@ -6,7 +6,7 @@ from gc2d.controller.integration.selector import Selector
 
 class ImportDataAction(QAction):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, parent, model_wrapper, shortcut=None):
         """
         The ImportDataAction is a QAction that when triggered, opens a QFileDialog to select chromatogram data to open. The
         file name is passed to the model_wrapper to load the data into the model.
@@ -16,7 +16,8 @@ class ImportDataAction(QAction):
         super().__init__('Import data', parent)
         self.window = parent
         self.model_wrapper = model_wrapper
-        self.setShortcut('Ctrl+I')
+        if shortcut is not None:
+            self.setShortcut(shortcut)
         self.setStatusTip('Import chromatography data')
         self.triggered.connect(self.show_dialog)
 

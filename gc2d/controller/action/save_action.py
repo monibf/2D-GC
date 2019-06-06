@@ -7,7 +7,7 @@ from gc2d.model.preferences import PreferenceEnum
 
 class SaveAction(QAction):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, parent, model_wrapper, shortcut=None):
         """
         A SaveAction is a QAction that when triggered, saves the program state in the save_file specified in preferences.
         If no file is specified (as with new imported data, or after Save As), it will open a file dialog to specify this. 
@@ -18,7 +18,8 @@ class SaveAction(QAction):
         super().__init__('Save', parent)
         self.window = parent
         self.model_wrapper = model_wrapper
-        self.setShortcut('Ctrl+S')
+        if shortcut is not None:
+            self.setShortcut(shortcut)
         self.setStatusTip('Save')
         self.triggered.connect(self.save)
 

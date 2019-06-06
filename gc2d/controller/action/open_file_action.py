@@ -11,7 +11,7 @@ from gc2d.model.palette.palette import Palette
 
 class OpenFileAction(QAction):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, parent, model_wrapper, shortcut=None):
         """
         An OpenFileAction is a QAction that when triggered, opens a QFileDialog to select a gcgc file to open. The
         The opening of the model is interpreted in this class.
@@ -21,7 +21,8 @@ class OpenFileAction(QAction):
         super().__init__('Open', parent)
         self.window = parent
         self.model_wrapper = model_wrapper
-        self.setShortcut('Ctrl+O')
+        if shortcut is not None:
+            self.setShortcut(shortcut)
         self.setStatusTip('Open GCxGC file')
         self.triggered.connect(self.parse_file)
 

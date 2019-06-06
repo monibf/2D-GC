@@ -55,8 +55,8 @@ class Window(QMainWindow):
         self.plot_2d = None
         self.plot_3d = None
 
-        self.save_action = SaveAction(self, self.model_wrapper)
-        self.save_as_action = SaveAsAction(self, self.model_wrapper, self.save_action)
+        self.save_action = SaveAction(self, self.model_wrapper, 'Ctrl+S')
+        self.save_as_action = SaveAsAction(self, self.model_wrapper, self.save_action, 'Ctrl+Shift+S')
 
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
@@ -75,30 +75,30 @@ class Window(QMainWindow):
 
         # action objects need to be members because otherwise they get garbage collected
         file_menu = main_menu.addMenu('File')
-        file_menu.addAction(OpenFileAction(self, self.model_wrapper))
+        file_menu.addAction(OpenFileAction(self, self.model_wrapper, 'Ctrl+O'))
 
-        file_menu.addAction(ImportDataAction(self, self.model_wrapper))
+        file_menu.addAction(ImportDataAction(self, self.model_wrapper, 'Ctrl+I'))
         file_menu.addAction(self.save_action)
         file_menu.addAction(self.save_as_action)
-        file_menu.addAction(SaveIntegrationsAction(self, self.model_wrapper))
-        file_menu.addAction(SavePrefsAction(self, self.model_wrapper))
+        file_menu.addAction(SaveIntegrationsAction(self, self.model_wrapper, None))
+        file_menu.addAction(SavePrefsAction(self, self.model_wrapper, None))
 
         file_menu.addSeparator()
-        file_menu.addAction(ExportPlot2DAction(self, self.model_wrapper))
-        file_menu.addAction(ExportPlot3DAction(self, self.model_wrapper))
+        file_menu.addAction(ExportPlot2DAction(self, self.model_wrapper, 'Ctrl+R'))
+        file_menu.addAction(ExportPlot3DAction(self, self.model_wrapper, 'Ctrl+T'))
 
-        file_menu.addAction(ExitAction(self))
+        file_menu.addAction(ExitAction(self, 'Ctrl+Q'))
 
         edit_menu = main_menu.addMenu('Edit')
-        edit_menu.addAction(DrawAction(self, self.model_wrapper))
-        edit_menu.addAction(OpenEditAxesAction(self, self.model_wrapper))
+        edit_menu.addAction(DrawAction(self, self.model_wrapper, None))
+        edit_menu.addAction(OpenEditAxesAction(self, self.model_wrapper, None))
 
         view_menu = main_menu.addMenu('View')
-        view_menu.addAction(OpenChoosePaletteAction(self, self.model_wrapper))
-        view_menu.addAction(ToggleConvolutionAction(self, self.model_wrapper))
+        view_menu.addAction(OpenChoosePaletteAction(self, self.model_wrapper, 'Ctrl+Shift+C'))
+        view_menu.addAction(ToggleConvolutionAction(self, self.model_wrapper, None))
 
         tools_menu = main_menu.addMenu('Tools')
-        tools_menu.addAction(OpenConvolutionPickerAction(self, self.model_wrapper))
+        tools_menu.addAction(OpenConvolutionPickerAction(self, self.model_wrapper, None))
         # TODO
 
         help_menu = main_menu.addMenu('Help')

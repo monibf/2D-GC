@@ -5,7 +5,7 @@ from gc2d.controller.integration.selector import Selector
 
 class DrawAction(QAction):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, parent, model_wrapper, shortcut = None):
         """
         A DrawAction is a QAction that when triggered, makes a Selector object
         :param parent: The parent widget
@@ -14,7 +14,8 @@ class DrawAction(QAction):
         super().__init__('Draw Selection', parent)
         self.window = parent
         self.model_wrapper = model_wrapper
-        self.setShortcut('Ctrl+D')
+        if shortcut is not None:
+            self.setShortcut(shortcut)
         self.setStatusTip('Select integration area')
 
         self.setEnabled(self.model_wrapper.model is not None)

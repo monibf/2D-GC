@@ -6,7 +6,7 @@ from gc2d.controller.action.save_action import SaveAction
 
 class SaveAsAction(QAction):
 
-    def __init__(self, parent, model_wrapper, save_action):
+    def __init__(self, parent, model_wrapper, save_action, shortcut=None):
         """
         A SaveAsAction is a QAction that when triggered, opens a QFileDialog to save the current state of the program. 
         :param parent: The parent widget
@@ -17,7 +17,8 @@ class SaveAsAction(QAction):
         self.window = parent
         self.model_wrapper = model_wrapper
         self.save_action = save_action # the implementation of saving which is called
-        self.setShortcut('Ctrl+Shift+S')
+        if shortcut is not None:
+            self.setShortcut(shortcut)
         self.setStatusTip('Save As')
         self.triggered.connect(self.save)
 

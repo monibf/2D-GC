@@ -7,7 +7,7 @@ from gc2d.model.preferences import PreferenceEnum
 
 class SaveIntegrationsAction(QAction):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, parent, model_wrapper, shortcut=None):
         """
         A SaveIntegrationsAction is a QAction that when triggered, saves the integration areas.
         It will open a file dialog to ask for a path, and save the areas in *gcgc files in json format
@@ -17,6 +17,8 @@ class SaveIntegrationsAction(QAction):
         super().__init__('Save integration areas', parent)
         self.window = parent
         self.model_wrapper = model_wrapper
+        if shortcut is not None:
+            self.setShortcut(shortcut)
         self.setStatusTip('Save integration areas')
         self.triggered.connect(self.save)
 

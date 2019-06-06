@@ -4,7 +4,7 @@ from gc2d.view.dialogs.convolution_picker import ConvolutionPicker
 
 class OpenConvolutionPickerAction(QAction):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, parent, model_wrapper, shortcut=None):
         """
         An OpenConvolutionPickerAction is a QAction that opens a dialog to select convolutions to be performed on the data.
         It currently supports Gaussian filters.
@@ -14,6 +14,8 @@ class OpenConvolutionPickerAction(QAction):
         super().__init__('Set Transformation', parent)
         self.model_wrapper = model_wrapper
         self.dialog = None
+        if shortcut is not None:
+            self.setShortcut(shortcut)
         self.setEnabled(self.model_wrapper.model is not None)
         self.model_wrapper.add_observer(self, self.notify)
         self.triggered.connect(self.show_dialog)
