@@ -63,26 +63,30 @@ class Window(QMainWindow):
 
         self.model_wrapper = model_wrapper
         """The model wrapper."""
-        model_wrapper.add_observer(self, self.notify)
 
         self.dialogs = []
+        """The list of open dialogs."""
+
+        self.toolbar = self.addToolBar("toolbar")
+        """The toolbar."""
+
+        self.plot_1d = None
+        """The Plot1DWidget."""
+        self.plot_2d = None
+        """The Plot2DWidget."""
+        self.plot_3d = None
+        """The Plot3DWidget."""
+
+        # add this as an observer
+        model_wrapper.add_observer(self, self.notify)
 
         # init the window settings.
         self.resize(500, 500)
         self.setWindowTitle('GCxGC')
 
-        self.toolbar = self.addToolBar("toolbar")
-
-        self.plot_1d = None
-        self.plot_2d = None
-        self.plot_3d = None
-
-        self.save_action = SaveAction(self, self.model_wrapper, SHORTCUT_SAVE)
-        self.save_as_action = SaveAsAction(self, self.model_wrapper, self.save_action, SHORTCUT_SAVE_AS)
-
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
-        self.create_toolbar()
+        self.create_toolbar() # Create the toolbar.
         self.create_graph_views()  # Create 2D and 3D dock tabs.
 
         self.show()  # Show the window.
@@ -100,8 +104,8 @@ class Window(QMainWindow):
         file_menu.addAction(OpenFileAction(self, self.model_wrapper, SHORTCUT_OPEN))
 
         file_menu.addAction(ImportDataAction(self, self.model_wrapper, SHORTCUT_IMPORT))
-        file_menu.addAction(self.save_action)
-        file_menu.addAction(self.save_as_action)
+        file_menu.addAction(SaveAction(self, self.model_wrapper, SHORTCUT_SAVE))
+        file_menu.addAction(SaveAsAction(self, self.model_wrapper, SHORTCUT_SAVE_AS))
         file_menu.addAction(SaveIntegrationsAction(self, self.model_wrapper, SHORTCUT_SAVE_INTEGRATIONS))
         file_menu.addAction(SavePrefsAction(self, self.model_wrapper, SHORTCUT_SAVE_PREFERENCES))
 

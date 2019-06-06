@@ -5,6 +5,7 @@ import os
 
 from gc2d.model.preferences import PreferenceEnum
 
+
 class SaveAction(QAction):
 
     def __init__(self, parent, model_wrapper, shortcut=None):
