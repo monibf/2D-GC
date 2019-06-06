@@ -20,5 +20,5 @@ class SaveAsAction(SaveAction):
         Because the save_file path is None, the SaveAction will ask for a new path via a dialog
         :return: None
         """
-        self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, None) 
+        self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, None)
         super().save()

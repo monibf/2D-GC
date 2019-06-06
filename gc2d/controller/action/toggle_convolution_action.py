@@ -21,7 +21,7 @@ class ToggleConvolutionAction(QAction):
     def update(self):
         if self.model_wrapper.model is not None:
             self.model_wrapper.toggle_convolved(self.isChecked())
-    
+
     def notified(self, name, model):
         if name == 'model':
             self.setEnabled(model is not None)

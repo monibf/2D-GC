@@ -5,7 +5,7 @@ from gc2d.controller.integration.selector import Selector
 
 class DrawAction(QAction):
 
-    def __init__(self, parent, model_wrapper, shortcut = None):
+    def __init__(self, parent, model_wrapper, shortcut=None):
         """
         A DrawAction is a QAction that when triggered, makes a Selector object
         :param parent: The parent widget

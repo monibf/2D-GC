@@ -29,16 +29,17 @@ class SaveAction(QAction):
         :param path: the path to write the data to
         :return: None
         """
-        path = self.model_wrapper.get_preference(PreferenceEnum.SAVE_FILE) 
+        path = self.model_wrapper.get_preference(PreferenceEnum.SAVE_FILE)
         if path is None:
-            path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC state', filter='GCxGC files (*.gcgc);; All files (*.*)')[0]
+            path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC state',
+                                               filter='GCxGC files (*.gcgc);; All files (*.*)')[0]
             if path is '':
                 return
             self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)
         state = self.model_wrapper.get_state()
         model, integrations, preferences = state
         with open(path, 'w') as save_fd:
-            json.dump({"model" : model.tolist(),
-                       "integrations" : integrations,
-                       "preferences" : preferences},
-                       save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
+            json.dump({"model": model.tolist(),
+                       "integrations": integrations,
+                       "preferences": preferences},
+                      save_fd, separators=(',', ':'), sort_keys=True, indent=4)

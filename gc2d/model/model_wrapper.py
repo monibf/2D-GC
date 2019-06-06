@@ -52,7 +52,7 @@ class ModelWrapper(Observable):
     def get_state(self):
         """ returns an array with the model data and the integration data for storage """
         return (
-            self.model.get_raw_data(), 
+            self.model.get_raw_data(),
             [integration.get_state() for integration in self.integrations.values()],
             self.preferences.get_state()
         )
@@ -76,8 +76,8 @@ class ModelWrapper(Observable):
         :return: None
         """
         arr = np.genfromtxt(file_name, delimiter=',', dtype=np.float64)
-        self.set_model(arr[:,:-1])
-        
+        self.set_model(arr[:, :-1])
+
     def close_model(self):
         """
         Sets the model to None, effectively closing the chromatogram without closing the program.
@@ -132,7 +132,7 @@ class ModelWrapper(Observable):
         """
         for curr_key in self.integrations:
             self.set_show(curr_key, curr_key == key)
-    
+
     def get_new_key(self):
         """
         Generates a new identifier for an integration value
@@ -151,7 +151,7 @@ class ModelWrapper(Observable):
         """
         self.integrations[key].update(mask, label)
         self.notify('integrationUpdate', self.integrations[key])
-   
+
     def recompute_integrations(self):
         for integration in self.integrations.values():
             integration.recompute()
@@ -184,7 +184,7 @@ class ModelWrapper(Observable):
         :return: the called preference value 
         """
         return self.preferences.get(which)
-    
+
     def set_preference(self, which, value):
         """
         Sets a preference value, specified by which

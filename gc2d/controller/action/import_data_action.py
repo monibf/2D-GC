@@ -23,6 +23,7 @@ class ImportDataAction(QAction):
         Show the Open file dialog for importing data from text
         :return: None
         """
-        file_name = QFileDialog.getOpenFileName(self.window, 'Open chromatography data', filter='2D-GC data (*.txt *.csv)')
+        file_name = QFileDialog.getOpenFileName(self.window, 'Open chromatography data',
+                                                filter='2D-GC data (*.txt *.csv)')
         if file_name[0]:
             self.model_wrapper.import_model(file_name[0])

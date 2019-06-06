@@ -35,7 +35,7 @@ def main():
     if len(sys.argv) > 1:
         datafile = os.path.join(os.getcwd(), sys.argv[1])
         model_wrapper.import_model(datafile)
-    
+
     win = Window(model_wrapper)  # create the window.
 
     sys.exit(app.exec_())

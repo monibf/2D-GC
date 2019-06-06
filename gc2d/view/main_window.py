@@ -84,7 +84,7 @@ class Window(QMainWindow):
 
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
-        self.create_toolbar() # Create the toolbar.
+        self.create_toolbar()  # Create the toolbar.
         self.create_graph_views()  # Create 2D and 3D dock tabs.
 
         self.show()  # Show the window.
@@ -127,7 +127,7 @@ class Window(QMainWindow):
 
         help_menu = main_menu.addMenu('Help')
         # TODO
-    
+
     def create_toolbar(self):
         """
         Creates the toolbar.

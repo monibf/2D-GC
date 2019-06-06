@@ -1,4 +1,3 @@
-
 from enum import Enum
 
 import numpy as np
@@ -10,12 +9,13 @@ class CutoffMode(Enum):
     MEAN = "MEAN"
     QUANTILE = "QUANTILE"
 
+
 class DynamicCutoff:
-    
+
     def __init__(self, percentile, mode=CutoffMode.MEAN):
         self.quantile = percentile / 100
         self.mode = mode
-    
+
     def transform(self, data):
         data = np.clip(data, 0, None)
         quantiles = np.quantile(data, self.quantile, axis=1)
@@ -29,6 +29,6 @@ class DynamicCutoff:
         else:
             raise ValueError("unknown cut-off mode '{}'".format(mode))
         return np.clip((data.transpose() - cutoffs).transpose(), 0, None)
-        
+
     def to_json(self):
-        return {"Type" : TransformEnum.DYNAMIC.name, "Mode" : self.mode.name, "Data" : self.quantile * 100}
+        return {"Type": TransformEnum.DYNAMIC.name, "Mode": self.mode.name, "Data": self.quantile * 100}

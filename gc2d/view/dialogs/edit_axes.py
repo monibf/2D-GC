@@ -5,13 +5,13 @@ from gc2d.model.time_unit import TimeUnit
 
 
 class EditAxes(QDialog):
-    
+
     def __init__(self, parent, modelwrapper):
         """
         :param parent: The parent window, should be the current instance of MainWindow.
         :param modelwrapper: The wrapper of the model.
         """
-        
+
         super().__init__(parent=parent)
         self.setWindowTitle("Edit Axes")
 

@@ -77,6 +77,7 @@ viridis = Palette(
     ]
 )
 
+
 def load_custom_palette(path):
     loaded = []
     if not os.path.exists(path):
@@ -94,6 +95,7 @@ def load_custom_palette(path):
         Palette(os.path.basename(path).split(".")[0], data)
         loaded.append(path)
     return loaded
+
 
 def load_custom_palettes(path):
     loaded = []

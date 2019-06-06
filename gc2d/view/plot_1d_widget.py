@@ -31,11 +31,11 @@ class Plot1DWidget(PlotWidget):
         model_wrapper.add_observer(self, self.notify)
 
         # call notify to draw the model.
-        if model_wrapper.model is not None: 
+        if model_wrapper.model is not None:
             self.notify('model', model_wrapper.model)
 
     def refresh_x_period(self, x_period):
-        if x_period== 0:
+        if x_period == 0:
             self.getPlotItem().getAxis('bottom').setScale(1)
         else:
             self.getPlotItem().getAxis('bottom').setScale(x_period / self.model_wrapper.model.get_width())

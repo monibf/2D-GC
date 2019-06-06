@@ -26,10 +26,10 @@ class SaveIntegrationsAction(QAction):
         :param path: the path to write the data to
         :return: None
         """
-        path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC integrations', filter='GCxGC file (*.gcgc);; All files (*.*)')[0]
+        path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC integrations',
+                                           filter='GCxGC file (*.gcgc);; All files (*.*)')[0]
         if path is not '':
             _model, integrations, _preferences = self.model_wrapper.get_state()
             with open(path, 'w') as save_fd:
-                json.dump({"integrations" : integrations}, 
-                           save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
-            
+                json.dump({"integrations": integrations},
+                          save_fd, separators=(',', ':'), sort_keys=True, indent=4)
