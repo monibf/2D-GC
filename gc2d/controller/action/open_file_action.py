@@ -7,7 +7,7 @@ from gc2d.model.transformations import transform_from_json
 from gc2d.controller.integration.selector import Selector
 from gc2d.model.time_unit import TimeUnit
 from gc2d.model.preferences import PreferenceEnum, PenEnum, ScaleEnum
-from gc2d.model.palette import Palette
+from gc2d.model.palette.palette import Palette
 
 class OpenFileAction(QAction):
 

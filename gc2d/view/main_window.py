@@ -105,7 +105,7 @@ class Window(QMainWindow):
         # TODO
     
     def create_toolbar(self):
-        self.toolbar.addAction(self.ToggleConvolutionAction(self, self.model_wrapper))
+        self.toolbar.addAction(ToggleConvolutionAction(self, self.model_wrapper))
         self.toolbar.addAction(OpenConvolutionPickerAction(self, self.model_wrapper))
         self.toolbar.addAction(OpenChoosePaletteAction(self, self.model_wrapper))
         self.toolbar.addAction(DrawAction(self, self.model_wrapper))

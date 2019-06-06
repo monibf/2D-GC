@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import QAction
-from gc2d.view.dialogs import ConvolutionPicker
+from gc2d.view.dialogs.convolution_picker import ConvolutionPicker
 
 
 class OpenConvolutionPickerAction(QAction):

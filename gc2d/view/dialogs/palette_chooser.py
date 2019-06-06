@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QHBoxLayout, QLabel, QListWidget, QListWidgetItem, Q
 
 import gc2d.main as main
 from gc2d.model.preferences import PreferenceEnum
-from gc2d.model.palette import palettes, load_custom_palettes
+from gc2d.model.palette.palette import palettes, load_custom_palettes
 
 
 class PaletteChooser(QDialog):

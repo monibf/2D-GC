@@ -1,7 +1,7 @@
 
 from PyQt5.QtWidgets import QAction
 
-from gc2d.view.dialogs import EditAxes
+from gc2d.view.dialogs.edit_axes import EditAxes
 
 
 class OpenEditAxesAction(QAction):

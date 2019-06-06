@@ -3,7 +3,7 @@ from pyqtgraph.opengl import GLViewWidget
 import numpy as np
 
 from gc2d.controller.listener.plot_3d_listener import Plot3DListener
-from gc2d.model.palette import PaletteShader
+from gc2d.model.palette.shader import PaletteShader
 from gc2d.model.palette import palette
 
 
