@@ -1,26 +1,24 @@
-from PyQt5.QtWidgets import QLabel, QMainWindow
-from pyqtgraph.dockarea import Dock, DockArea
 import os.path
+
+from PyQt5.QtWidgets import QMainWindow
+from pyqtgraph.dockarea import Dock, DockArea
 
 from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
-from gc2d.controller.action.import_data_action import ImportDataAction
-from gc2d.controller.action.open_edit_axes_action import OpenEditAxesAction
-from gc2d.controller.action.open_file_action import OpenFileAction
-
-from gc2d.controller.action.save_action import SaveAction
-from gc2d.controller.action.save_integrations_action import SaveIntegrationsAction
-from gc2d.controller.action.save_prefs_action import SavePrefsAction
-from gc2d.controller.action.save_as_action import SaveAsAction
-
 from gc2d.controller.action.export_action import ExportAction
 from gc2d.controller.action.export_plot_2d_action import ExportPlot2DAction
 from gc2d.controller.action.export_plot_3d_action import ExportPlot3DAction
-
+from gc2d.controller.action.import_data_action import ImportDataAction
 from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
 from gc2d.controller.action.open_convolution_picker_action import OpenConvolutionPickerAction
+from gc2d.controller.action.open_edit_axes_action import OpenEditAxesAction
+from gc2d.controller.action.open_file_action import OpenFileAction
+from gc2d.controller.action.save_action import SaveAction
+from gc2d.controller.action.save_as_action import SaveAsAction
+from gc2d.controller.action.save_integrations_action import SaveIntegrationsAction
+from gc2d.controller.action.save_prefs_action import SavePrefsAction
 from gc2d.controller.action.toggle_convolution_action import ToggleConvolutionAction
-from gc2d.model.preferences import Preferences, PreferenceEnum
+from gc2d.model.preferences import PreferenceEnum
 from gc2d.view.integration_list import IntegrationList
 from gc2d.view.plot_1d_widget import Plot1DWidget
 from gc2d.view.plot_2d_widget import Plot2DWidget

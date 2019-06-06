@@ -1,12 +1,12 @@
 
-from .transform import Transform, TransformEnum
-from .gaussian import Gaussian
-from .convolution import Convolution
-from .staticcutoff import StaticCutoff
-from .dynamiccutoff import DynamicCutoff, CutoffMode
-from .min1d import Min1D
-
 import numpy
+
+from .convolution import Convolution
+from .dynamiccutoff import CutoffMode, DynamicCutoff
+from .gaussian import Gaussian
+from .min1d import Min1D
+from .staticcutoff import StaticCutoff
+from .transform import Transform, TransformEnum
 
 
 def transform_from_json(json_dict):

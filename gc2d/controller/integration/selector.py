@@ -1,7 +1,8 @@
-from PyQt5.Qt import QColor, QObject, QPen
+from PyQt5.Qt import QObject
 from pyqtgraph import PolyLineROI
 
 from gc2d.model.preferences import PreferenceEnum
+
 
 class Selector(QObject):
 

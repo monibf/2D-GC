@@ -3,6 +3,7 @@ from scipy import ndimage
 
 from .transform import Transform, TransformEnum
 
+
 class Convolution(Transform):
     
     def __init__(self, matrix):

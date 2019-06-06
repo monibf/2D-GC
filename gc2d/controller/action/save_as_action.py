@@ -1,5 +1,5 @@
-from gc2d.model.preferences import PreferenceEnum
 from gc2d.controller.action.save_action import SaveAction
+from gc2d.model.preferences import PreferenceEnum
 
 
 class SaveAsAction(SaveAction):

@@ -1,9 +1,10 @@
 
+from enum import Enum
+
 import numpy as np
 
-from .transform import Transform, TransformEnum
+from .transform import TransformEnum
 
-from enum import Enum
 
 class CutoffMode(Enum):
     MEAN = "MEAN"

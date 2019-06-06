@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QRadioButton, QLabel, QPushButton
+from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QRadioButton, QVBoxLayout, QWidget
 
 from gc2d.controller.action.export_plot_2d_action import ExportPlot2DAction
 from gc2d.controller.action.export_plot_3d_action import ExportPlot3DAction

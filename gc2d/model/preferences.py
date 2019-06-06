@@ -1,9 +1,10 @@
-from PyQt5.Qt import QColor, QPen
 from enum import Enum, auto
-from gc2d.model.transformations import Transform
-from gc2d.model.palette import palette
 
+from PyQt5.Qt import QColor, QPen
+
+from gc2d.model.palette import palette
 from gc2d.model.time_unit import TimeUnit
+from gc2d.model.transformations import Transform
 
 
 class PreferenceEnum(Enum):

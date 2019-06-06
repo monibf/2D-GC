@@ -3,6 +3,7 @@ from scipy import ndimage
 
 from .transform import Transform, TransformEnum
 
+
 class Gaussian(Transform):
     
     def __init__(self, sigma):

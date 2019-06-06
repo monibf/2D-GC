@@ -1,13 +1,14 @@
-from PyQt5.QtWidgets import QDialog, QWidget, QVBoxLayout, QHBoxLayout, QRadioButton, QLabel, QDoubleSpinBox, \
-    QPushButton, QComboBox, QFileDialog, QSpinBox, QTextEdit
-
-import os.path
 import csv
-import numpy
+import os.path
 import sys
 
-from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D, Convolution
+import numpy
+from PyQt5.QtWidgets import QComboBox, QDialog, QDoubleSpinBox, QFileDialog, QHBoxLayout, QLabel, QPushButton, \
+    QRadioButton, QSpinBox, QTextEdit, QVBoxLayout, QWidget
+
+from gc2d.model.transformations import Convolution, DynamicCutoff, Gaussian, Min1D, StaticCutoff, Transform
 from gc2d.model.transformations.dynamiccutoff import CutoffMode
+
 
 class ConvolutionPicker(QDialog):
     

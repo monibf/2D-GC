@@ -1,6 +1,8 @@
 
-from .transform import Transform, TransformEnum
 from numpy import clip
+
+from .transform import Transform, TransformEnum
+
 
 class StaticCutoff(Transform):
     

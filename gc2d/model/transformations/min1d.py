@@ -1,6 +1,7 @@
 
-from scipy import ndimage
 import numpy as np
+from scipy import ndimage
+
 from .transform import Transform, TransformEnum
 
 

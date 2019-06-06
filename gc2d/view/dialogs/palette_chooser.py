@@ -2,12 +2,12 @@ from os import path
 from shutil import copy
 
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QHBoxLayout, QLabel, QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QWidget, \
-    QFileDialog, QSizePolicy, QDialog, QSpinBox
+from PyQt5.QtWidgets import QDialog, QFileDialog, QHBoxLayout, QLabel, QListWidget, QListWidgetItem, QPushButton, \
+    QSizePolicy, QSpinBox, QVBoxLayout, QWidget
 
 import gc2d.main as main
+from gc2d.model.palette.palette import load_custom_palettes, palettes
 from gc2d.model.preferences import PreferenceEnum
-from gc2d.model.palette.palette import palettes, load_custom_palettes
 
 
 class PaletteChooser(QDialog):

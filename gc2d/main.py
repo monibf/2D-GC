@@ -1,9 +1,10 @@
 import os
 import sys
-from gc2d.model.palette.palette import load_custom_palettes
+
 from PyQt5.QtWidgets import QApplication
 
 from gc2d.model.model_wrapper import ModelWrapper
+from gc2d.model.palette.palette import load_custom_palettes
 from gc2d.view.main_window import Window
 
 PREFERENCES_PATH = os.path.join(os.path.expanduser("~"), ".2D-GC")

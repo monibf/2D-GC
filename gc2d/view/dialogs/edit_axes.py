@@ -1,8 +1,4 @@
-import sys
-from os import path
-
-from PyQt5.QtWidgets import QHBoxLayout, QLabel, QListWidget, QPushButton, QVBoxLayout, QWidget, \
-    QSizePolicy, QDialog, QComboBox, QDoubleSpinBox
+from PyQt5.QtWidgets import QComboBox, QDialog, QDoubleSpinBox, QHBoxLayout, QLabel, QPushButton, QVBoxLayout, QWidget
 
 from gc2d.model.preferences import ScaleEnum
 from gc2d.model.time_unit import TimeUnit

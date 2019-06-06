@@ -1,4 +1,5 @@
 import os
+
 import numpy as np
 from PyQt5.QtGui import QImage, qRgb
 from pyqtgraph import ColorMap

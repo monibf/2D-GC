@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QAction
 
 from gc2d.view.dialogs.palette_chooser import PaletteChooser
 
+
 class OpenChoosePaletteAction(QAction):
 
     def __init__(self, parent, model_wrapper, shortcut=None):

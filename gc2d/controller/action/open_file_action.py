@@ -1,13 +1,14 @@
-from PyQt5.QtWidgets import QAction, QFileDialog
-import numpy as np
 import json
 
+import numpy as np
+from PyQt5.QtWidgets import QAction, QFileDialog
 
-from gc2d.model.transformations import transform_from_json
 from gc2d.controller.integration.selector import Selector
-from gc2d.model.time_unit import TimeUnit
-from gc2d.model.preferences import PreferenceEnum, PenEnum, ScaleEnum
 from gc2d.model.palette.palette import Palette
+from gc2d.model.preferences import PenEnum, PreferenceEnum, ScaleEnum
+from gc2d.model.time_unit import TimeUnit
+from gc2d.model.transformations import transform_from_json
+
 
 class OpenFileAction(QAction):
 

@@ -1,5 +1,4 @@
 import math
-from PyQt5.QtCore import Qt
 
 from gc2d.controller.listener.widget_listener import WidgetListener
 

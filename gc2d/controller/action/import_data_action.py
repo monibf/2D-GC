@@ -1,8 +1,5 @@
 from PyQt5.QtWidgets import QAction, QFileDialog
-import os.path
-import numpy as np
-import json
-from gc2d.controller.integration.selector import Selector
+
 
 class ImportDataAction(QAction):
 

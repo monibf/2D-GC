@@ -1,8 +1,11 @@
-from PyQt5 import QtCore
-from PyQt5.Qt import QHeaderView, QPushButton, QTableWidget, QTableWidgetItem, QCheckBox
-from enum import Enum
 from decimal import Decimal
+from enum import Enum
+
+from PyQt5 import QtCore
+from PyQt5.Qt import QHeaderView, QPushButton, QTableWidget, QTableWidgetItem
+
 from gc2d.controller.integration.handler import Handler
+
 
 class Col(Enum):
     label = 0

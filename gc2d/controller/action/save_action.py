@@ -1,7 +1,6 @@
-from PyQt5.QtWidgets import QAction, QFileDialog
-from PyQt5.QtCore import QFile
 import json
-import os
+
+from PyQt5.QtWidgets import QAction, QFileDialog
 
 from gc2d.model.preferences import PreferenceEnum
 
