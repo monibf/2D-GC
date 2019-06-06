@@ -6,8 +6,6 @@ import csv
 import numpy
 import sys
 
-from gc2d.view.palette.palette import Palette
-
 from gc2d.model.transformations import Transform, Gaussian, StaticCutoff, DynamicCutoff, Min1D, Convolution
 from gc2d.model.transformations.dynamiccutoff import CutoffMode
 

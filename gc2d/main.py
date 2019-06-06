@@ -1,6 +1,6 @@
 import os
 import sys
-from gc2d.view.palette.palette import load_custom_palettes
+from gc2d.model.palette import load_custom_palettes
 from PyQt5.QtWidgets import QApplication
 
 from gc2d.model.model_wrapper import ModelWrapper

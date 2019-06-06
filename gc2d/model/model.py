@@ -1,4 +1,4 @@
-from gc2d.view.palette import palette
+from gc2d.model.palette import palette
 
 
 class Model:

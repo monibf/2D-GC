@@ -1,6 +1,6 @@
-from PyQt5.QtWidgets import QAction, QFileDialog
+from PyQt5.QtWidgets import QAction
 
-from gc2d.controller.dialogs.export_dialog import ExportDialog
+from gc2d.view.dialogs import ExportDialog
 
 
 class ExportAction(QAction):

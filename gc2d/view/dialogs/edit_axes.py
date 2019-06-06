@@ -1,16 +1,11 @@
 import sys
 from os import path
-from shutil import copy
 
-import numpy
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QHBoxLayout, QLabel, QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QWidget, \
-    QFileDialog, QSizePolicy, QDialog, QSpinBox, QComboBox, QDoubleSpinBox
+from PyQt5.QtWidgets import QHBoxLayout, QLabel, QListWidget, QPushButton, QVBoxLayout, QWidget, \
+    QSizePolicy, QDialog, QComboBox, QDoubleSpinBox
 
-import gc2d.main as main
 from gc2d.model.preferences import ScaleEnum
 from gc2d.model.time_unit import TimeUnit
-from gc2d.view.palette.palette import palettes, load_custom_palettes
 
 
 class EditAxes(QDialog):
