@@ -165,7 +165,7 @@ class Window(QMainWindow):
         dock_area.addDock(dock_list)
         dock_list.addWidget(IntegrationList(self.model_wrapper, dock_list))
 
-    def addDialog(self, dialog):
+    def add_dialog(self, dialog):
         for d in self.dialogs:
             if isinstance(d, type(dialog)):
                 d.show()

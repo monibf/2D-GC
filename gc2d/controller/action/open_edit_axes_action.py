@@ -24,9 +24,7 @@ class OpenEditAxesAction(QAction):
         """
         :return: None
         """
-        i = -1
-        while i == -1:
-            i = EditAxes(self.parent(), self.model_wrapper)
+        self.parent().add_dialog(EditAxes(self.parent(), self.model_wrapper))
 
     def notify(self, name, value):
         if name == 'model':

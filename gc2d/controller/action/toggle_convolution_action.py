@@ -26,4 +26,3 @@ class ToggleConvolutionAction(QAction):
         if name == 'model':
             self.setEnabled(model is not None)
             self.update()
-        

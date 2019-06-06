@@ -26,7 +26,7 @@ class ExportAction(QAction):
         Shows the convolution picking dialog.
         :return: None
         """
-        self.parent().addDialog(ExportDialog(self.window, self.model_wrapper))
+        self.parent().add_dialog(ExportDialog(self.window, self.model_wrapper))
 
     def notified(self, name, model):
         if name == 'model':

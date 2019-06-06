@@ -26,7 +26,7 @@ class OpenConvolutionPickerAction(QAction):
         :return: None
         """
 
-        self.parent().addDialog(ConvolutionPicker(self.model_wrapper))
+        self.parent().add_dialog(ConvolutionPicker(self.model_wrapper))
 
     def notify(self, name, value):
         if name == 'model':

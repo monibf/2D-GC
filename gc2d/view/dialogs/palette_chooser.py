@@ -22,7 +22,6 @@ class PaletteChooser(QDialog):
         """
         
         super().__init__(parent=parent)
-        self.parent().addDialog(self)
         self.setWindowTitle("Choose Palette")
 
         self.modelwrapper = modelwrapper
@@ -137,7 +136,7 @@ class PaletteChooser(QDialog):
                 copy(file, main.CUSTOM_PALETTE_PATH)
         self.close()
 
-        PaletteChooser(self.parent(), self.modelwrapper)
+        self.parent().add_dialog(PaletteChooser(self.parent(), self.modelwrapper))
 
     def ok(self):
         self.apply()

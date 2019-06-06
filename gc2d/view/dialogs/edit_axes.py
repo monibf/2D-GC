@@ -17,7 +17,6 @@ class EditAxes(QDialog):
         """
         
         super().__init__(parent=parent)
-        self.parent().addDialog(self)
         self.setWindowTitle("Edit Axes")
 
         self.modelwrapper = modelwrapper
