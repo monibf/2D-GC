@@ -26,6 +26,28 @@ from gc2d.view.plot_1d_widget import Plot1DWidget
 from gc2d.view.plot_2d_widget import Plot2DWidget
 from gc2d.view.plot_3d_widget import Plot3DWidget
 
+# FILE
+SHORTCUT_OPEN = 'Ctrl+O'
+SHORTCUT_IMPORT = 'Ctrl+I'
+SHORTCUT_SAVE = 'Ctrl+S'
+SHORTCUT_SAVE_AS = 'Ctrl+Shift+S'
+SHORTCUT_SAVE_INTEGRATIONS = None
+SHORTCUT_SAVE_PREFERENCES = None
+SHORTCUT_EXPORT_3D = 'Ctrl+T'
+SHORTCUT_EXPORT_2D = 'Ctrl+R'
+SHORTCUT_EXIT = 'Ctrl+Q'
+
+# EDIT
+SHORTCUT_DRAW = 'Ctrl+D'
+SHORTCUT_EDIT_AXES = None
+
+# VIEW
+SHORTCUT_CHOOSE_PALETTE = 'Ctrl+Shift+C'
+SHORTCUT_TOGGLE_CONVOLUTION = None
+
+# TOOLS
+SHORTCUT_CHOOSE_CONVOLUTION = None
+
 
 class Window(QMainWindow):
 
@@ -55,8 +77,8 @@ class Window(QMainWindow):
         self.plot_2d = None
         self.plot_3d = None
 
-        self.save_action = SaveAction(self, self.model_wrapper, 'Ctrl+S')
-        self.save_as_action = SaveAsAction(self, self.model_wrapper, self.save_action, 'Ctrl+Shift+S')
+        self.save_action = SaveAction(self, self.model_wrapper, SHORTCUT_SAVE)
+        self.save_as_action = SaveAsAction(self, self.model_wrapper, self.save_action, SHORTCUT_SAVE_AS)
 
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
@@ -75,30 +97,30 @@ class Window(QMainWindow):
 
         # action objects need to be members because otherwise they get garbage collected
         file_menu = main_menu.addMenu('File')
-        file_menu.addAction(OpenFileAction(self, self.model_wrapper, 'Ctrl+O'))
+        file_menu.addAction(OpenFileAction(self, self.model_wrapper, SHORTCUT_OPEN))
 
-        file_menu.addAction(ImportDataAction(self, self.model_wrapper, 'Ctrl+I'))
+        file_menu.addAction(ImportDataAction(self, self.model_wrapper, SHORTCUT_IMPORT))
         file_menu.addAction(self.save_action)
         file_menu.addAction(self.save_as_action)
-        file_menu.addAction(SaveIntegrationsAction(self, self.model_wrapper, None))
-        file_menu.addAction(SavePrefsAction(self, self.model_wrapper, None))
+        file_menu.addAction(SaveIntegrationsAction(self, self.model_wrapper, SHORTCUT_SAVE_INTEGRATIONS))
+        file_menu.addAction(SavePrefsAction(self, self.model_wrapper, SHORTCUT_SAVE_PREFERENCES))
 
         file_menu.addSeparator()
-        file_menu.addAction(ExportPlot2DAction(self, self.model_wrapper, 'Ctrl+R'))
-        file_menu.addAction(ExportPlot3DAction(self, self.model_wrapper, 'Ctrl+T'))
+        file_menu.addAction(ExportPlot2DAction(self, self.model_wrapper, SHORTCUT_EXPORT_2D))
+        file_menu.addAction(ExportPlot3DAction(self, self.model_wrapper, SHORTCUT_EXPORT_3D))
 
-        file_menu.addAction(ExitAction(self, 'Ctrl+Q'))
+        file_menu.addAction(ExitAction(self, SHORTCUT_EXIT))
 
         edit_menu = main_menu.addMenu('Edit')
-        edit_menu.addAction(DrawAction(self, self.model_wrapper, None))
-        edit_menu.addAction(OpenEditAxesAction(self, self.model_wrapper, None))
+        edit_menu.addAction(DrawAction(self, self.model_wrapper, SHORTCUT_DRAW))
+        edit_menu.addAction(OpenEditAxesAction(self, self.model_wrapper, SHORTCUT_EDIT_AXES))
 
         view_menu = main_menu.addMenu('View')
-        view_menu.addAction(OpenChoosePaletteAction(self, self.model_wrapper, 'Ctrl+Shift+C'))
-        view_menu.addAction(ToggleConvolutionAction(self, self.model_wrapper, None))
+        view_menu.addAction(OpenChoosePaletteAction(self, self.model_wrapper, SHORTCUT_CHOOSE_PALETTE))
+        view_menu.addAction(ToggleConvolutionAction(self, self.model_wrapper, SHORTCUT_TOGGLE_CONVOLUTION))
 
         tools_menu = main_menu.addMenu('Tools')
-        tools_menu.addAction(OpenConvolutionPickerAction(self, self.model_wrapper, None))
+        tools_menu.addAction(OpenConvolutionPickerAction(self, self.model_wrapper, SHORTCUT_CHOOSE_CONVOLUTION))
         # TODO
 
         help_menu = main_menu.addMenu('Help')
