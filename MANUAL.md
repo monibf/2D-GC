@@ -190,6 +190,9 @@ It is possible to load in a custom convolution from a csv file.
 This file should have a grid of numbers that represent the convolution matrix.
 In `exampledata/convolutions/` are some example convolution csv files.
 
+The convolution is done by [https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.convolve.html](https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.convolve.html).
+The mode is 'constant' again.
+
 ## Palettes
 
 It is possible to choose color palettes in the `Choose palette` dialog.
