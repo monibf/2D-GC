@@ -131,27 +131,6 @@ Run `pip3 uninstall gc2d-rug`.
 This does not uninstall dependencies (pyqtgraph, numpy, etc.). To install dependencies use [pip-autoremove](https://github.com/invl/pip-autoremove).
 
 
-## Custom Color Palettes
-User defined color palettes can be imported from the `choose palette` dialog. Imported palettes are saved into
-`~/.GC-2D/palettes`. Custom Palettes can be defined in a plain text file ending with `.palette`, with each line 
-containing the comma separated rgb values defining a color, each component can have a value from 0-255. 
-The first line is the color for the lowest value, the last line is the color for the highest value.
-
-For example, the common color palette jet can be defined like so:
-
-### jet.palette:
-```
-  0,   0, 127
-  0,   0, 255
-  0, 127, 255
-  0, 255, 255
-127, 255, 127
-255, 255,   0
-255, 127,   0
-255,   0,   0
-127,   0,   0
-```
-**NOTE:** Spaces and leading zeros are ignored. `0 ,   001,000 == 0,1,0`
 
 # TODO
 - Uninstaller asks if user preferences/configurations should be deleted (100% removal).
