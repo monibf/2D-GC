@@ -26,8 +26,8 @@ class ExportIntegrationAction(QAction):
 
     def export_integration_list(self):
         """
-        Export the 2D plot
-        :return: bool if file was successfully exported
+        Export the integration list to the clipboard
+        :return: bool if data was successfully exported
         """
 
         # Check if a plot is loaded
