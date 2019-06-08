@@ -54,6 +54,8 @@ class Window(QMainWindow):
         self.plot_2d = None
         self.plot_3d = None
 
+        self.status_bar = self.statusBar()
+
         self.open_file_action = OpenFileAction(self, self.model_wrapper)
 
         self.save_action = SaveAction(self, self.model_wrapper)
@@ -74,12 +76,10 @@ class Window(QMainWindow):
         self.open_convolution_picker_action = OpenConvolutionPickerAction(self, self.model_wrapper)
         self.toggle_convolution_action = ToggleConvolutionAction(self, self.model_wrapper)
 
-        status_bar = self.statusBar()
-
         # create UI elements.
         self.create_menus()  # Create the menus in the menu bar.
         self.create_toolbar()
-        self.create_graph_views(status_bar)  # Create 2D and 3D dock tabs.
+        self.create_graph_views(self.status_bar)  # Create 2D and 3D dock tabs.
 
         self.show()  # Show the window.
 

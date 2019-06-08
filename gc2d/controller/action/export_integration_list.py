@@ -11,6 +11,7 @@ class ExportIntegrationAction(QAction):
         super().__init__('Copy Integration to Clipboard', parent)
         self.window = parent
         self.model_wrapper = model_wrapper
+        self.status_bar = parent.status_bar
 
         self.clipboard = QApplication.clipboard()
         self.clipboard.clear(mode=self.clipboard.Clipboard)
@@ -35,6 +36,7 @@ class ExportIntegrationAction(QAction):
             # Copy the integration list
             csv = self.create_csv_array()
             self.clipboard.setText(csv)
+            self.status_bar.showMessage("Copied integration list to clipboard")
             return True
 
         # Otherwise, no data was loaded.
