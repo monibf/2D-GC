@@ -16,6 +16,7 @@ from gc2d.controller.action.save_as_action import SaveAsAction
 from gc2d.controller.action.export_action import ExportAction
 from gc2d.controller.action.export_plot_2d_action import ExportPlot2DAction
 from gc2d.controller.action.export_plot_3d_action import ExportPlot3DAction
+from gc2d.controller.action.export_integration_list import ExportIntegrationAction
 
 from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
 from gc2d.controller.action.open_convolution_picker_action import OpenConvolutionPickerAction
@@ -64,6 +65,7 @@ class Window(QMainWindow):
         self.export_action = ExportAction(self, self.model_wrapper)
         self.export_plot_2d_action = ExportPlot2DAction(self, self.model_wrapper)
         self.export_plot_3d_action = ExportPlot3DAction(self, self.model_wrapper)
+        self.export_integration_action = ExportIntegrationAction(self, self.model_wrapper)
 
         self.exit_action = ExitAction(self)
         self.draw_action = DrawAction(self, self.model_wrapper)
@@ -102,6 +104,7 @@ class Window(QMainWindow):
         file_menu.addSeparator()
         file_menu.addAction(self.export_plot_2d_action)
         file_menu.addAction(self.export_plot_3d_action)
+        file_menu.addAction(self.export_integration_action)
 
         file_menu.addAction(self.exit_action)
 
