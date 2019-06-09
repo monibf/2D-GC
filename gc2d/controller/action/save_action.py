@@ -35,7 +35,7 @@ class SaveAction(QAction):
                                                filter='GCxGC files (*.gcgc);; All files (*.*)')[0]
             if path is '':
                 return
-            self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)
+        self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path) # send even if set to notify save
         state = self.model_wrapper.get_state()
         model, integrations, preferences = state
         with open(path, 'w') as save_fd:

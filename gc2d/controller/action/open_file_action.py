@@ -45,9 +45,11 @@ class OpenFileAction(QAction):
                 self.preload_prefs(loaded["preferences"])
                 prefs_included = True
 
+            model_included = False
             if "model" in loaded:
                 self.model_wrapper.set_model(np.array(loaded["model"]))
-                self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, file_name)
+                model_included = True
+                
 
             if "integrations" in loaded and self.model_wrapper.model != None:
                 for label, handles, pos in loaded["integrations"]:
@@ -55,6 +57,10 @@ class OpenFileAction(QAction):
 
             if prefs_included:
                 self.postload_prefs(loaded["preferences"])
+
+            if model_included:
+                # set at end to signify no unsaved changes
+                self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, file_name)
 
     def preload_prefs(self, preference_dict):
         if "PEN" not in preference_dict:
