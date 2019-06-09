@@ -149,14 +149,15 @@ Within the view the user can use drag and drop commands using the left mouse but
 #### Navigating 3D view
 In the 3D the user can use drag and drop command using the left mouse button to pan around a certain point. The point which is panned around can be changed using drag and drop command using the middle mouse button. Additionally the user can use scroll command in order to zoom in the 3D view.
 
-### File menu
-The file menu allows for the opening and saving of files, saving preferences and quitting the program. It can be opened by clicking 'file' in the menu bar in the top-left corner.
+### Saving, importing and opening
+Under the file menu there are buttons allowing for the opening and saving of files, saving preferences and quitting the program. It can be opened by clicking 'file' in the menu bar in the top-left corner.
+In general, GCxGC projects are saved and loaded to and from .gcgc files. These are in plain text, and if settings need to be retrieved, this is also possible by opening these files in a text editor. The program is split into three parts: data, integrations and preferences. The integration areas and the preferences can also be saved separately and opened into projects with different data.
 
 #### Opening files
-Using the 'Open' option (CTRL + O) in the file menu, the user can open previously save .gcgc files. This will load it's corresponding data set, preferences set and integration areas.
+Using the 'Open' option (CTRL + O) in the file menu, the user can open previously save .gcgc files. This will load it's corresponding data set, preferences set and integration areas, if a full project is loaded. If the opened project was saved with only the integrations or only the preferences, the project will only load these parameters. 
 
 #### Import data
-Using the 'Import data' option (CTRL + O) in the file menu, the user can import a new chromatogram data set of type .gcgc, .txt or .csv
+Using the 'Import data' option (CTRL + I) in the file menu, the user can import a new chromatogram data set of type .txt or .csv. The importing of data assumes a preprocessed csv file with trailing commas. 
 
 #### Save file
 Using the 'Save' option (CTRL + S) in the file menu, the user can save the current project. In case the project is saved under an existing .gcgc file, 'save' will overwrite this file. In case the project has not been saved previously, 'save' will call the 'save as' option.
@@ -168,17 +169,16 @@ Using the 'Save as' option (CTRL + SHIFT + S) in the file menu, the user can sav
 Using the 'save integration areas' option in the file menu, the user can save the existing integration areas label and values to a new safe file of type .gcgc.
 
 #### Saving preferences
-Using the 'save preference' option in the file menu, the user can save the preference, such as set in the current project to a .gcgc file.
+Using the 'save preference' option in the file menu, the user can save all set preferences to a .gcgc file. From this file they may be loaded into a new project. The preferences contain the set axes, palette, upper and lower bound and the transformation. 
 
-#### Saving 3D plot
+#### Exporting the 3D plot
 Using the 'export 2D plot' option in the file menu, the user can save the current 2D view as a .png file. 
 
-#### Saving 2D plot
+#### Exporting the 2D plot
 Using the 'export 3D plot' option in the file menu, the user can save the current 3D view as a .png file
 
-#### Quitting GCGC
+#### Quitting GCxGC
 Using the 'quit' option (CTRL + Q) in the file menu, the user can terminate the program, this action can also be called by clicking the cross in the right-top corner of the main window.
-
 
 ### Setting transformations
 Using the 'Set tranformation' option in the toolbar or in the tool menu, the user can set certain data transformation affecting integration areas. In order to apply and visualize the transformation set, the 'show transformed data' option in the toolbar needs to be toggled on. Similarly the data transformation can be toggled off by selecting the 'show transformed data' again.
@@ -197,8 +197,8 @@ The Gaussian convolution is a transformation of the data based on the process of
 ### Min 1D convolution
 The Min 1D convolution is a transformation of the data based on minimum z-values taken across an entire axis
 
-### Setting color pallet
-Using the 'choose pallet' option in the tooblar or in the view menu (CTRL + SHIFT + C), the user can switch collor pallet which shades the 2D and 3D graphs. By default the GCGC program comes with 3 premade collor pallets to choose from: jet, red-green-blue and viridis. The pallet picker also allows the user to select a an upper and lower bound to the pallet, enabling the user to set the point from which z-value a peak is assigned the minimum or maximum color. The pallet picker als enables the user the import a custom made color pallet from a .pallette file. Imported palettes are saved into
+### Setting color palette
+Using the 'choose palette' option in the tooblar or in the view menu (CTRL + SHIFT + C), the user can switch collor pallet which shades the 2D and 3D graphs. By default the GCGC program comes with 3 premade collor pallets to choose from: jet, red-green-blue and viridis. The pallet picker also allows the user to select a an upper and lower bound to the pallet, enabling the user to set the point from which z-value a peak is assigned the minimum or maximum color. The pallet picker als enables the user the import a custom made color pallet from a .pallette file. Imported palettes are saved into
 `~/.GC-2D/palettes
 
 ***Note:*** No color pallet can be set in case no data has been imported
@@ -245,8 +245,8 @@ The label of an integration area can be edited by double-clicking the label of t
 A specific integration area can be deleted by selecting the 'clear' option in the integration list in the row of the integration area to be deleted
 
 #### Highlighting integration areas in the 3D view
-The integration list allows the user to highlight existing integration areas in the 3D view. This is done by left clicking the label of the corresponding integration area, the label column of the integration area should now be colored blue and the integration area should be highlighted in the 3D view. The user can unhighlight a certain integration area by clicking the label column of the specific integration area. Multiple integration areas can be highlighted by left-clicking the label column of specific integrations in the integration list while holding the CTRL button, alternatively the user can select multiple integration areas by drag-selecting multiple integration areas in the integration list.
-
+The integration list allows the user to highlight existing integration areas in the 3D view. This is done by left clicking the label of the corresponding integration area, the label column of the integration area should now be colored blue and the integration area should be highlighted in the 3D view. The user can unhighlight a certain integration area by clicking the label column of the specific integration area. Multiple integration areas can be highlighted by left-clicking the label column of specific integrations in the integration list while holding the CTRL/CMD button, alternatively the user can select multiple integration areas by drag-selecting multiple integration areas in the integration list.
+When an integration area is changed in the 2D view, the highlighting switches to only apply to that area.
 
 
 
