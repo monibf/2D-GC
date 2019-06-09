@@ -21,6 +21,8 @@ class SaveAction(QAction):
         if shortcut is not None:
             self.setShortcut(shortcut)
         self.setStatusTip('Save')
+        self.setEnabled(model_wrapper.model is not None)
+        self.model_wrapper.add_observer(self, self.notify)
         self.triggered.connect(self.save)
 
     def save(self):
@@ -43,3 +45,7 @@ class SaveAction(QAction):
                        "integrations": integrations,
                        "preferences": preferences},
                       save_fd, separators=(',', ':'), sort_keys=True, indent=4)
+
+    def notify(self, name, model):
+        if name == 'model':
+            self.setEnabled(model is not None)
