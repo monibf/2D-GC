@@ -87,8 +87,6 @@ class Window(QMainWindow):
         self.create_toolbar()  # Create the toolbar.
         self.create_graph_views()  # Create 2D and 3D dock tabs.
 
-        self.unsaved_changes = False
-
         self.show()  # Show the window.
 
     def create_menus(self):
@@ -197,10 +195,5 @@ class Window(QMainWindow):
 
     def notify(self, name, value):
         """Called when the model updates. Used to set the window name."""
-        print(name)
         if name == PreferenceEnum.SAVE_FILE.name and value is not None:
             self.setWindowTitle(os.path.basename(value).split(".")[0])
-            self.unsaved_changes = False
-        elif self.unsaved_changes == False:
-            self.setWindowTitle(self.windowTitle() + " *")
-            self.unsaved_changes = True
