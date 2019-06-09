@@ -1,19 +1,17 @@
-import sys
 from os import path
 from shutil import copy
 
-import numpy
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QHBoxLayout, QLabel, QListWidget, QListWidgetItem, QPushButton, QVBoxLayout, QWidget, \
-    QFileDialog, QSizePolicy, QDialog, QSpinBox
+from PyQt5.QtWidgets import QDialog, QFileDialog, QHBoxLayout, QLabel, QListWidget, QListWidgetItem, QPushButton, \
+    QSizePolicy, QSpinBox, QVBoxLayout, QWidget
 
 import gc2d.main as main
+from gc2d.model.palette.palette import load_custom_palettes, palettes
 from gc2d.model.preferences import PreferenceEnum
-from gc2d.view.palette.palette import palettes, load_custom_palettes
 
 
 class PaletteChooser(QDialog):
-    
+
     def __init__(self, parent, modelwrapper):
         """
         This window will open a palette chooser to let users select a palette from the (global) list of possible
@@ -22,9 +20,8 @@ class PaletteChooser(QDialog):
         :param parent: The parent window, should be the current instance of MainWindow.
         :param modelwrapper: The wrapper of the model.
         """
-        
+
         super().__init__(parent=parent)
-        self.parent().addDialog(self)
         self.setWindowTitle("Choose Palette")
 
         self.modelwrapper = modelwrapper
@@ -52,7 +49,7 @@ class PaletteChooser(QDialog):
         self.upperBoundField = QSpinBox()
         self.upperBoundField.setRange(-2147483648, 2147483647)
         self.upperBoundField.setValue(modelwrapper.model.upper_bound)
-        self.upperBoundField.setSingleStep((modelwrapper.model.highest-modelwrapper.model.lowest)/1000)
+        self.upperBoundField.setSingleStep((modelwrapper.model.highest - modelwrapper.model.lowest) / 1000)
         ulayout.addWidget(self.upperBoundField)
 
         lbox = QWidget()
@@ -64,7 +61,7 @@ class PaletteChooser(QDialog):
         self.lowerBoundField = QSpinBox()
         self.lowerBoundField.setRange(-2147483648, 2147483647)
         self.lowerBoundField.setValue(modelwrapper.model.lower_bound)
-        self.lowerBoundField.setSingleStep((modelwrapper.model.highest-modelwrapper.model.lowest)/1000)
+        self.lowerBoundField.setSingleStep((modelwrapper.model.highest - modelwrapper.model.lowest) / 1000)
         llayout.addWidget(self.lowerBoundField)
 
         # add a button bar at the bottom.
@@ -139,7 +136,7 @@ class PaletteChooser(QDialog):
                 copy(file, main.CUSTOM_PALETTE_PATH)
         self.close()
 
-        PaletteChooser(self.parent(), self.modelwrapper)
+        self.parent().add_dialog(PaletteChooser(self.parent(), self.modelwrapper))
 
     def ok(self):
         self.apply()

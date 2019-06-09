@@ -1,4 +1,4 @@
-from gc2d.view.palette import palette
+from gc2d.model.palette import palette
 
 
 class Model:
@@ -25,9 +25,9 @@ class Model:
         self.highest = self.__chromatogram_data.max()
         """The highest value in the chromatogram """
 
-        self.lower_bound = self.lowest/100
+        self.lower_bound = self.lowest / 100
         """ The lower bound of the intensity scale """
-        self.upper_bound = self.highest/100
+        self.upper_bound = self.highest / 100
         """ The upper bound of the intensity scale """
 
         self.period = period

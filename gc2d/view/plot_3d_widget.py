@@ -1,10 +1,10 @@
+import numpy as np
 import pyqtgraph.opengl as gl
 from pyqtgraph.opengl import GLViewWidget
-import numpy as np
 
 from gc2d.controller.listener.plot_3d_listener import Plot3DListener
-from gc2d.view.palette.shader import PaletteShader
-from gc2d.view.palette import palette
+from gc2d.model.palette import palette
+from gc2d.model.palette.shader import PaletteShader
 
 
 class Plot3DWidget(GLViewWidget):
@@ -31,8 +31,8 @@ class Plot3DWidget(GLViewWidget):
 
         # Scale down the height of the mesh.
         self.surface.scale(1, 1, 0.00001)  # TODO This will need to be done dynamically later.
-        
-        #TODO What is this? -> To get the indices working, the plot is translated depending on how large the data is, 
+
+        # TODO What is this? -> To get the indices working, the plot is translated depending on how large the data is,
         # to get the integration highlights to know where to be, this needs to be recorded
         # because the plot is called within self.notify() they are set in there, that they are here is mostly for clarity
         self.translation_x, self.translation_y = 0, 0
@@ -50,28 +50,27 @@ class Plot3DWidget(GLViewWidget):
         """
 
         if name == 'integrationUpdate' and value.show is True:
-                self.set_highlight(value)
+            self.set_highlight(value)
 
         if name == "newIntegration":
             highlight = gl.GLSurfacePlotItem(computeNormals=False)
             self.addItem(highlight)
-            highlight.setShader(PaletteShader(self.lower_bound + self.offset, self.upper_bound +self.offset, palette.jet))
+            highlight.setShader(
+                PaletteShader(self.lower_bound + self.offset, self.upper_bound + self.offset, palette.jet))
             highlight.scale(1, 1, 0.00001)
             self.integrations[value.id] = highlight
-            
-            
+
         if name == "showIntegration":
             if value.show is True:
                 self.set_highlight(value)
                 self.integrations[value.id].setVisible(True)
             else:
                 self.integrations[value.id].setVisible(False)
-                
 
         if name == "removeIntegration":
             self.removeItem(self.integrations[value.id])
-            self.integrations.pop(value.id)         
-                    
+            self.integrations.pop(value.id)
+
         if name in {'model', 'model.viewTransformed'}:
             if value is None or value.get_2d_chromatogram_data() is None:
                 self.setVisible(False)
@@ -101,4 +100,4 @@ class Plot3DWidget(GLViewWidget):
         range_y = np.arange(bound_y, bound_y + len(integration.mask[0]))
 
         highlight = np.where(integration.mask > 0, integration.mask + self.offset, np.nan)
-        self.integrations[integration.id].setData(x=range_x, y=range_y, z=highlight) 
+        self.integrations[integration.id].setData(x=range_x, y=range_y, z=highlight)
