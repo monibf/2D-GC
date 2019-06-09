@@ -196,8 +196,7 @@ class Window(QMainWindow):
         self.dialogs.append(dialog)
 
     def notify(self, name, value):
-        """Called when the model updates. Used to set the window name."""
-        print(name)
+        """Called when the model updates. Used to set the window name. Appends asterisk if there are unsaved changes"""
         if name == PreferenceEnum.SAVE_FILE.name and value is not None:
             self.setWindowTitle(os.path.basename(value).split(".")[0])
             self.unsaved_changes = False
