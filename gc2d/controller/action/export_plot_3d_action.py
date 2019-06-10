@@ -32,7 +32,6 @@ class ExportPlot3DAction(QAction):
             path = QFileDialog.getSaveFileName(self.window, 'Export 3D plot',
                                                filter='png files(*.png)')[0]
             if path is '':
-                print("invalid path")
                 return False
 
             # Check if the png file extension was added

@@ -32,7 +32,6 @@ class ExportPlot2DAction(QAction):
             path = QFileDialog.getSaveFileName(self.window, 'Export 2D plot',
                                                filter='png files(*.png)')[0]
             if path is '':
-                print("invalid path")
                 return False
 
             # Check if the png file extension was added
@@ -44,7 +43,6 @@ class ExportPlot2DAction(QAction):
             return True
 
         # Otherwise, no data was loaded.
-        print("No data loaded")
         return False
 
     def notified(self, name, model):
