@@ -18,6 +18,7 @@ class Integration:
         self.mask = None
         self.pos = None  # track position of bounding box
         self.show = False
+        self.disregard_negative = True
         self.mean = None
         self.sum = None
 
@@ -30,7 +31,10 @@ class Integration:
         """
         if region is not None:
             mask = region[1]
-            self.mask = mask
+            if self.disregard_negative:
+                self.mask = mask.clip(min=0)
+            else:
+                self.mask = mask
             self.pos = region[0].topLeft()
             self.sum = np.sum(mask)
             if self.sum > 0.0:

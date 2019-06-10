@@ -17,6 +17,7 @@ from gc2d.controller.action.save_action import SaveAction
 from gc2d.controller.action.save_as_action import SaveAsAction
 from gc2d.controller.action.save_integrations_action import SaveIntegrationsAction
 from gc2d.controller.action.save_prefs_action import SavePrefsAction
+from gc2d.controller.action.toggle_disregard_negatives_action import ToggleDisregardNegativesAction
 from gc2d.controller.action.toggle_convolution_action import ToggleConvolutionAction
 from gc2d.model.preferences import PreferenceEnum
 from gc2d.view.integration_list import IntegrationList
@@ -38,6 +39,7 @@ SHORTCUT_EXIT = 'Ctrl+Q'
 # EDIT
 SHORTCUT_DRAW = 'Ctrl+D'
 SHORTCUT_EDIT_AXES = None
+SHORTCUT_TOGGLE_DISREGARD_NEGATIVES = None
 
 # VIEW
 SHORTCUT_CHOOSE_PALETTE = 'Ctrl+Shift+C'
@@ -116,6 +118,7 @@ class Window(QMainWindow):
         edit_menu = main_menu.addMenu('Edit')
         edit_menu.addAction(DrawAction(self, self.model_wrapper, SHORTCUT_DRAW))
         edit_menu.addAction(OpenEditAxesAction(self, self.model_wrapper, SHORTCUT_EDIT_AXES))
+        edit_menu.addAction(ToggleDisregardNegativesAction(self, self.model_wrapper, SHORTCUT_TOGGLE_DISREGARD_NEGATIVES))
 
         view_menu = main_menu.addMenu('View')
         view_menu.addAction(OpenChoosePaletteAction(self, self.model_wrapper, SHORTCUT_CHOOSE_PALETTE))
