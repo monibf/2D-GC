@@ -15,7 +15,7 @@ class ExportAction(QAction):
         self.model_wrapper = model_wrapper
         if shortcut is not None:
             self.setShortcut(shortcut)
-        self.setStatusTip('Export 2D plot')
+        self.setStatusTip('Export')
         self.setEnabled(model_wrapper.model is not None)
         self.triggered.connect(self.show_dialog)
 

@@ -39,11 +39,11 @@ class ExportDialog(QDialog):
 
         self.radio_3d = QRadioButton("3D plot", self.radio_buttons)
 
-        self.radio_copy_integrations = QRadioButton("Copy Integrations to Clipboard", self.radio_buttons)
+        self.radio_export_integrations = QRadioButton("Integrations", self.radio_buttons)
 
         self.radio_button_layout.addWidget(self.radio_2d)
         self.radio_button_layout.addWidget(self.radio_3d)
-        self.radio_button_layout.addWidget(self.radio_copy_integrations)
+        self.radio_button_layout.addWidget(self.radio_export_integrations)
 
         select_button = QPushButton('Select')
         select_button.clicked.connect(self.export_selected_plot)
@@ -60,7 +60,7 @@ class ExportDialog(QDialog):
         elif self.radio_3d.isChecked():
             self.export_3d.export_plot()
 
-        elif self.radio_copy_integrations.isChecked():
+        elif self.radio_export_integrations.isChecked():
             self.export_integrations.export_integration_list()
 
         else:
