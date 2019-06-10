@@ -17,6 +17,8 @@ class SaveIntegrationsAction(QAction):
         self.model_wrapper = model_wrapper
         if shortcut is not None:
             self.setShortcut(shortcut)
+        self.setEnabled(model_wrapper.model is not None)
+        self.model_wrapper.add_observer(self, self.notify)
         self.setStatusTip('Save integration areas')
         self.triggered.connect(self.save)
 
@@ -33,3 +35,7 @@ class SaveIntegrationsAction(QAction):
             with open(path, 'w') as save_fd:
                 json.dump({"integrations": integrations},
                           save_fd, separators=(',', ':'), sort_keys=True, indent=4)
+
+    def notify(self, name, model):
+        if name == 'model':
+            self.setEnabled(model is not None)

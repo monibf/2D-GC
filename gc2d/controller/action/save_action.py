@@ -21,6 +21,8 @@ class SaveAction(QAction):
         if shortcut is not None:
             self.setShortcut(shortcut)
         self.setStatusTip('Save')
+        self.setEnabled(model_wrapper.model is not None)
+        self.model_wrapper.add_observer(self, self.notify)
         self.triggered.connect(self.save)
 
     def save(self):
@@ -35,7 +37,7 @@ class SaveAction(QAction):
                                                filter='GCxGC files (*.gcgc);; All files (*.*)')[0]
             if path is '':
                 return
-            self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)
+        self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path) # send even if set to notify save
         state = self.model_wrapper.get_state()
         model, integrations, preferences = state
         with open(path, 'w') as save_fd:
@@ -43,3 +45,7 @@ class SaveAction(QAction):
                        "integrations": integrations,
                        "preferences": preferences},
                       save_fd, separators=(',', ':'), sort_keys=True, indent=4)
+
+    def notify(self, name, model):
+        if name == 'model':
+            self.setEnabled(model is not None)
