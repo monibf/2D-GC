@@ -26,8 +26,8 @@ class ExportPlot2DAction(QAction):
         :return: bool if file was successfully exported
         """
 
-        # Check if a plot is loaded
-        if self.window.plot_2d is not None:
+        # Check if a model is loaded
+        if self.model_wrapper.model is not None:
             plot = self.window.plot_2d
             path = QFileDialog.getSaveFileName(self.window, 'Export 2D plot',
                                                filter='png files (*.png)')[0]

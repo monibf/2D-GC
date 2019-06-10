@@ -26,8 +26,8 @@ class ExportPlot3DAction(QAction):
         :return: bool if file was successfully exported
         """
 
-        # Check if a plot is loaded
-        if self.window.plot_3d is not None:
+        # Check if a model is loaded
+        if self.model_wrapper.model is not None:
             plot = self.window.plot_3d
             path = QFileDialog.getSaveFileName(self.window, 'Export 3D plot',
                                                filter='png files(*.png)')[0]

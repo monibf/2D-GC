@@ -27,7 +27,7 @@ class ExportIntegrationAction(QAction):
         :return: bool if data was successfully exported
         """
 
-        # Check if a plot is loaded
+        # Check if a model is loaded
         if self.model_wrapper.model is not None:
 
             path = QFileDialog.getSaveFileName(self.window, 'Export to CSV',
