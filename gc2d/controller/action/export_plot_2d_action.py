@@ -30,7 +30,7 @@ class ExportPlot2DAction(QAction):
         if self.window.plot_2d is not None:
             plot = self.window.plot_2d
             path = QFileDialog.getSaveFileName(self.window, 'Export 2D plot',
-                                               filter='png files(*.png)')[0]
+                                               filter='png files (*.png)')[0]
             if path is '':
                 return False
 

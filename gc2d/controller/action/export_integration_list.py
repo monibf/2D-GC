@@ -30,16 +30,21 @@ class ExportIntegrationAction(QAction):
         # Check if a plot is loaded
         if self.model_wrapper.model is not None:
 
-            path = QFileDialog.getSaveFileName(self.window, 'Export to CSV')[0]
+            path = QFileDialog.getSaveFileName(self.window, 'Export to CSV',
+                                               filter='csv files (*.csv);; text files (*.txt)')[0]
             if path is '':
                 return
+
+            # Check if the csv file extension was added
+            elif not (path.lower().endswith('.txt') or path.lower().endswith('.csv')):
+                path = path + '.csv'
 
             # Export the integration list
             integration_array = self.model_wrapper.integrations.values()
 
             with open(path, 'w') as file:
                 for integration in integration_array:
-                    line = '{0}, {1}, {2}\r\n'.format(integration.label, str(integration.mean), str(integration.sum))
+                    line = '{0},{1},{2}\r\n'.format(integration.label, str(integration.mean), str(integration.sum))
                     file.write(line)
 
             return True
