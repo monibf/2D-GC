@@ -1,4 +1,5 @@
 import math
+
 from gc2d.controller.listener.widget_listener import WidgetListener
 
 

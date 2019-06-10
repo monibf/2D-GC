@@ -1,4 +1,5 @@
 import os
+
 import numpy as np
 from PyQt5.QtGui import QImage, qRgb
 from pyqtgraph import ColorMap
@@ -76,6 +77,7 @@ viridis = Palette(
     ]
 )
 
+
 def load_custom_palette(path):
     loaded = []
     if not os.path.exists(path):
@@ -93,6 +95,7 @@ def load_custom_palette(path):
         Palette(os.path.basename(path).split(".")[0], data)
         loaded.append(path)
     return loaded
+
 
 def load_custom_palettes(path):
     loaded = []

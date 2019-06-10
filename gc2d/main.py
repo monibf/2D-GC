@@ -1,9 +1,10 @@
 import os
 import sys
-from gc2d.view.palette.palette import load_custom_palettes
+
 from PyQt5.QtWidgets import QApplication
 
 from gc2d.model.model_wrapper import ModelWrapper
+from gc2d.model.palette.palette import load_custom_palettes
 from gc2d.view.main_window import Window
 
 PREFERENCES_PATH = os.path.join(os.path.expanduser("~"), ".2D-GC")
@@ -34,7 +35,7 @@ def main():
     if len(sys.argv) > 1:
         datafile = os.path.join(os.getcwd(), sys.argv[1])
         model_wrapper.import_model(datafile)
-    
+
     win = Window(model_wrapper)  # create the window.
 
     sys.exit(app.exec_())

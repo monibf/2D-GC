@@ -96,5 +96,3 @@ class WidgetListener:
         :return: None
         """
         self.super_key_release_event(event)
-
-

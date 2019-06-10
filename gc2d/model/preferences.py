@@ -1,9 +1,10 @@
-from PyQt5.Qt import QColor, QPen
 from enum import Enum, auto
-from gc2d.model.transformations import Transform
-from gc2d.view.palette import palette
 
+from PyQt5.Qt import QColor, QPen
+
+from gc2d.model.palette import palette
 from gc2d.model.time_unit import TimeUnit
+from gc2d.model.transformations import Transform
 
 
 class PreferenceEnum(Enum):
@@ -43,10 +44,10 @@ class Preferences:
         self.x_unit = TimeUnit.NONE
         self.y_unit = TimeUnit.NONE
         self.y_unit_1d = 'ppm'
-        
+
         self.x_period = 0
         self.y_period = 0
-        
+
         self.transform = Transform()
         self.palette = palette.viridis
         # bounds are written when a model is loaded
@@ -54,27 +55,27 @@ class Preferences:
         self.upper_bound = None
 
         self.getter_map = {
-            PreferenceEnum.SAVE_FILE : self.get_save_file,
-            PreferenceEnum.PEN : self.get_pen,
+            PreferenceEnum.SAVE_FILE: self.get_save_file,
+            PreferenceEnum.PEN: self.get_pen,
             ScaleEnum.X_UNIT: self.get_x_unit,
             ScaleEnum.Y_UNIT: self.get_y_unit,
             ScaleEnum.Y_UNIT_1D: self.get_y_unit_1d,
             ScaleEnum.X_PERIOD: self.get_x_period,
             ScaleEnum.Y_PERIOD: self.get_y_period,
-            PreferenceEnum.PALETTE : self.get_palette
+            PreferenceEnum.PALETTE: self.get_palette
         }
         self.setter_map = {
-            PreferenceEnum.SAVE_FILE : self.set_save_file,
-            PreferenceEnum.PEN : self.set_pen,
+            PreferenceEnum.SAVE_FILE: self.set_save_file,
+            PreferenceEnum.PEN: self.set_pen,
             ScaleEnum.X_UNIT: self.set_x_unit,
             ScaleEnum.Y_UNIT: self.set_y_unit,
             ScaleEnum.Y_UNIT_1D: self.set_y_unit_1d,
             ScaleEnum.X_PERIOD: self.set_x_period,
             ScaleEnum.Y_PERIOD: self.set_y_period,
-            PreferenceEnum.TRANSFORM : self.set_transform,
-            PreferenceEnum.PALETTE : self.set_palette,
-            PreferenceEnum.LOWER_BOUND : self.set_lower_bound,
-            PreferenceEnum.UPPER_BOUND : self.set_upper_bound
+            PreferenceEnum.TRANSFORM: self.set_transform,
+            PreferenceEnum.PALETTE: self.set_palette,
+            PreferenceEnum.LOWER_BOUND: self.set_lower_bound,
+            PreferenceEnum.UPPER_BOUND: self.set_upper_bound
         }
         self.set_defaults()
 
@@ -83,14 +84,15 @@ class Preferences:
         self.pen[PenEnum.STYLE] = 1
         self.pen[PenEnum.WIDTH] = 4
         self.pen[PenEnum.COLOR] = "red"
-    
+
     def get_state(self):
         """ return a json serializable preferences state """
         state = {}
         state["PEN"] = {enum.name: self.pen[enum] for enum in PenEnum}
         state["TRANSFORM"] = self.transform.to_json()
-        state["PALETTE"] = {"Colors" : self.palette.getColors().tolist(), "Name": self.palette.name}
-        state["AXES"] = {enum.name : self.get(enum) for enum in ScaleEnum if enum not in {ScaleEnum.X_UNIT, ScaleEnum.Y_UNIT}}
+        state["PALETTE"] = {"Colors": self.palette.getColors().tolist(), "Name": self.palette.name}
+        state["AXES"] = {enum.name: self.get(enum) for enum in ScaleEnum if
+                         enum not in {ScaleEnum.X_UNIT, ScaleEnum.Y_UNIT}}
         state["AXES"]["X_UNIT"] = self.get_x_unit().name
         state["AXES"]["Y_UNIT"] = self.get_y_unit().name
         state["UPPER_BOUND"] = self.upper_bound
@@ -120,7 +122,7 @@ class Preferences:
     def set_save_file(self, path):
         """ sets the save file path """
         self.save_file = path
-    
+
     def get_pen(self):
         """ constructs and returns the set pen  """
         pen = QPen()
@@ -137,7 +139,7 @@ class Preferences:
         """
         for key in pen_dict:
             self.pen[key] = pen_dict[key]
-            
+
     def get_x_unit(self):
         """
         :return: the unit of the x axis
@@ -213,12 +215,12 @@ class Preferences:
 
     def set_palette(self, palette):
         self.palette = palette
-    
+
     def get_palette(self):
         return self.palette
-        
+
     def set_lower_bound(self, lower_bound):
         self.lower_bound = lower_bound
-    
+
     def set_upper_bound(self, upper_bound):
         self.upper_bound = upper_bound

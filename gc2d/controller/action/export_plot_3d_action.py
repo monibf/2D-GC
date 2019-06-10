@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QAction, QFileDialog
 
 class ExportPlot3DAction(QAction):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, parent, model_wrapper, shortcut=None):
         """
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
@@ -12,7 +12,8 @@ class ExportPlot3DAction(QAction):
         self.window = parent
         self.model_wrapper = model_wrapper
 
-        self.setShortcut('Ctrl+T')
+        if shortcut is not None:
+            self.setShortcut(shortcut)
         self.setStatusTip('Export 3D plot')
         self.setEnabled(model_wrapper.model is not None)
         self.triggered.connect(self.export_plot)

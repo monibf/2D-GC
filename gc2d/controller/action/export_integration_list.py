@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import QAction, QApplication
 
 class ExportIntegrationAction(QAction):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, parent, model_wrapper, shortcut=None):
         """
         :param parent: The parent widget
         :param model_wrapper: The Model Wrapper
@@ -11,9 +11,10 @@ class ExportIntegrationAction(QAction):
         super().__init__('Export Integrations to CSV File', parent)
         self.window = parent
         self.model_wrapper = model_wrapper
-        self.status_bar = parent.status_bar
 
-        self.setShortcut('Ctrl+Y')
+        if shortcut is not None:
+            self.setShortcut(shortcut)
+
         self.setStatusTip('Export Integrations to CSV File')
         self.setEnabled(model_wrapper.model is not None)
         self.triggered.connect(self.export_integration_list)
