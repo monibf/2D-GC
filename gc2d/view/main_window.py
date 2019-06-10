@@ -35,6 +35,7 @@ SHORTCUT_SAVE_PREFERENCES = None
 SHORTCUT_EXPORT_3D = 'Ctrl+T'
 SHORTCUT_EXPORT_2D = 'Ctrl+R'
 SHORTCUT_EXPORT_CSV = 'Ctrl+Y'
+SHORTCUT_EXPORT = 'Ctrl+E'
 SHORTCUT_EXIT = 'Ctrl+Q'
 
 # EDIT
@@ -140,7 +141,7 @@ class Window(QMainWindow):
         self.toolbar.addAction(OpenConvolutionPickerAction(self, self.model_wrapper))
         self.toolbar.addAction(OpenChoosePaletteAction(self, self.model_wrapper))
         self.toolbar.addAction(DrawAction(self, self.model_wrapper))
-        self.toolbar.addAction(ExportAction(self, self.model_wrapper))
+        self.toolbar.addAction(ExportAction(self, self.model_wrapper, SHORTCUT_EXPORT))
 
     # noinspection PyArgumentList
     def create_graph_views(self):
