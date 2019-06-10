@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QDialog, QLabel, QPushButton, QRadioButton, QVBoxLayout, QWidget
 
+from gc2d.controller.action.export_plot_1d_action import ExportPlot1DAction
 from gc2d.controller.action.export_plot_2d_action import ExportPlot2DAction
 from gc2d.controller.action.export_plot_3d_action import ExportPlot3DAction
 from gc2d.controller.action.export_integration_list import ExportIntegrationAction
@@ -14,6 +15,7 @@ class ExportDialog(QDialog):
 
         super().__init__(parent=None)
 
+        self.export_1d = ExportPlot1DAction(main_window, model_wrapper)
         self.export_2d = ExportPlot2DAction(main_window, model_wrapper)
         self.export_3d = ExportPlot3DAction(main_window, model_wrapper)
         self.export_integrations = ExportIntegrationAction(main_window, model_wrapper)
@@ -33,14 +35,14 @@ class ExportDialog(QDialog):
 
         self.buttons = []
 
-        # No transform
+        self.radio_1d = QRadioButton("1D plot", self.radio_buttons)
         self.radio_2d = QRadioButton("2D plot", self.radio_buttons)
-        self.radio_2d.setChecked(True)
-
         self.radio_3d = QRadioButton("3D plot", self.radio_buttons)
-
         self.radio_export_integrations = QRadioButton("Integrations", self.radio_buttons)
 
+        self.radio_1d.setChecked(True)
+
+        self.radio_button_layout.addWidget(self.radio_1d)
         self.radio_button_layout.addWidget(self.radio_2d)
         self.radio_button_layout.addWidget(self.radio_3d)
         self.radio_button_layout.addWidget(self.radio_export_integrations)
@@ -54,7 +56,10 @@ class ExportDialog(QDialog):
 
         self.close()
 
-        if self.radio_2d.isChecked():
+        if self.radio_1d.isChecked():
+            self.export_1d.export_plot()
+
+        elif self.radio_2d.isChecked():
             self.export_2d.export_plot()
 
         elif self.radio_3d.isChecked():

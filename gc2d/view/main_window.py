@@ -7,6 +7,7 @@ from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
 from gc2d.controller.action.export_action import ExportAction
 from gc2d.controller.action.export_plot_2d_action import ExportPlot2DAction
+from gc2d.controller.action.export_plot_1d_action import ExportPlot1DAction
 from gc2d.controller.action.export_plot_3d_action import ExportPlot3DAction
 from gc2d.controller.action.export_integration_list import ExportIntegrationAction
 from gc2d.controller.action.import_data_action import ImportDataAction
@@ -108,6 +109,7 @@ class Window(QMainWindow):
         file_menu.addAction(SavePrefsAction(self, self.model_wrapper, SHORTCUT_SAVE_PREFERENCES))
 
         file_menu.addSeparator()
+        file_menu.addAction(ExportPlot1DAction(self, self.model_wrapper))
         file_menu.addAction(ExportPlot2DAction(self, self.model_wrapper))
         file_menu.addAction(ExportPlot3DAction(self, self.model_wrapper))
         file_menu.addAction(ExportIntegrationAction(self, self.model_wrapper))
