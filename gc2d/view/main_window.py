@@ -32,9 +32,6 @@ SHORTCUT_SAVE = 'Ctrl+S'
 SHORTCUT_SAVE_AS = 'Ctrl+Shift+S'
 SHORTCUT_SAVE_INTEGRATIONS = None
 SHORTCUT_SAVE_PREFERENCES = None
-SHORTCUT_EXPORT_3D = 'Ctrl+T'
-SHORTCUT_EXPORT_2D = 'Ctrl+R'
-SHORTCUT_EXPORT_CSV = 'Ctrl+Y'
 SHORTCUT_EXPORT = 'Ctrl+E'
 SHORTCUT_EXIT = 'Ctrl+Q'
 
@@ -111,9 +108,9 @@ class Window(QMainWindow):
         file_menu.addAction(SavePrefsAction(self, self.model_wrapper, SHORTCUT_SAVE_PREFERENCES))
 
         file_menu.addSeparator()
-        file_menu.addAction(ExportPlot2DAction(self, self.model_wrapper, SHORTCUT_EXPORT_2D))
-        file_menu.addAction(ExportPlot3DAction(self, self.model_wrapper, SHORTCUT_EXPORT_3D))
-        file_menu.addAction(ExportIntegrationAction(self, self.model_wrapper, SHORTCUT_EXPORT_CSV))
+        file_menu.addAction(ExportPlot2DAction(self, self.model_wrapper))
+        file_menu.addAction(ExportPlot3DAction(self, self.model_wrapper))
+        file_menu.addAction(ExportIntegrationAction(self, self.model_wrapper))
 
         file_menu.addAction(ExitAction(self, SHORTCUT_EXIT))
 
