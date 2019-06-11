@@ -7,7 +7,9 @@ from gc2d.controller.action.draw_action import DrawAction
 from gc2d.controller.action.exit_action import ExitAction
 from gc2d.controller.action.export_action import ExportAction
 from gc2d.controller.action.export_plot_2d_action import ExportPlot2DAction
+from gc2d.controller.action.export_plot_1d_action import ExportPlot1DAction
 from gc2d.controller.action.export_plot_3d_action import ExportPlot3DAction
+from gc2d.controller.action.export_integration_list import ExportIntegrationAction
 from gc2d.controller.action.import_data_action import ImportDataAction
 from gc2d.controller.action.open_choose_palette_action import OpenChoosePaletteAction
 from gc2d.controller.action.open_convolution_picker_action import OpenConvolutionPickerAction
@@ -31,8 +33,7 @@ SHORTCUT_SAVE = 'Ctrl+S'
 SHORTCUT_SAVE_AS = 'Ctrl+Shift+S'
 SHORTCUT_SAVE_INTEGRATIONS = None
 SHORTCUT_SAVE_PREFERENCES = None
-SHORTCUT_EXPORT_3D = 'Ctrl+T'
-SHORTCUT_EXPORT_2D = 'Ctrl+R'
+SHORTCUT_EXPORT = 'Ctrl+E'
 SHORTCUT_EXIT = 'Ctrl+Q'
 
 # EDIT
@@ -110,8 +111,10 @@ class Window(QMainWindow):
         file_menu.addAction(SavePrefsAction(self, self.model_wrapper, SHORTCUT_SAVE_PREFERENCES))
 
         file_menu.addSeparator()
-        file_menu.addAction(ExportPlot2DAction(self, self.model_wrapper, SHORTCUT_EXPORT_2D))
-        file_menu.addAction(ExportPlot3DAction(self, self.model_wrapper, SHORTCUT_EXPORT_3D))
+        file_menu.addAction(ExportPlot1DAction(self, self.model_wrapper))
+        file_menu.addAction(ExportPlot2DAction(self, self.model_wrapper))
+        file_menu.addAction(ExportPlot3DAction(self, self.model_wrapper))
+        file_menu.addAction(ExportIntegrationAction(self, self.model_wrapper))
 
         file_menu.addAction(ExitAction(self, SHORTCUT_EXIT))
 
@@ -139,7 +142,7 @@ class Window(QMainWindow):
         self.toolbar.addAction(OpenConvolutionPickerAction(self, self.model_wrapper))
         self.toolbar.addAction(OpenChoosePaletteAction(self, self.model_wrapper))
         self.toolbar.addAction(DrawAction(self, self.model_wrapper))
-        self.toolbar.addAction(ExportAction(self, self.model_wrapper))
+        self.toolbar.addAction(ExportAction(self, self.model_wrapper, SHORTCUT_EXPORT))
 
     # noinspection PyArgumentList
     def create_graph_views(self):
