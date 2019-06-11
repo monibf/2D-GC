@@ -45,6 +45,9 @@ When choosing `File -> Save preferences` only the preferences will get saved.
 
 When choosing `File -> Save integration areas` only the integration areas will get saved.
 
+## Exporting
+It is possible to export the current 2D or 3D graph as a .png file, this can be done by using either `File -> Export 2D plot` with shortcut `Ctrl + R` or `File -> Export 3D plot` with shortcut `Ctrl + T` in the menu bar.
+
 ## Viewing chromatograms
 
 When some model is loaded you can view the chromatogram in different ways
@@ -103,7 +106,7 @@ This is not a view of the chromatogram but a list of all integration areas.
 
 The integration areas can be selected by clicking on them.
 
-The label for inegration areas can be changed.
+The label for inegration areas can be changed by double-clicking the current label and entering a new one.
 
 
 ## Integration areas
