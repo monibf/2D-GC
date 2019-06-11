@@ -1,10 +1,21 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage[a4paper,margin=3.5cm,footskip=.5cm]{geometry}
-
 \usepackage{graphicx}
 \usepackage[acronym]{glossaries}
 \usepackage{glossaries}
+\usepackage{hyperref}
+\usepackage[tocflat]{tocstyle}
+\usetocstyle{standard}
+
+\makeatletter
+\renewcommand\tableofcontents{%
+  \null\hfill\textbf{\Large\contentsname}\hfill\null\par
+  \@mkboth{\MakeUppercase\contentsname}{\MakeUppercase\contentsname}%
+  \@starttoc{toc}%
+}
+\makeatother
+
 
 
 \title{Requirements 2D-GC visualization}
@@ -78,17 +89,19 @@
         \vspace{1cm}
         Version 4.0
 \end{center}
+\newpage
+\tableofcontents
 
 \newpage\setcounter{page}{1}
 \section{Introduction}
 This document elaborates the requirements for the project 2D-GC visualization. This project is commisioned by the Chemical Engineering department of the University of Groningen and is part of the course \textit{Software Engineering}.  
 
-\subsection*{Problem}
+\subsection{Problem}
 \acrfull{2dgc} \glsadd{2D-Gas Chromatography} is a chemical technique to accurately identify and quantify small traces of compounds in samples. This analytical technique is used in Groningen to aid in the search for new biofuels. For this research, accurate and interactive software for 3D-visualization and analysis is necessary. 
 
 The software which is currently being used by the Chemical Engineering department is limited in functionalities. This means that there is information which cannot be accessed yet with the current technology. 
 
-\subsection*{Solution}
+\subsection{Solution}
 We aim to build a desktop app to visualise 2D-GC data in one, two and three dimensional spaces, and try to work in comparative analysis, where the same analysis can be run smoothly on multiple samples. 
 
 \section{Stakeholders}
@@ -119,7 +132,7 @@ The second type of stakeholder are the developers. These are students following 
     \item Finding the quantity of compounds will be done by drawing Regions of Interest in the 2D graph, over which will be integrated. Drawing the region of interest should be under a specific button or hotkey, after which a square region should be drawn at a preset location. After initial drawing, the region should stay customizable, by having the anchor points of the region draggable over the graph. The integrated value of all points of the graph that are within the region will be shown in a separate list under the graphs. 
 \end{itemize}
 
-\subsection*{Important Functional Requirements}
+\subsection{Important Functional Requirements}
 \begin{itemize}
     \item Be able to save the current state of the program, with the loaded data and any attached user inputs such as integration or labels in a specific file format from which the graph and any user inputs would be able to be reloaded by the program in a different session. 
 	\item Be able to select a freeform space to integrate over as a polyline region with multiple anchor points. The position of the anchor points at initial drawing should be specified by clicking in the graph in a 'drawing' mode. The integrations should be shown in an 'integration list' under the graph with a renamable label, absolute integrations and mean sums. The integration areas should be destructible via a button which is shown within the integration list.
@@ -128,7 +141,7 @@ The second type of stakeholder are the developers. These are students following 
 	\item Showing the 1-dimensional plot of the first gas chromatography run through. This would be shown as a line plot of the integration over the x axis of the supplied 2D data. Zooming and tracking the eye would be handled by drawing a rectangle where the new plotting area would be, with a button to go back to the previous view.
 \end{itemize}
 
-\subsection*{Useful Functional Requirements}
+\subsection{Useful Functional Requirements}
 \begin{itemize}
     \item Having presets and editable user settings for the palettes, convolution kernels and drawing of regions of interest. These settings would be taken from text json files, so that users could write their own if the need later arises.
     \item Visualizing the integration areas in 3D, by highlighting the integration area in a different palette. Which integrations are shown should be toggled per integration within the integration list.
@@ -138,7 +151,7 @@ The second type of stakeholder are the developers. These are students following 
     \item Be able to save peak data in a database via a button in the integration list, with any attached information, such as which sample it was from, integration value, and label. The user should be able to retrieve previously saved information in a look-up table while looking at a new sample.
 	\item Compound recognition/matching with the internal database, where older labelled data (which was identified with mass spectrometry) would automatically be recognized if it's already in the internal database, and new data shows a peak at the same position. A relevant match would be shown in the integration list in a new column.
 \end{itemize}
-\subsection*{Won't Do}
+\subsection{Won't Do}
 \begin{itemize}
 	\item Linking to an outside \acrlong{ms} \glsadd{Mass spectrometry} library. This is something which would be useful, as the client may switch from an \acrfull{fid} detector to an MS detector in the near future. However, this would add a layer of complexity, as MS data adds an extra dimension to the data. We think it best to focus on a stable program for FID visualization, as this can also be used for GCxGC-MS data. 
 \end{itemize}
