@@ -1,5 +1,3 @@
-
-
 class Handler():
 
     def __init__(self, model_wrapper):
@@ -8,7 +6,7 @@ class Handler():
         :param model_wrapper: the model to interact with
         """
         self.model_wrapper = model_wrapper
-    
+
     def clear_value(self, key):
         """
         Removes an integration from the model wrapper
@@ -16,7 +14,7 @@ class Handler():
         :return: None
         """
         self.model_wrapper.clear_integration(key)
-    
+
     def change_label(self, key, new_label):
         """
         Takes an edited label and saves this to the appropriate Integration object in the model_wrapper
@@ -26,10 +24,18 @@ class Handler():
         """
         self.model_wrapper.update_integration(key, label=new_label)
 
-    def toggle_show(self, key):
+    def show(self, key):
         """
         Toggle whether an integration is highlighted in 3D view
         :param key: the key of the integration to be toggled
         :return: None
         """
-        self.model_wrapper.toggle_show(key)
+        self.model_wrapper.set_show(key, True)
+
+    def hide(self, key):
+        """
+        Toggle whether an integration is highlighted in 3D view
+        :param key: the key of the integration to be toggled
+        :return: None
+        """
+        self.model_wrapper.set_show(key, False)

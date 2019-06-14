@@ -1,15 +1,17 @@
-from PyQt5 import QtCore
-from PyQt5.Qt import QHeaderView, QPushButton, QTableWidget, QTableWidgetItem, QCheckBox
-from enum import Enum
 from decimal import Decimal
+from enum import Enum
+
+from PyQt5 import QtCore
+from PyQt5.Qt import QHeaderView, QPushButton, QTableWidget, QTableWidgetItem
+
 from gc2d.controller.integration.handler import Handler
 
+
 class Col(Enum):
-    show = 0
-    label = 1
-    mean = 2
-    integration = 3
-    clear = 4
+    label = 0
+    mean = 1
+    integration = 2
+    clear = 3
 
 
 class IntegrationList(QTableWidget):
@@ -24,20 +26,22 @@ class IntegrationList(QTableWidget):
 
         # self.showing contains the id of each shown integration
         # the index in showing corresponds with the row in the table
-        self.showing = [] 
+        self.showing = []
 
         # self.handler is a controller for all actions from this view with model_wrapper
         self.handler = Handler(model_wrapper)
         model_wrapper.add_observer(self, self.notify)
-        
+
         self.cellChanged.connect(self.change_label)
 
-        self.precision = 5 #amount of decimals displayed
+        self.previous_selection = []
+        self.itemSelectionChanged.connect(self.select)
+
+        self.precision = 5  # amount of decimals displayed
 
         self.setColumnCount(len(Col))
-        self.setHorizontalHeaderLabels((' ', 'Label', 'Mean Count', 'Sum', ' '))
+        self.setHorizontalHeaderLabels(('Label', 'Mean Count', 'Sum', ' '))
         self.horizontalHeader().setDefaultSectionSize(130)
-        self.horizontalHeader().setSectionResizeMode(Col.show.value, QHeaderView.ResizeToContents)
         self.horizontalHeader().setSectionResizeMode(Col.label.value, QHeaderView.Interactive)
         self.horizontalHeader().setSectionResizeMode(Col.mean.value, QHeaderView.Interactive)
         self.horizontalHeader().setSectionResizeMode(Col.integration.value, QHeaderView.Interactive)
@@ -49,15 +53,20 @@ class IntegrationList(QTableWidget):
         Clears list if no chromatogram is opened
         :return: None
         """
+        self.blockSignals(True)
         if name == 'integrationUpdate':
             self.redraw_row(value)
         elif name == 'newIntegration':
             self.new_row(value)
         elif name == 'removeIntegration' and value.id in self.showing:
             self.clear_row(self.showing.index(value.id))
-        elif name == 'model':
+        elif name == 'showIntegration':
+            if self.showing.index(value.id) not in self.previous_selection and value.show is True:
+                self.set_selected_row(self.showing.index(value.id))
+        elif name in {'model', 'model.viewTransformed'}:
             if value is None:
-                self.clear()
+                self.setRowCount(0)
+        self.blockSignals(False)
 
     def new_row(self, integration):
         """
@@ -65,6 +74,7 @@ class IntegrationList(QTableWidget):
         :param integration: the new integration value
         """
         row = self.rowCount()
+        self.previous_selection = [row]
         self.insertRow(row)
 
         clear_button = QPushButton()
@@ -73,12 +83,9 @@ class IntegrationList(QTableWidget):
         clear_button.pressed.connect(lambda: self.clear_value(integration.id))
         self.setCellWidget(row, Col.clear.value, clear_button)
 
-        show_toggle = QCheckBox()
-        show_toggle.stateChanged.connect(lambda: self.select(integration.id))
-        self.setCellWidget(row, Col.show.value, show_toggle)
-        
         self.showing.append(integration.id)
         self.redraw_row(integration)
+        self.set_selected_row(self.showing[row])
 
     def redraw_row(self, integration):
         """
@@ -88,32 +95,47 @@ class IntegrationList(QTableWidget):
         """
         if integration.id not in self.showing:
             return
-        self.blockSignals(True) # signals are blocked during redraw so cellChanged -> change_label is not called
+        self.blockSignals(True)  # signals are blocked during redraw so cellChanged -> change_label is not called
         row = self.showing.index(integration.id)
         self.setItem(row, Col.label.value, QTableWidgetItem(integration.label))
 
-
-        mean_item = QTableWidgetItem('{num:.{precision}E}'.format(num=Decimal(integration.mean), precision=self.precision))
+        mean_item = QTableWidgetItem(
+            '{num:.{precision}E}'.format(num=Decimal(integration.mean), precision=self.precision))
         mean_item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         self.setItem(row, Col.mean.value, mean_item)
 
-        sum_item = QTableWidgetItem('{num:.{precision}E}'.format(num=Decimal(integration.sum), precision=self.precision))
+        sum_item = QTableWidgetItem(
+            '{num:.{precision}E}'.format(num=Decimal(integration.sum), precision=self.precision))
         sum_item.setFlags(QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled)
         self.setItem(row, Col.integration.value, sum_item)
         self.blockSignals(False)
-    
 
-    def select(self, key):
-        # in progress
-        self.handler.toggle_show(key)
-      
+    def select(self):
+        """
+        Records which elements in the list are selected and deselected. 
+        The new selection is highlighted in the 2d/3d view, all that are deselected are faded out
+        :return: None
+        """
+        current_selection = []
+        for selected in self.selectedIndexes():
+            row = selected.row()
+            if row not in current_selection:  # to counteract multiple columns registering as multiple indices
+                self.handler.show(self.showing[row])
+                current_selection.append(row)
+                if row in self.previous_selection:
+                    self.previous_selection.remove(row)
+        to_hide = [previous for previous in self.previous_selection if previous < len(self.showing)]
+        self.previous_selection = current_selection
+        for previous in to_hide:
+            self.handler.hide(self.showing[previous])
+
     def change_label(self):
         """
         Takes an edited label and hands this to the handler, with the key of the appropriate integration and the edited text
         :return: None
         """
         self.handler.change_label(self.showing[self.currentRow()], self.currentItem().text())
-       
+
     def clear_value(self, key):
         """
         Removes row and signals to controller to remove the integration value from the model
@@ -122,6 +144,19 @@ class IntegrationList(QTableWidget):
         self.clear_row(self.showing.index(key))
         self.handler.clear_value(key)
 
+    def set_selected_row(self, row):
+        """
+        Clears the selection, and selects the given row number
+        :param row: the row to select
+        :return: None
+        """
+        self.blockSignals(True)
+        self.clearSelection()
+        self.setCurrentCell(row, Col.label.value)
+        self.select()
+        self.previous_selection = [row]
+        self.blockSignals(False)
+
     def clear_row(self, row):
         """
         Removes row the corresponding integration from local data
@@ -129,7 +164,6 @@ class IntegrationList(QTableWidget):
         """
         self.removeRow(row)
         del self.showing[row]
-        
-           
-        
-        
+        for ix, selected in enumerate(self.previous_selection):
+            if selected > row:
+                self.previous_selection[ix] -= 1

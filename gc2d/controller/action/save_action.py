@@ -1,13 +1,13 @@
-from PyQt5.QtWidgets import QAction, QFileDialog
-from PyQt5.QtCore import QFile
 import json
-import os
+
+from PyQt5.QtWidgets import QAction, QFileDialog
 
 from gc2d.model.preferences import PreferenceEnum
 
+
 class SaveAction(QAction):
 
-    def __init__(self, parent, model_wrapper):
+    def __init__(self, parent, model_wrapper, shortcut=None):
         """
         A SaveAction is a QAction that when triggered, saves the program state in the save_file specified in preferences.
         If no file is specified (as with new imported data, or after Save As), it will open a file dialog to specify this. 
@@ -18,8 +18,11 @@ class SaveAction(QAction):
         super().__init__('Save', parent)
         self.window = parent
         self.model_wrapper = model_wrapper
-        self.setShortcut('Ctrl+S')
+        if shortcut is not None:
+            self.setShortcut(shortcut)
         self.setStatusTip('Save')
+        self.setEnabled(model_wrapper.model is not None)
+        self.model_wrapper.add_observer(self, self.notify)
         self.triggered.connect(self.save)
 
     def save(self):
@@ -28,16 +31,21 @@ class SaveAction(QAction):
         :param path: the path to write the data to
         :return: None
         """
-        path = self.model_wrapper.get_preference(PreferenceEnum.SAVE_FILE) 
+        path = self.model_wrapper.get_preference(PreferenceEnum.SAVE_FILE)
         if path is None:
-            path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC state', filter='GCxGC files (*.gcgc);; All files (*.*)')[0]
+            path = QFileDialog.getSaveFileName(self.window, 'Save GCxGC state',
+                                               filter='GCxGC files (*.gcgc);; All files (*.*)')[0]
             if path is '':
                 return
-            self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path)
+        self.model_wrapper.set_preference(PreferenceEnum.SAVE_FILE, path) # send even if set to notify save
         state = self.model_wrapper.get_state()
         model, integrations, preferences = state
         with open(path, 'w') as save_fd:
-            json.dump({"model" : model.tolist(),
-                       "integrations" : integrations,
-                       "preferences" : preferences},
-                       save_fd, separators=(',', ':'), sort_keys=True, indent=4) 
+            json.dump({"model": model.tolist(),
+                       "integrations": integrations,
+                       "preferences": preferences},
+                      save_fd, separators=(',', ':'), sort_keys=True, indent=4)
+
+    def notify(self, name, model):
+        if name == 'model':
+            self.setEnabled(model is not None)

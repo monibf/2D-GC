@@ -1,7 +1,8 @@
-from PyQt5.Qt import QColor, QObject, QPen
+from PyQt5.Qt import QObject
 from pyqtgraph import PolyLineROI
 
 from gc2d.model.preferences import PreferenceEnum
+
 
 class Selector(QObject):
 
@@ -20,9 +21,8 @@ class Selector(QObject):
         self.roi = None
         self.id = None
         self.viewport = None
-        self.label = label 
+        self.label = label
         self.draw(handles, pos)
-        
 
     def draw(self, handles, pos):
         """
@@ -31,10 +31,11 @@ class Selector(QObject):
         :return: None
         """
         pen = self.model_wrapper.get_preference(PreferenceEnum.PEN)
+        pen.setCosmetic(True)
         if handles == None:
-            self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pos=(100,100), pen=pen, closed=True)
-        else: 
-            self.roi = PolyLineROI(handles, pos=pos, pen=pen, closed=True)       
+            self.roi = PolyLineROI([[80, 60], [90, 30], [60, 40]], pos=(100, 100), pen=pen, closed=True)
+        else:
+            self.roi = PolyLineROI(handles, pos=pos, pen=pen, closed=True)
         self.id = self.model_wrapper.get_new_key()
         self.model_wrapper.add_integration(self, self.id)
 
@@ -47,6 +48,23 @@ class Selector(QObject):
             return
         self.model_wrapper.update_integration(self.id, mask=self.get_region())
 
+    def set_current(self, set_to):
+        """
+        Sets the pen-style to highlight if True, or faded and dotted if False
+        :param set_to: the bool to set the pen to either highlighted/faded
+        :return: None
+        """
+        new_pen = self.roi.pen
+        new_color = self.roi.pen.color()
+        if set_to:
+            new_color.setAlpha(255)
+            new_pen.setStyle(1)
+        else:
+            new_color.setAlpha(150)
+            new_pen.setStyle(3)
+        new_pen.setColor(new_color)
+        self.roi.setPen(new_pen)
+
     def set_viewport(self, plot):
         """
         sets a pyqtgraph imageItem to find the viewport of the screen, so the current array region can be found
@@ -55,18 +73,20 @@ class Selector(QObject):
         """
         self.viewport = plot
         self.roi.sigRegionChangeFinished.connect(self.update_mask)
+        self.roi.sigRegionChangeStarted.connect(lambda: self.model_wrapper.set_current(self.id))
+        self.roi.sigRegionChangeFinished.connect(
+            lambda: self.model_wrapper.set_current(self.id))  # to catch dragging of handles
         self.update_mask()
         if self.label != None: self.model_wrapper.update_integration(self.id, label=self.label)
 
     def get_region(self):
         """
-        TODO this is region not maks tuple!
         generates a mask for ROI region of the current chromatogram
         :return: The generated mask of the chromatogram 
         """
-        return (self.roi.parentBounds(), self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.viewport))
+        return (self.roi.parentBounds(),
+                self.roi.getArrayRegion(self.model_wrapper.model.get_2d_chromatogram_data(), self.viewport))
 
     def get_handles(self):
         """ returns the handles in local space and the position of the bounding box in the scene """
         return self.roi.getLocalHandlePositions(), self.roi.pos()
- 

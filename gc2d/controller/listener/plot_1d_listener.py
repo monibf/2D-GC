@@ -1,5 +1,4 @@
 import math
-from PyQt5.QtCore import Qt
 
 from gc2d.controller.listener.widget_listener import WidgetListener
 
@@ -24,7 +23,7 @@ class Plot1DListener(WidgetListener):
         mouse_x = math.floor(mouse_point.x())
 
         # Get the y value at x if it exists
-        y_data = self.widget.plotItem.dataItems[0].curve.yData
+        y_data = self.model_wrapper.model.get_2d_chromatogram_data().sum(axis=1)
         if 0 <= mouse_x < len(y_data):
             y_value = int(y_data[mouse_x])
 
